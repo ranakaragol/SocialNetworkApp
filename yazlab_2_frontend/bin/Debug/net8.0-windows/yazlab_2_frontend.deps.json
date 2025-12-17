@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "yazlab_2_frontend/1.0.0": {
+        "runtime": {
+          "yazlab_2_frontend.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "yazlab_2_frontend/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
