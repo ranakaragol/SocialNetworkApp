@@ -1,0 +1,17 @@
+C:\Users\Alper\source\repos\yazlab_2_frontend\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.socialNetworkForm.resources
+C:\Users\Alper\source\repos\yazlab_2_frontend\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.csproj.GenerateResource.cache
+C:\Users\Alper\source\repos\yazlab_2_frontend\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Alper\source\repos\yazlab_2_frontend\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.AssemblyInfoInputs.cache
+C:\Users\Alper\source\repos\yazlab_2_frontend\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.AssemblyInfo.cs
+C:\Users\Alper\source\repos\yazlab_2_frontend\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.csproj.CoreCompileInputs.cache
+C:\Users\Alper\source\repos\yazlab_2_frontend\yazlab_2_frontend\bin\Debug\net8.0-windows\yazlab_2_frontend.exe
+C:\Users\Alper\source\repos\yazlab_2_frontend\yazlab_2_frontend\bin\Debug\net8.0-windows\yazlab_2_frontend.deps.json
+C:\Users\Alper\source\repos\yazlab_2_frontend\yazlab_2_frontend\bin\Debug\net8.0-windows\yazlab_2_frontend.runtimeconfig.json
+C:\Users\Alper\source\repos\yazlab_2_frontend\yazlab_2_frontend\bin\Debug\net8.0-windows\yazlab_2_frontend.dll
+C:\Users\Alper\source\repos\yazlab_2_frontend\yazlab_2_frontend\bin\Debug\net8.0-windows\yazlab_2_frontend.pdb
+C:\Users\Alper\source\repos\yazlab_2_frontend\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.dll
+C:\Users\Alper\source\repos\yazlab_2_frontend\yazlab_2_frontend\obj\Debug\net8.0-windows\refint\yazlab_2_frontend.dll
+C:\Users\Alper\source\repos\yazlab_2_frontend\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.pdb
+C:\Users\Alper\source\repos\yazlab_2_frontend\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.genruntimeconfig.cache
+C:\Users\Alper\source\repos\yazlab_2_frontend\yazlab_2_frontend\obj\Debug\net8.0-windows\ref\yazlab_2_frontend.dll
+C:\Users\Alper\source\repos\yazlab_2_frontend\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.Properties.Resources.resources
