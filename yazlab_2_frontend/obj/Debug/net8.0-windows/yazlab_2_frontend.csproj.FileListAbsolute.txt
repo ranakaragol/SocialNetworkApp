@@ -15,3 +15,4 @@ C:\Users\Alper\source\repos\yazlab_2_frontend\yazlab_2_frontend\obj\Debug\net8.0
 C:\Users\Alper\source\repos\yazlab_2_frontend\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.genruntimeconfig.cache
 C:\Users\Alper\source\repos\yazlab_2_frontend\yazlab_2_frontend\obj\Debug\net8.0-windows\ref\yazlab_2_frontend.dll
 C:\Users\Alper\source\repos\yazlab_2_frontend\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.Properties.Resources.resources
+C:\Users\Alper\source\repos\yazlab_2_frontend\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.CustomWidgets.CustomButton.resources

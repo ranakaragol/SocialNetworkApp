@@ -1,0 +1,8 @@
+C:\Users\Alper\source\repos\yazlab_2_frontend\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.CustomWidgets.CustomButton.resources
+C:\Users\Alper\source\repos\yazlab_2_frontend\yazlab_2_frontend\obj\Debug\net8.0-windows\SocialNetworkApp.Properties.Resources.resources
+C:\Users\Alper\source\repos\yazlab_2_frontend\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.socialNetworkForm.resources
+C:\Users\Alper\source\repos\yazlab_2_frontend\yazlab_2_frontend\obj\Debug\net8.0-windows\SocialNetworkApp.csproj.GenerateResource.cache
+C:\Users\Alper\source\repos\yazlab_2_frontend\yazlab_2_frontend\obj\Debug\net8.0-windows\SocialNetworkApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Alper\source\repos\yazlab_2_frontend\yazlab_2_frontend\obj\Debug\net8.0-windows\SocialNetworkApp.AssemblyInfoInputs.cache
+C:\Users\Alper\source\repos\yazlab_2_frontend\yazlab_2_frontend\obj\Debug\net8.0-windows\SocialNetworkApp.AssemblyInfo.cs
+C:\Users\Alper\source\repos\yazlab_2_frontend\yazlab_2_frontend\obj\Debug\net8.0-windows\SocialNetworkApp.csproj.CoreCompileInputs.cache

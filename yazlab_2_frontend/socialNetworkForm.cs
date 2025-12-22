@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
+using yazlab_2_frontend.Algorithms;
 using yazlab_2_frontend.Models;
 
 namespace yazlab_2_frontend
@@ -22,16 +24,28 @@ namespace yazlab_2_frontend
 
         // Çizginin başladığı node yi tutar
         Node drawingSourceNode = null;
+
         // Fare imlecinin konumunu tutar
         Point currentMousePoint;
+
         // Rastgele id oluşturmak için
         Random random = new Random();
+
         // Node yer değiştirme modundamı yoksa Edge çizme modundamı onu tutar
         // Sadece tek bir değişken olduğu için (Node modunda yada değil) ondan enum kullanmaya gerek duymadım
         bool nodeMode = false;
-        // Konumu değiştirilcek node yi tutar
 
+        // Konumu değiştirilcek node yi tutar
         Node movingNode = null;
+
+        // Şuanki seçilmiş node yi tutar
+        Node selected_node = null;
+
+        // Şuanki seçilmiş edge yi tutar
+        Edge selected_edge = null;
+
+        // Graph algoritmaları sınıfı
+        GraphAlgorithms algorithms = new GraphAlgorithms();
 
         public socialNetworkForm()
         {
@@ -76,31 +90,70 @@ namespace yazlab_2_frontend
         }
 
         private void CanvasPanel_MouseDown(object sender, MouseEventArgs e)
-        {
-            // Bu metod mouse ye tıklandığında çalışır
-
-            // Nodeler üstünde arama yapar tıklanan yerde bir node varmı varsa hangi node onu alır
-            foreach (var node in nodes)
             {
-                if (node.IsHit(e.Location)) // Tıklanan yerde bir node var mı?
+                Node clickedNode = null;
+                Edge clickedEdge = null;
+
+                // Önce düğümler kontrol edilir
+                foreach (var node in nodes)
                 {
+                    if (node.IsHit(e.Location))
+                    {
+                        clickedNode = node;
+                        break;
+                    }
+                }
+
+                if (clickedNode != null)
+                {
+                    // demekki bir nodeye tıklandı
+                    selected_node = clickedNode;
+                    selected_edge = null; // node seçildiği için seçilen edge yi temizler kod karmaşasını önlemek için
+
                     if (nodeMode)
                     {
-                        // Node yer değiştirme modu
-                        movingNode = node; // Yeri değişecek node u seçtik
+                        movingNode = clickedNode;
                     }
                     else
                     {
-                        // Node ler arası edge çizme modu
-                        drawingSourceNode = node; // edgenin çizilmeye başlayacağı node yi seçtik
+                        drawingSourceNode = clickedNode;
                         currentMousePoint = e.Location;
                     }
 
-                    break; // Node bulundu döngü bitebilir
+                    CanvasPanel.Invalidate();
+                    return; // node bulunduysa edge kontrolüne gerek yoktur
                 }
-            }
 
+                // eğer node ye tıklanmadıysa edge kontrolü yap
+                foreach (var edge in edges)
+                {
+                    if (edge.IsHit(e.Location))
+                    {
+                        clickedEdge = edge;
+                        break;
+                    }
+                }
+
+                if (clickedEdge != null)
+                {
+                    selected_edge = clickedEdge;
+                    selected_node = null;
+
+                    // edge bilgileri yazdırılır
+                    startNodeValue.Text = clickedEdge.startNode.id.ToString();
+                    
+                }
+                else
+                {
+                    // boşluğa tıklandı demektir her şey temizlenir
+                    selected_node = null;
+                    selected_edge = null;
+                }
+
+                CanvasPanel.Invalidate();
         }
+
+       
 
 
         private void CanvasPanel_MouseMove(object sender, MouseEventArgs e)
@@ -130,7 +183,7 @@ namespace yazlab_2_frontend
             if (nodeMode)
             {
                 // node taşımayı bitir
-                movingNode = null; 
+                movingNode = null;
             }
             else
             {
@@ -150,7 +203,7 @@ namespace yazlab_2_frontend
                             break;
                         }
                     }
-                    // başarıyla bir edge yada node oluşturuldu
+                    // başarıyla bir edge oluşturuldu yada node taşındı
                     drawingSourceNode = null;
                     CanvasPanel.Invalidate();
                 }
@@ -164,30 +217,33 @@ namespace yazlab_2_frontend
             // Daha pürüzsüz çizgiler için ayar
             e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
-            // A) ÖNCE KALICI BAĞLANTILARI ÇİZ (Siyah)
+            // önce kalıcı bağlantıları çizer
             foreach (var edge in edges)
             {
                 e.Graphics.DrawLine(Pens.Black, edge.startNode.location, edge.endNode.location);
             }
 
-            // B) ŞU AN ÇEKTİĞİMİZ GEÇİCİ ÇİZGİYİ ÇİZ (Gri)
+            // geçiçi gri silik çizgiyi çizer
             if (drawingSourceNode != null)
             {
                 e.Graphics.DrawLine(Pens.Gray, drawingSourceNode.location, currentMousePoint);
             }
 
-            // C) EN SON NODE'LARI ÇİZ (Üstte dursunlar)
+            // C) node leri çizer
             foreach (var node in nodes)
             {
-                // Dairenin alanı
+                // dairenin alanı
                 Rectangle rect = new Rectangle(
                     node.location.X - node.radius,
                     node.location.Y - node.radius,
                     node.radius * 2,
                     node.radius * 2);
-
-                e.Graphics.FillEllipse(Brushes.SteelBlue, rect); // Mavi dolgu
-                e.Graphics.DrawEllipse(Pens.Black, rect);        // Siyah çerçeve
+                // node nin colorundan yeni brush nesnesi oluşturulup o renkle node çizilir 
+                using (SolidBrush firca = new SolidBrush(node.color))
+                {
+                    e.Graphics.FillEllipse(firca, rect);
+                }
+                e.Graphics.DrawEllipse(Pens.Black, rect);
 
                 // İçine ismini yaz
                 TextRenderer.DrawText(e.Graphics, node.name, this.Font, rect, Color.White,
@@ -289,6 +345,115 @@ namespace yazlab_2_frontend
                     e.Graphics.DrawRectangle(kalem, rect);
                 }
             }
+        }
+
+        private void CanvasPanel_MouseClick(object sender, MouseEventArgs e)
+        {
+            foreach (var node in nodes)
+            {
+                if (node.IsHit(e.Location))
+                {
+                    selected_node = node;
+                    idLabel.Text = node.id.ToString();
+                    nameLabel.Text = node.name.ToString();
+                    degreeLabel.Text = node.GetDegree(edges).ToString();
+
+                }
+                else
+                {
+
+                }
+            }
+        }
+
+
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void curvedPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+        // BFS algoritması tetikleyici buton
+        private void bfs_trigger_Click(object sender, EventArgs e)
+        {
+
+
+
+            List<Node> result = algorithms.BFS_algorithm(selected_node, edges, nodes);
+
+            foreach (var n in result)
+            {
+                Color oldcolor = n.color;
+                n.color = Color.Yellow; // O anki katmanı renklendir
+                CanvasPanel.Refresh();  // Hemen çizdir
+                System.Threading.Thread.Sleep(500); // Yarım saniye bekle
+                n.color = oldcolor;
+
+            }
+            CanvasPanel.Refresh();
+
+
+
+        }
+
+        private void dfs_trigger_click(object sender, EventArgs e)
+        {
+
+            List<Node> result = algorithms.RunDFS(selected_node, edges);
+
+            foreach (var n in result)
+            {
+                Color oldcolor = n.color;
+                n.color = Color.Yellow; // O anki katmanı renklendir
+                CanvasPanel.Refresh();  // Hemen çizdir
+                System.Threading.Thread.Sleep(500); // Yarım saniye bekle
+                n.color = oldcolor;
+
+            }
+            CanvasPanel.Refresh();
+
+        }
+
+
+        
+
+        private void delete_Click(object sender, EventArgs e)
+        {
+            // Eğer node seçilmişse o node ve ona bağlı tüm edgeler silinip
+            // aynı zamanda silinen edgelerin diğer tarafındaki nodelerin derecesi azaltılır
+            if (selected_node != null)
+            {
+
+                var bagliKenarlar = edges.Where(ed => ed.startNode == selected_node || ed.endNode == selected_node).ToList();
+
+                foreach (var kenar in bagliKenarlar)
+                {
+
+                    edges.Remove(kenar); // Kenarı sil
+                }
+
+                nodes.Remove(selected_node); // Düğümü sil
+                selected_node = null; // Seçimi temizle
+                CanvasPanel.Invalidate();
+            }
+
+            if (selected_edge != null)
+            {
+
+                edges.Remove(selected_edge);
+                selected_edge = null;
+                CanvasPanel.Invalidate();
+            }
+
         }
     }
 }
