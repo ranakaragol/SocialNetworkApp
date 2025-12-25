@@ -1,3 +1,5 @@
+using yazlab_2_frontend.Forms;
+
 namespace yazlab_2_frontend
 {
     internal static class Program
@@ -11,7 +13,7 @@ namespace yazlab_2_frontend
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new socialNetworkForm());
+            Application.Run(new MainForm());
         }
     }
 }

@@ -15,4 +15,52 @@ C:\Users\Alper\source\repos\yazlab_2_frontend\yazlab_2_frontend\obj\Debug\net8.0
 C:\Users\Alper\source\repos\yazlab_2_frontend\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.genruntimeconfig.cache
 C:\Users\Alper\source\repos\yazlab_2_frontend\yazlab_2_frontend\obj\Debug\net8.0-windows\ref\yazlab_2_frontend.dll
 C:\Users\Alper\source\repos\yazlab_2_frontend\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.Properties.Resources.resources
-C:\Users\Alper\source\repos\yazlab_2_frontend\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.CustomWidgets.CustomButton.resources
+C:\Users\Rana Karagöl\Desktop\Yeni klasör\SocialNetworkApp\yazlab_2_frontend\bin\Debug\net8.0-windows\yazlab_2_frontend.exe
+C:\Users\Rana Karagöl\Desktop\Yeni klasör\SocialNetworkApp\yazlab_2_frontend\bin\Debug\net8.0-windows\yazlab_2_frontend.deps.json
+C:\Users\Rana Karagöl\Desktop\Yeni klasör\SocialNetworkApp\yazlab_2_frontend\bin\Debug\net8.0-windows\yazlab_2_frontend.runtimeconfig.json
+C:\Users\Rana Karagöl\Desktop\Yeni klasör\SocialNetworkApp\yazlab_2_frontend\bin\Debug\net8.0-windows\yazlab_2_frontend.dll
+C:\Users\Rana Karagöl\Desktop\Yeni klasör\SocialNetworkApp\yazlab_2_frontend\bin\Debug\net8.0-windows\yazlab_2_frontend.pdb
+C:\Users\Rana Karagöl\Desktop\Yeni klasör\SocialNetworkApp\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.Forms.MainForm.resources
+C:\Users\Rana Karagöl\Desktop\Yeni klasör\SocialNetworkApp\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.Properties.Resources.resources
+C:\Users\Rana Karagöl\Desktop\Yeni klasör\SocialNetworkApp\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.csproj.GenerateResource.cache
+C:\Users\Rana Karagöl\Desktop\Yeni klasör\SocialNetworkApp\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Rana Karagöl\Desktop\Yeni klasör\SocialNetworkApp\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.AssemblyInfoInputs.cache
+C:\Users\Rana Karagöl\Desktop\Yeni klasör\SocialNetworkApp\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.AssemblyInfo.cs
+C:\Users\Rana Karagöl\Desktop\Yeni klasör\SocialNetworkApp\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.csproj.CoreCompileInputs.cache
+C:\Users\Rana Karagöl\Desktop\Yeni klasör\SocialNetworkApp\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.sourcelink.json
+C:\Users\Rana Karagöl\Desktop\Yeni klasör\SocialNetworkApp\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.dll
+C:\Users\Rana Karagöl\Desktop\Yeni klasör\SocialNetworkApp\yazlab_2_frontend\obj\Debug\net8.0-windows\refint\yazlab_2_frontend.dll
+C:\Users\Rana Karagöl\Desktop\Yeni klasör\SocialNetworkApp\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.pdb
+C:\Users\Rana Karagöl\Desktop\Yeni klasör\SocialNetworkApp\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.genruntimeconfig.cache
+C:\Users\Rana Karagöl\Desktop\Yeni klasör\SocialNetworkApp\yazlab_2_frontend\obj\Debug\net8.0-windows\ref\yazlab_2_frontend.dll
+C:\Users\Rana Karagöl\Desktop\Yeni klasör\SocialNetworkApp\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.Forms.Pages.DashboardPage.resources
+C:\Users\Rana Karagöl\Desktop\Yeni klasör\SocialNetworkApp\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.Forms.Pages.GraphViewPage.resources
+C:\Users\Rana Karagöl\Desktop\Yeni klasör\SocialNetworkApp\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.Forms.Pages.NodesPage.resources
+C:\Users\Rana Karagöl\Desktop\Yeni klasör\SocialNetworkApp\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.Forms.Pages.EdgesPage.resources
+C:\Users\Rana Karagöl\Desktop\Yeni klasör\SocialNetworkApp\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.Forms.Pages.AlgorithmsPage.resources
+C:\Users\Rana Karagöl\Desktop\Yeni klasör\SocialNetworkApp\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.Forms.Pages.ImportExportPage.resources
+C:\Users\Rana Karagöl\Desktop\Yeni klasör\SocialNetworkApp\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.Forms.Pages.StatsPage.resources
+C:\Users\Alper\source\repos\SocialNetworkApp-b_rana\yazlab_2_frontend\bin\Debug\net8.0-windows\yazlab_2_frontend.exe
+C:\Users\Alper\source\repos\SocialNetworkApp-b_rana\yazlab_2_frontend\bin\Debug\net8.0-windows\yazlab_2_frontend.deps.json
+C:\Users\Alper\source\repos\SocialNetworkApp-b_rana\yazlab_2_frontend\bin\Debug\net8.0-windows\yazlab_2_frontend.runtimeconfig.json
+C:\Users\Alper\source\repos\SocialNetworkApp-b_rana\yazlab_2_frontend\bin\Debug\net8.0-windows\yazlab_2_frontend.dll
+C:\Users\Alper\source\repos\SocialNetworkApp-b_rana\yazlab_2_frontend\bin\Debug\net8.0-windows\yazlab_2_frontend.pdb
+C:\Users\Alper\source\repos\SocialNetworkApp-b_rana\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.Forms.MainForm.resources
+C:\Users\Alper\source\repos\SocialNetworkApp-b_rana\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.Forms.Pages.AlgorithmsPage.resources
+C:\Users\Alper\source\repos\SocialNetworkApp-b_rana\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.Forms.Pages.DashboardPage.resources
+C:\Users\Alper\source\repos\SocialNetworkApp-b_rana\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.Forms.Pages.EdgesPage.resources
+C:\Users\Alper\source\repos\SocialNetworkApp-b_rana\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.Forms.Pages.GraphViewPage.resources
+C:\Users\Alper\source\repos\SocialNetworkApp-b_rana\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.Forms.Pages.ImportExportPage.resources
+C:\Users\Alper\source\repos\SocialNetworkApp-b_rana\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.Forms.Pages.NodesPage.resources
+C:\Users\Alper\source\repos\SocialNetworkApp-b_rana\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.Forms.Pages.StatsPage.resources
+C:\Users\Alper\source\repos\SocialNetworkApp-b_rana\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.Properties.Resources.resources
+C:\Users\Alper\source\repos\SocialNetworkApp-b_rana\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.csproj.GenerateResource.cache
+C:\Users\Alper\source\repos\SocialNetworkApp-b_rana\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Alper\source\repos\SocialNetworkApp-b_rana\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.AssemblyInfoInputs.cache
+C:\Users\Alper\source\repos\SocialNetworkApp-b_rana\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.AssemblyInfo.cs
+C:\Users\Alper\source\repos\SocialNetworkApp-b_rana\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.csproj.CoreCompileInputs.cache
+C:\Users\Alper\source\repos\SocialNetworkApp-b_rana\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.dll
+C:\Users\Alper\source\repos\SocialNetworkApp-b_rana\yazlab_2_frontend\obj\Debug\net8.0-windows\refint\yazlab_2_frontend.dll
+C:\Users\Alper\source\repos\SocialNetworkApp-b_rana\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.pdb
+C:\Users\Alper\source\repos\SocialNetworkApp-b_rana\yazlab_2_frontend\obj\Debug\net8.0-windows\yazlab_2_frontend.genruntimeconfig.cache
+C:\Users\Alper\source\repos\SocialNetworkApp-b_rana\yazlab_2_frontend\obj\Debug\net8.0-windows\ref\yazlab_2_frontend.dll
