@@ -11,7 +11,10 @@ namespace yazlab_2_frontend.Models
     public static class GraphStore
 
     {
-
+        public static void NotifyGraphChanged()
+        {
+            GraphChanged?.Invoke();
+        }
         public static event Action? GraphChanged;
 
         public static List<Node> Nodes { get; } = new();

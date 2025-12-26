@@ -499,7 +499,7 @@ namespace yazlab_2_frontend.Forms.Pages
 
                 using var brush = new SolidBrush(selected ? Color.LightSkyBlue : n.NodeRengi);
                 using var borderPen = new Pen(selected ? Color.DodgerBlue : Color.DimGray, selected ? 3 : 2);
-                int radius = n.radius > 0 ? n.radius : 18;
+                float radius = n.radius > 0 ? n.radius : 18;
                 var rect = new RectangleF(n.location.X - radius, n.location.Y - radius, radius * 2, radius * 2);
                 e.Graphics.FillEllipse(brush, rect);
                 e.Graphics.DrawEllipse(borderPen, rect);
