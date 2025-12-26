@@ -55,7 +55,10 @@ namespace yazlab_2_frontend.Forms
 
         {
             //Pages
-            Pages[PageType.Dashboard] = new DashboardPage();
+            var dashboard = new DashboardPage();
+            dashboard.NavigateRequested += Navigate;
+            Pages[PageType.Dashboard] = dashboard;
+
             Pages[PageType.GraphView] = new GraphViewPage();
             Pages[PageType.Nodes] = new NodesPage();
             Pages[PageType.Edges] = new EdgesPage();
