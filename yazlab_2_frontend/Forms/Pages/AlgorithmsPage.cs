@@ -356,7 +356,7 @@ namespace yazlab_2_frontend.Forms.Pages
                     }
 
                     long elapsedMsWP = stopwatch.ElapsedMilliseconds;
-                    lblDurumValue.Text = "Durum: Hesaplandı!";
+                    lblDurumValue.Text = ": Hesaplandı!";
                     lblTimeValue.Text = $"Süre: {elapsedMsWP} ms";
                     lblMaliyetValue.Text = $"Maliyet: {cost}";
                     AddLog(selectedAlgo, $"Hesaplama tamamlandı. Süre: {elapsedMsWP} ms, Sonuç: {cost}");
@@ -503,6 +503,20 @@ namespace yazlab_2_frontend.Forms.Pages
                 var rect = new RectangleF(n.location.X - radius, n.location.Y - radius, radius * 2, radius * 2);
                 e.Graphics.FillEllipse(brush, rect);
                 e.Graphics.DrawEllipse(borderPen, rect);
+
+                //ıd görünümü
+                string text = n.Id.ToString();
+
+                using var font = new Font("Segoe UI", 10f, FontStyle.Bold);
+                using var textBrush = new SolidBrush(Color.Black);
+
+                var sf = new StringFormat
+                {
+                    Alignment = StringAlignment.Center,
+                    LineAlignment = StringAlignment.Center
+                };
+
+                e.Graphics.DrawString(text, font, textBrush, rect, sf);
             }
         }
 

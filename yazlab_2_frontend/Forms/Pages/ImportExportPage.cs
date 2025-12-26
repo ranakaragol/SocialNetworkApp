@@ -154,5 +154,10 @@ namespace yazlab_2_frontend.Forms.Pages
             if (!string.IsNullOrWhiteSpace(rtbPreview.Text))
                 Clipboard.SetText(rtbPreview.Text);
         }
+
+        private void btnLoad_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

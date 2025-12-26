@@ -242,6 +242,7 @@
             btnLoad.TabIndex = 1;
             btnLoad.Text = "Yükle";
             btnLoad.UseVisualStyleBackColor = true;
+            btnLoad.Click += btnLoad_Click;
             // 
             // btnSave
             // 
