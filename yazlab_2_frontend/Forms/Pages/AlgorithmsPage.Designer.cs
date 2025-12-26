@@ -50,8 +50,8 @@
             label7 = new Label();
             lblTimeValue = new Label();
             labelTime = new Label();
-            rtbLog = new RichTextBox();
-            dgvResult = new DataGridView();
+            label4 = new Label();
+            lstLogs = new ListBox();
             grpAlgorithms.SuspendLayout();
             tabResults.SuspendLayout();
             tabPreview.SuspendLayout();
@@ -61,7 +61,6 @@
             splitOut.Panel1.SuspendLayout();
             splitOut.Panel2.SuspendLayout();
             splitOut.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvResult).BeginInit();
             SuspendLayout();
             // 
             // grpAlgorithms
@@ -179,7 +178,7 @@
             tabResults.Margin = new Padding(3, 4, 3, 4);
             tabResults.Name = "tabResults";
             tabResults.SelectedIndex = 0;
-            tabResults.Size = new Size(404, 775);
+            tabResults.Size = new Size(539, 775);
             tabResults.TabIndex = 1;
             // 
             // tabPreview
@@ -189,7 +188,7 @@
             tabPreview.Margin = new Padding(3, 4, 3, 4);
             tabPreview.Name = "tabPreview";
             tabPreview.Padding = new Padding(3, 4, 3, 4);
-            tabPreview.Size = new Size(396, 739);
+            tabPreview.Size = new Size(531, 739);
             tabPreview.TabIndex = 0;
             tabPreview.Text = "Görsel";
             tabPreview.UseVisualStyleBackColor = true;
@@ -202,7 +201,7 @@
             panelAlgoCanvas.Location = new Point(3, 4);
             panelAlgoCanvas.Margin = new Padding(3, 4, 3, 4);
             panelAlgoCanvas.Name = "panelAlgoCanvas";
-            panelAlgoCanvas.Size = new Size(390, 731);
+            panelAlgoCanvas.Size = new Size(525, 731);
             panelAlgoCanvas.TabIndex = 0;
             // 
             // button2
@@ -234,7 +233,7 @@
             tabOutput.Margin = new Padding(3, 4, 3, 4);
             tabOutput.Name = "tabOutput";
             tabOutput.Padding = new Padding(3, 4, 3, 4);
-            tabOutput.Size = new Size(396, 739);
+            tabOutput.Size = new Size(531, 739);
             tabOutput.TabIndex = 1;
             tabOutput.Text = "Tablo/Çıktı";
             tabOutput.UseVisualStyleBackColor = true;
@@ -258,9 +257,9 @@
             // 
             // splitOut.Panel2
             // 
-            splitOut.Panel2.Controls.Add(rtbLog);
-            splitOut.Panel2.Controls.Add(dgvResult);
-            splitOut.Size = new Size(390, 731);
+            splitOut.Panel2.Controls.Add(label4);
+            splitOut.Panel2.Controls.Add(lstLogs);
+            splitOut.Size = new Size(525, 731);
             splitOut.SplitterDistance = 268;
             splitOut.SplitterWidth = 5;
             splitOut.TabIndex = 0;
@@ -319,27 +318,25 @@
             labelTime.TabIndex = 0;
             labelTime.Text = "Çalışma Süresi";
             // 
-            // rtbLog
+            // label4
             // 
-            rtbLog.Dock = DockStyle.Bottom;
-            rtbLog.Location = new Point(0, 259);
-            rtbLog.Margin = new Padding(3, 4, 3, 4);
-            rtbLog.Name = "rtbLog";
-            rtbLog.ReadOnly = true;
-            rtbLog.Size = new Size(390, 199);
-            rtbLog.TabIndex = 1;
-            rtbLog.Text = "";
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI", 14F);
+            label4.Location = new Point(3, 16);
+            label4.Name = "label4";
+            label4.Size = new Size(53, 32);
+            label4.TabIndex = 2;
+            label4.Text = "Log";
             // 
-            // dgvResult
+            // lstLogs
             // 
-            dgvResult.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvResult.Dock = DockStyle.Fill;
-            dgvResult.Location = new Point(0, 0);
-            dgvResult.Margin = new Padding(3, 4, 3, 4);
-            dgvResult.Name = "dgvResult";
-            dgvResult.RowHeadersWidth = 51;
-            dgvResult.Size = new Size(390, 458);
-            dgvResult.TabIndex = 0;
+            lstLogs.FormattingEnabled = true;
+            lstLogs.ItemHeight = 23;
+            lstLogs.Location = new Point(3, 51);
+            lstLogs.Name = "lstLogs";
+            lstLogs.Size = new Size(1213, 556);
+            lstLogs.TabIndex = 1;
+            lstLogs.SelectedIndexChanged += lstLogs_SelectedIndexChanged;
             // 
             // AlgorithmsPage
             // 
@@ -349,7 +346,7 @@
             Controls.Add(grpAlgorithms);
             Margin = new Padding(3, 4, 3, 4);
             Name = "AlgorithmsPage";
-            Size = new Size(819, 775);
+            Size = new Size(954, 775);
             grpAlgorithms.ResumeLayout(false);
             grpAlgorithms.PerformLayout();
             tabResults.ResumeLayout(false);
@@ -359,9 +356,9 @@
             splitOut.Panel1.ResumeLayout(false);
             splitOut.Panel1.PerformLayout();
             splitOut.Panel2.ResumeLayout(false);
+            splitOut.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)splitOut).EndInit();
             splitOut.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dgvResult).EndInit();
             ResumeLayout(false);
         }
 
@@ -387,9 +384,10 @@
         private Label labelTime;
         private Label lblMaliyetValue;
         private Label lblMaliyet;
-        private DataGridView dgvResult;
         private RichTextBox rtbLog;
         private Button button2;
         private Button button1;
+        private ListBox lstLogs;
+        private Label label4;
     }
 }

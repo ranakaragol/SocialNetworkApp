@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using System.Threading.Tasks; // Task kullanımı için gerekli
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using yazlab_2_frontend.Algorithms;
 using yazlab_2_frontend.Models;
@@ -36,12 +36,11 @@ namespace yazlab_2_frontend.Forms.Pages
         // Loglama metodu
         private void AddLog(string algorithmName, string message)
         {
-
             string timestamp = DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff");
             string logLine = $"[{timestamp}] [{algorithmName}] {message}";
 
             // listbox un en üstüne eklenir
-            //lstLogs.Items.Insert(0, logLine);
+            lstLogs.Items.Insert(0, logLine);
         }
 
         // Maliyet hesaplama metodu
@@ -64,6 +63,7 @@ namespace yazlab_2_frontend.Forms.Pages
             }
             return totalCost;
         }
+
         public AlgorithmsPage()
         {
             InitializeComponent();
@@ -82,7 +82,8 @@ namespace yazlab_2_frontend.Forms.Pages
             {
                 if (IsHandleCreated)
                 {
-                    BeginInvoke(new Action(() => {
+                    BeginInvoke(new Action(() =>
+                    {
                         RefreshStartCombo();
                         _canvas.Invalidate();
                     }));
@@ -99,9 +100,9 @@ namespace yazlab_2_frontend.Forms.Pages
         // combobox güncelleme metodu
         private void RefreshStartCombo()
         {
-            isProgrammaticChange = true; // event tetiklenmesini engeller
+            isProgrammaticChange = true;
 
-            object currentSelection = cmbStart.SelectedItem; // Mevcut seçimi saklar
+            object currentSelection = cmbStart.SelectedItem;
             cmbStart.BeginUpdate();
             cmbStart.Items.Clear();
 
@@ -115,7 +116,7 @@ namespace yazlab_2_frontend.Forms.Pages
             if (currentSelection != null && cmbStart.Items.Contains(currentSelection))
                 cmbStart.SelectedItem = currentSelection;
             else if (cmbStart.Items.Count > 0)
-                cmbStart.SelectedIndex = 0; 
+                cmbStart.SelectedIndex = 0;
 
             cmbStart.EndUpdate();
             isProgrammaticChange = false;
@@ -133,7 +134,7 @@ namespace yazlab_2_frontend.Forms.Pages
             if (currentEndSelection != null && cmbTarget.Items.Contains(currentEndSelection))
                 cmbTarget.SelectedItem = currentEndSelection;
             else if (cmbTarget.Items.Count > 0)
-                cmbTarget.SelectedIndex = cmbTarget.Items.Count > 1 ? 1 : 0; // farklı olsun diye 2. seçelim
+                cmbTarget.SelectedIndex = cmbTarget.Items.Count > 1 ? 1 : 0;
 
             cmbTarget.EndUpdate();
 
@@ -143,14 +144,14 @@ namespace yazlab_2_frontend.Forms.Pages
         // combobox eventi
         private void CmbStart_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (isProgrammaticChange) return; // Eğer kod ile değiştirildiyse işlem yapılmaz
+            if (isProgrammaticChange) return;
 
             if (cmbStart.SelectedItem != null)
             {
                 int id = (int)cmbStart.SelectedItem;
                 // Grafikteki o düğümü bul ve seçili yap
                 selected_node = GraphStore.Nodes.FirstOrDefault(n => n.Id == id);
-                _canvas.Invalidate(); // Grafiği tekrar çizer
+                _canvas.Invalidate();
             }
         }
 
@@ -163,146 +164,242 @@ namespace yazlab_2_frontend.Forms.Pages
                 selected_node = GraphStore.Nodes.FirstOrDefault(n => n.Id == id);
             }
 
-            if (selected_node == null)
+            string selectedAlgo = cmbAlgorithms.Text.Trim();
+
+            bool isAnalysisAlgo = (selectedAlgo == "Bağlı bileşenler" || selectedAlgo == "Merkezilik" || selectedAlgo == "Welsh-Powell");
+
+            if (!isAnalysisAlgo && selected_node == null)
             {
                 MessageBox.Show("Lütfen önce bir başlangıç düğümü seçin!");
                 return;
             }
 
-            string selectedAlgo = cmbAlgorithms.Text.Trim();
+            // Tabloya yazdırma hazırlığı 
+            lblDurumValue.Text = "Durum: Hesaplanıyor...";
+            lblDurumValue.ForeColor = Color.Orange;
+            lblMaliyetValue.Text = "Maliyet: -";
+            lblTimeValue.Text = "Süre: -";
 
-            if (selectedAlgo == "BFS")
-                await runAlgorithmAsync(GraphAlgorithms.BFS_algorithm(selected_node, GraphStore.Edges, GraphStore.Nodes));
-            else if (selectedAlgo == "DFS")
-                await runAlgorithmAsync(GraphAlgorithms.RunDFS(selected_node, GraphStore.Edges, GraphStore.Nodes));
-            else if (selectedAlgo == "Dijkstra")
+            btnRun.Enabled = false;
+            stopwatch.Restart();
+
+            List<Node> resultPath = null;
+            double cost = 0;
+            bool runPathAnimation = false;
+
+            try
             {
-                if (cmbTarget.SelectedItem == null)
+                if (selectedAlgo == "BFS")
                 {
-                    MessageBox.Show("Dijkstra için lütfen bir HEDEF (Bitiş) düğümü seçin!");
+                    resultPath = GraphAlgorithms.BFS_algorithm(selected_node, GraphStore.Edges, GraphStore.Nodes);
+                    if (resultPath != null) cost = resultPath.Count;
+                    runPathAnimation = true;
+                }
+                else if (selectedAlgo == "DFS")
+                {
+                    resultPath = GraphAlgorithms.RunDFS(selected_node, GraphStore.Edges, GraphStore.Nodes);
+                    if (resultPath != null) cost = resultPath.Count;
+                    runPathAnimation = true;
+                }
+                else if (selectedAlgo == "Dijkstra")
+                {
+                    if (cmbTarget.SelectedItem == null)
+                    {
+                        MessageBox.Show("Dijkstra için lütfen bir HEDEF (Bitiş) düğümü seçin!");
+                        btnRun.Enabled = true;
+                        return;
+                    }
+
+                    int endId = (int)cmbTarget.SelectedItem;
+                    Node targetNode = GraphStore.Nodes.FirstOrDefault(n => n.Id == endId);
+
+                    if (targetNode == selected_node)
+                    {
+                        MessageBox.Show("Başlangıç ve Bitiş düğümü aynı olamaz!");
+                        btnRun.Enabled = true;
+                        return;
+                    }
+
+                    var path = GraphAlgorithms.Dijkstra_algorithm(selected_node, targetNode, GraphStore.Edges, GraphStore.Nodes);
+
+                    if (path != null)
+                    {
+                        resultPath = path;
+                        cost = CalculatePathCost(path);
+                        runPathAnimation = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Bu iki düğüm arasında bir yol bulunamadı.");
+                        runPathAnimation = false;
+                    }
+                }
+                else if (selectedAlgo == "A*")
+                {
+                    if (cmbTarget.SelectedItem == null)
+                    {
+                        MessageBox.Show("A* için HEDEF düğüm seçmelisiniz!");
+                        btnRun.Enabled = true;
+                        return;
+                    }
+                    int endId = (int)cmbTarget.SelectedItem;
+                    Node targetNode = GraphStore.Nodes.FirstOrDefault(n => n.Id == endId);
+
+                    var path = GraphAlgorithms.AStar_Algorithm(selected_node, targetNode, GraphStore.Edges, GraphStore.Nodes);
+                    if (path != null)
+                    {
+                        resultPath = path;
+                        cost = CalculatePathCost(path);
+                        runPathAnimation = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Yol bulunamadı.");
+                        runPathAnimation = false;
+                    }
+                }
+                else if (selectedAlgo == "Bağlı bileşenler")
+                {
+                    // başlangıç düğümü seçmeye gerek yok bu algoritma tüm grafiğe bakar
+                    var components = GraphAlgorithms.ConnectedComponents_Algorithm(GraphStore.Nodes, GraphStore.Edges);
+                    stopwatch.Stop();
+                    cost = components.Count;
+
+                    // Rastgele renk üretici
+                    Random rnd = new Random();
+
+                    foreach (var group in components)
+                    {
+                        // Grup için rastgele renk seçilir
+                        Color randomColor = Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
+
+                        foreach (var node in group)
+                        {
+                            node.NodeRengi = randomColor;
+                            _canvas.Invalidate();
+                            _canvas.Update();
+                            await Task.Delay(200); // Renkler boyanır
+                        }
+                    }
+
+                    long elapsedMsComp = stopwatch.ElapsedMilliseconds;
+                    lblDurumValue.Text = "Durum: Hesaplandı!";
+                    lblTimeValue.Text = $"Süre: {elapsedMsComp} ms";
+                    lblMaliyetValue.Text = $"Maliyet: {cost}";
+                    AddLog(selectedAlgo, $"Hesaplama tamamlandı. Süre: {elapsedMsComp} ms, Sonuç: {cost}");
+
+                    btnRun.Enabled = true;
                     return;
                 }
-
-                int endId = (int)cmbTarget.SelectedItem;
-                Node targetNode = GraphStore.Nodes.FirstOrDefault(n => n.Id == endId);
-
-                if (targetNode == selected_node)
+                else if (selectedAlgo == "Merkezilik")
                 {
-                    MessageBox.Show("Başlangıç ve Bitiş düğümü aynı olamaz!");
+                    var scores = GraphAlgorithms.DegreeCentrality_Algorithm(GraphStore.Nodes, GraphStore.Edges);
+                    stopwatch.Stop();
+                    cost = scores.Values.Max();
+
+                    // Görsel olarak derecesi yüksek olanın çapı arttırılır 
+                    foreach (var item in scores)
+                    {
+                        Node n = item.Key;
+                        int degree = item.Value;
+
+                        // Standart boyut 18 üzerinden 3 er 3 er arttırılır ama 50 de biter
+                        int newRadius = 18 + (degree * 3);
+                        if (newRadius > 50) newRadius = 50;
+
+                        n.radius = newRadius;
+
+                        // Rengide bağlantı sayısına göre koyulaşır
+                        int redIntensity = Math.Min(255, 100 + (degree * 20));
+                        n.NodeRengi = Color.FromArgb(redIntensity, 50, 50);
+                    }
+
+                    _canvas.Invalidate();
+
+                    long elapsedMsCent = stopwatch.ElapsedMilliseconds;
+                    lblDurumValue.Text = "Durum: Hesaplandı!";
+                    lblTimeValue.Text = $"Süre: {elapsedMsCent} ms";
+                    lblMaliyetValue.Text = $"Maliyet: {cost}";
+                    AddLog(selectedAlgo, $"Hesaplama tamamlandı. Süre: {elapsedMsCent} ms, Sonuç: {cost}");
+
+                    MessageBox.Show("Düğümler derecelerine göre boyutlandırıldı.");
+                    btnRun.Enabled = true;
                     return;
                 }
+                else if (selectedAlgo == "Welsh-Powell")
+                {
+                    var colorGroups = GraphAlgorithms.WelshPowell_Algorithm(GraphStore.Nodes, GraphStore.Edges);
+                    stopwatch.Stop();
+                    cost = colorGroups.Count;
 
-                var path = GraphAlgorithms.Dijkstra_algorithm(selected_node, targetNode, GraphStore.Edges, GraphStore.Nodes);
+                    // Kullanılacak renk paleti sırasıyla kırmızı mavi yeşil turuncu mor turkuaz diye gider
+                    Color[] palette = new Color[] {
+                        Color.Red, Color.Blue, Color.Green, Color.Orange, Color.Purple, Color.Teal, Color.Brown, Color.Magenta
+                    };
 
-                if (path == null)
-                    MessageBox.Show("Bu iki düğüm arasında bir yol bulunamadı.");
+                    foreach (var group in colorGroups)
+                    {
+                        int colorIndex = group.Key;
+                        // Eğer palet yetmezse rastgele renk üretilir
+                        Color groupColor = (colorIndex < palette.Length) ? palette[colorIndex] : Color.FromArgb(new Random().Next(256), new Random().Next(256), new Random().Next(256));
+
+                        foreach (var node in group.Value)
+                        {
+                            node.NodeRengi = groupColor;
+                            // Görselleştirme için çap ı standart yapalım belki merkezilikden çapı artmıştır
+                            node.radius = 18;
+
+                            _canvas.Invalidate();
+                            _canvas.Update();
+                            await Task.Delay(300); // Boyama animasyonu
+                        }
+                    }
+
+                    long elapsedMsWP = stopwatch.ElapsedMilliseconds;
+                    lblDurumValue.Text = "Durum: Hesaplandı!";
+                    lblTimeValue.Text = $"Süre: {elapsedMsWP} ms";
+                    lblMaliyetValue.Text = $"Maliyet: {cost}";
+                    AddLog(selectedAlgo, $"Hesaplama tamamlandı. Süre: {elapsedMsWP} ms, Sonuç: {cost}");
+
+                    // Kromatik sayıyı göster
+                    MessageBox.Show($"Grafik toplam {colorGroups.Count} renk ile boyandı. (Kromatik Sayı: {colorGroups.Count})");
+                    btnRun.Enabled = true;
+                    return;
+                }
                 else
-                    await runAlgorithmAsync(path);
-            }
-            else if (selectedAlgo == "A*")
-            {
-                if (cmbTarget.SelectedItem == null)
                 {
-                    MessageBox.Show("A* için HEDEF düğüm seçmelisiniz!");
+                    MessageBox.Show("Lütfen bir algoritma seçin!");
+                    btnRun.Enabled = true;
                     return;
                 }
-                int endId = (int)cmbTarget.SelectedItem;
-                Node targetNode = GraphStore.Nodes.FirstOrDefault(n => n.Id == endId);
-
-                var path = GraphAlgorithms.AStar_Algorithm(selected_node, targetNode, GraphStore.Edges, GraphStore.Nodes);
-                if (path != null) await runAlgorithmAsync(path);
-                else MessageBox.Show("Yol bulunamadı.");
             }
-            else if (selectedAlgo == "Bağlı bileşenler")
+            // Hata yakalandımı loga kaydedilir
+            catch (Exception ex)
             {
-                // başlangıç düğümü seçmeye gerek yok bu algoritma tüm grafiğe bakar
-                var components = GraphAlgorithms.ConnectedComponents_Algorithm(GraphStore.Nodes, GraphStore.Edges);
-
-                btnRun.Enabled = false;
-
-                // Rastgele renk üretici
-                Random rnd = new Random();
-
-                foreach (var group in components)
-                {
-                    // Grup için rastgele renk seçilir
-                    Color randomColor = Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
-
-                    foreach (var node in group)
-                    {
-                        node.NodeRengi = randomColor;
-                        _canvas.Invalidate();
-                        _canvas.Update();
-                        await Task.Delay(200); // Renkler boyanır
-                    }
-                }
+                stopwatch.Stop();
+                AddLog(selectedAlgo, "HATA: " + ex.Message);
                 btnRun.Enabled = true;
                 return;
             }
-            else if (selectedAlgo == "Merkezilik")
+
+            stopwatch.Stop();
+
+            // sonuçlar yazdırılır
+            long elapsedMs = stopwatch.ElapsedMilliseconds;
+            lblDurumValue.Text = "Hesaplandı!";
+            lblTimeValue.Text = elapsedMs.ToString();
+            lblMaliyetValue.Text = cost.ToString();
+            // Maliyet değeri algoritmalar arası değişiyor
+            // Örneğin BFS ve DFS için adım sayısı iken Welsh Powell içinse kullanılan renk sayısıdır
+
+            AddLog(selectedAlgo, $"Hesaplama tamamlandı. Süre: {elapsedMs} ms, Maliyet/Adım: {cost}");
+
+            if (runPathAnimation && resultPath != null)
             {
-                var scores = GraphAlgorithms.DegreeCentrality_Algorithm(GraphStore.Nodes, GraphStore.Edges);
-
-                btnRun.Enabled = false;
-
-                // Görsel olarak derecesi yüksek olanın çapı arttırılır 
-                foreach (var item in scores)
-                {
-                    Node n = item.Key;
-                    int degree = item.Value;
-
-                    // Standart boyut 18 üzerinden 3 er 3 er arttırılır ama 50 de biter
-                    int newRadius = 18 + (degree * 3);
-                    if (newRadius > 50) newRadius = 50;
-
-                    n.radius = newRadius;
-
-                    // Rengide bağlantı sayısına göre koyulaşır
-                    int redIntensity = Math.Min(255, 100 + (degree * 20));
-                    n.NodeRengi = Color.FromArgb(redIntensity, 50, 50);
-                }
-
-                _canvas.Invalidate();
-                MessageBox.Show("Düğümler derecelerine göre boyutlandırıldı.");
-                btnRun.Enabled = true;
-                return;
+                await runAlgorithmAsync(resultPath);
             }
-            else if (selectedAlgo == "Welsh-Powell")
-            {
-                var colorGroups = GraphAlgorithms.WelshPowell_Algorithm(GraphStore.Nodes, GraphStore.Edges);
 
-                btnRun.Enabled = false;
-
-                // Kullanılacak renk paleti sırasıyla kırmızı mavi yeşil turuncu mor turkuaz diye gider
-                Color[] palette = new Color[] {
-            Color.Red, Color.Blue, Color.Green, Color.Orange, Color.Purple, Color.Teal, Color.Brown, Color.Magenta
-        };
-
-                foreach (var group in colorGroups)
-                {
-                    int colorIndex = group.Key;
-                    // Eğer palet yetmezse rastgele renk üretilir
-                    Color groupColor = (colorIndex < palette.Length) ? palette[colorIndex] : Color.FromArgb(new Random().Next(256), new Random().Next(256), new Random().Next(256));
-
-                    foreach (var node in group.Value)
-                    {
-                        node.NodeRengi = groupColor;
-                        // Görselleştirme için çap ı standart yapalım belki merkezilikden çapı artmıştır
-                        node.radius = 18;
-
-                        _canvas.Invalidate();
-                        _canvas.Update();
-                        await Task.Delay(300); // Boyama animasyonu
-                    }
-                }
-
-                // Kromatik sayıyı göster
-                MessageBox.Show($"Grafik toplam {colorGroups.Count} renk ile boyandı. (Kromatik Sayı: {colorGroups.Count})");
-                btnRun.Enabled = true;
-                return;
-            }
-            else
-                MessageBox.Show("Lütfen bir algoritma seçin!");
+            btnRun.Enabled = true;
         }
 
         private void panelCanvas_MouseDown(object sender, MouseEventArgs e)
@@ -319,12 +416,12 @@ namespace yazlab_2_frontend.Forms.Pages
                 selected_edge = null;
 
                 // Tıklanan düğüm combobox da seçilir
-                isProgrammaticChange = true; 
+                isProgrammaticChange = true;
                 if (cmbStart.Items.Contains(clickedNode.Id))
                 {
                     cmbStart.SelectedItem = clickedNode.Id;
                 }
-                isProgrammaticChange = false; 
+                isProgrammaticChange = false;
 
                 if (nodeMode) movingNode = clickedNode;
                 else { drawingSourceNode = clickedNode; currentMousePoint = e.Location; }
@@ -397,7 +494,7 @@ namespace yazlab_2_frontend.Forms.Pages
 
             foreach (var n in GraphStore.Nodes)
             {
-                // SEÇİM KONTROLÜ: Hem selected_node hem de ComboBox uyumu
+                
                 bool selected = selected_node == n;
 
                 using var brush = new SolidBrush(selected ? Color.LightSkyBlue : n.NodeRengi);
@@ -411,21 +508,30 @@ namespace yazlab_2_frontend.Forms.Pages
 
         private async Task runAlgorithmAsync(List<Node> resultNodes)
         {
-            btnRun.Enabled = false;
+            // Önce renkleri temizle ki yeni yol net gözüksün
+            foreach (var n in GraphStore.Nodes) n.NodeRengi = Color.WhiteSmoke;
+            _canvas.Invalidate();
+
             foreach (var n in resultNodes)
             {
-                Color oldColor = n.NodeRengi;
+                // Color oldColor = n.NodeRengi; 
                 n.NodeRengi = Color.Yellow;
                 _canvas.Invalidate(); _canvas.Update();
                 await Task.Delay(500);
-                n.NodeRengi = oldColor;
+
+                // Yolu göstermek için yeşil yapıp öyle bırakılır
+                n.NodeRengi = Color.LightGreen;
             }
             _canvas.Invalidate();
-            btnRun.Enabled = true;
         }
 
         // Button Eventleri
         private void button1_Click(object sender, EventArgs e) { nodeMode = true; }
         private void button2_Click(object sender, EventArgs e) { nodeMode = false; }
+
+        private void lstLogs_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
