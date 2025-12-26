@@ -19,6 +19,24 @@ namespace yazlab_2_frontend.Forms.Pages
         {
             InitializeComponent();
             InitGrid();
+
+            // Bu sayfanın graphstore deki değişiklikleri dinlemesini sağlar
+            GraphStore.GraphChanged += () => {
+
+                if (this.IsHandleCreated)
+                {
+                    this.BeginInvoke(new Action(RefreshGrid));
+                }
+            };
+
+
+            this.VisibleChanged += (s, e) => {
+                if (this.Visible)
+                {
+                    RefreshGrid();
+                }
+            };
+
         }
         private void InitGrid()
         {
@@ -32,7 +50,7 @@ namespace yazlab_2_frontend.Forms.Pages
             dataGridViewNodes.Rows.Clear();
             foreach (var n in GraphStore.Nodes)
             {
-                dataGridViewNodes.Rows.Add(n.Id, n.Name, n.Aktiflik, n.Etkilesim, n.BaglantiSayisi);
+                dataGridViewNodes.Rows.Add(n.Id, n.Name, n.Aktiflik, n.Etkilesim, n.BaglantiSayisi , n.radius , n.NodeRengi);
             }
         }
         private void btnAddNode_Click(object sender, EventArgs e)

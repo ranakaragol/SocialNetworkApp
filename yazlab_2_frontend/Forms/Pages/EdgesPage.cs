@@ -13,310 +13,136 @@ namespace yazlab_2_frontend.Forms.Pages
 {
     public partial class EdgesPage : UserControl
     {
-
         public EdgesPage()
-
         {
-
             InitializeComponent();
 
-
-
-
-
-
-
-            // Grid temel ayar
-
+            // DataGridView Temel Ayarları
             dgvEdges.ReadOnly = true;
-
             dgvEdges.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-
             dgvEdges.MultiSelect = false;
-
             dgvEdges.AllowUserToAddRows = false;
+            dgvEdges.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
+            // Grid tıklandığında bilgileri TextBox getirme
+            dgvEdges.SelectionChanged += dgvEdges_SelectionChanged;
 
-
-            // İlk yükleme
-
-            //RefreshCombos();
-
-            //RefreshGrid();
-
-            //ShowPreviewWeight();
-
-
-
-            // Node/Edge değişince otomatik güncelle
-
+            // Merkezi önbellek değişince gridview güncellenir
             GraphStore.GraphChanged += OnGraphChanged;
 
-
-
+            // Her sekme değiştirildiğince grid güncellenir 
             this.VisibleChanged += (_, __) =>
-
             {
-
-                if (this.Visible)
-
-                {
-
-
-
-                    RefreshCombos();
-
-                    RefreshGrid();
-
-                    ShowPreviewWeight();
-
-                }
-
+                if (this.Visible) RefreshGrid();
             };
-
-
-
-
-
-            // Seçim değişince weight önizle
-
-            cmbFrom.SelectedIndexChanged += (_, __) => ShowPreviewWeight();
-
-            cmbTo.SelectedIndexChanged += (_, __) => ShowPreviewWeight();
-
-
-
-            // Butonlar
-
-            btnAddEdge.Click += btnAddEdge_Click;
-
-            btnDeleteEdge.Click += btnDeleteEdge_Click;
-
-            ClearForm();
-
-
-
         }
-
-
-
-
 
         private void OnGraphChanged()
-
         {
-
-            if (!IsHandleCreated)
-
+            if (IsHandleCreated)
             {
-
-                // Handle yoksa şimdi yapamıyoruz, sayfa açılınca VisibleChanged yakalayacak.
-
-                return;
-
+                BeginInvoke(new Action(() => RefreshGrid()));
             }
-
-
-
-            BeginInvoke(new Action(() =>
-
-            {
-
-                RefreshCombos();
-
-                RefreshGrid();
-
-                ShowPreviewWeight();
-
-            }));
-
         }
 
-
-
-        private void RefreshCombos()
-
-        {
-
-            cmbFrom.BeginUpdate();
-
-            cmbTo.BeginUpdate();
-
-
-
-            cmbFrom.Items.Clear();
-
-            cmbTo.Items.Clear();
-
-
-
-            foreach (var n in GraphStore.Nodes.OrderBy(x => x.Id))
-
-            {
-
-                cmbFrom.Items.Add(n.Id);
-
-                cmbTo.Items.Add(n.Id);
-
-            }
-
-
-
-            cmbFrom.EndUpdate();
-
-            cmbTo.EndUpdate();
-
-
-
-            if (cmbFrom.Items.Count > 0) cmbFrom.SelectedIndex = 0;
-
-            if (cmbTo.Items.Count > 0) cmbTo.SelectedIndex = 0;
-
-        }
-
-
-
+        // Sayfa açılınca verileri yazdırma
         private void RefreshGrid()
-
         {
-
-            MessageBox.Show("Edges count=" + GraphStore.Edges.Count + " | Grid cols=" + dgvEdges.Columns.Count);
-
-
-
             dgvEdges.Rows.Clear();
-
-
-
             foreach (var e in GraphStore.Edges)
-
-                dgvEdges.Rows.Add(e.startNode.Id, e.endNode.Id, e.Weight.ToString("0.####"));
-
-        }
-
-        private void ShowPreviewWeight()
-
-        {
-
-            if (cmbFrom.SelectedItem == null || cmbTo.SelectedItem == null)
-
             {
-
-                lblWeightValue.Text = "-";
-
-                return;
-
+                // Sütunlar: Edge ID , Başlangıç ID, Bitiş ID, Ağırlık tek tek yazılır
+                dgvEdges.Rows.Add(e.Id,e.startNode.Id, e.endNode.Id, e.Weight.ToString("0.####"));
             }
-
-
-
-            int a = (int)cmbFrom.SelectedItem;
-
-            int b = (int)cmbTo.SelectedItem;
-
-            Node startnode = GraphStore.Nodes.FirstOrDefault(x => x.Id == a);
-            Node endnode = GraphStore.Nodes.FirstOrDefault(y => y.Id == b);
-
-
-            if (a == b)
-
-            {
-
-                lblWeightValue.Text = "Self-loop yok";
-
-                return;
-
-            }
-
-
-
-            lblWeightValue.Text = GraphStore.ComputeWeight(startnode, endnode).ToString("0.####");
-
         }
 
-        private void EdgesPage_Load(object sender, EventArgs e)
-
+        // Rowa tıklayınca bilgileri textboxlara getiren fonksiyon
+        private void dgvEdges_SelectionChanged(object sender, EventArgs e)
         {
-
-
-
-        }
-
-
-
-        private void btnAddEdge_Click(object sender, EventArgs e)
-
-        {
-
-            if (cmbFrom.SelectedItem == null || cmbTo.SelectedItem == null) return;
-
-
-
-            int a = (int)cmbFrom.SelectedItem;
-
-            int b = (int)cmbTo.SelectedItem;
-
-            Node startnode = GraphStore.Nodes.FirstOrDefault(x => x.Id == a);
-            Node endnode = GraphStore.Nodes.FirstOrDefault(y => y.Id == b);
-
-
-
-
-            try { GraphStore.AddEdge(startnode, endnode); }
-
-            catch (Exception ex) { MessageBox.Show(ex.Message); }
-
-        }
-
-
-
-        private void btnDeleteEdge_Click(object sender, EventArgs e)
-
-        {
-            Node startnode = GraphStore.Nodes.FirstOrDefault(x => x.Id == (int)cmbFrom.SelectedItem);
-            Node endnode = GraphStore.Nodes.FirstOrDefault(y => y.Id == (int)cmbTo.SelectedItem);
-
-            // Grid’den seçili edge varsa onu sil
-
             if (dgvEdges.SelectedRows.Count > 0)
-
             {
+                // Grid deki seçili satırın hücrelerinden değerleri al
+                string id = dgvEdges.SelectedRows[0].Cells[0].Value.ToString();
+                string startId = dgvEdges.SelectedRows[0].Cells[1].Value.ToString();
+                string endId = dgvEdges.SelectedRows[0].Cells[2].Value.ToString();
+                string weight = dgvEdges.SelectedRows[0].Cells[3].Value.ToString();
 
-                int a = Convert.ToInt32(dgvEdges.SelectedRows[0].Cells[0].Value);
+                // Alınan değerler atanır
+                edgeIdValue.Text = id;
+                startNodeLabelValue.Text = startId;
+                endNodeLabelValue.Text = endId;
+                lblWeightValue.Text = weight;
+            }
+        }
 
-                int b = Convert.ToInt32(dgvEdges.SelectedRows[0].Cells[1].Value);
+        // Bağlantı ekleme butonu click eventi textboxlardaki bilgilerle yeni bir edge yani bağlantı oluşturur
+        private void btnAddEdge_Click(object sender, EventArgs e)
+        {
+            // TextBox ların boş olup olmadığını kontrol eder
+            if (string.IsNullOrWhiteSpace(startNodeLabelValue.Text) ||
+                string.IsNullOrWhiteSpace(endNodeLabelValue.Text))
+            {
+                MessageBox.Show("Lütfen geçerli düğüm ID'leri giriniz.", "Uyarı");
+                return;
+            }
 
+            try
+            {
+                int fromId = int.Parse(startNodeLabelValue.Text);
+                int toId = int.Parse(endNodeLabelValue.Text);
 
+                Node start = GraphStore.Nodes.FirstOrDefault(x => x.Id == fromId);
+                Node end = GraphStore.Nodes.FirstOrDefault(y => y.Id == toId);
 
+                // Eğer girilen id lerle eşleşen düğüm bulamazsa kullanıcıya mesaj verir
+                if (start == null || end == null)
+                {
+                    MessageBox.Show("Girilen id değerleri başlangıç yada bitiş düğümüyle eşleşmiyor.", "Hata");
+                    return;
+                }
+
+                // Aynı bağlantı varmı kontrolü
+                bool alreadyExists = GraphStore.Edges.Any(edge =>
+                    (edge.startNode == start && edge.endNode == end) ||
+                    (edge.startNode == end && edge.endNode == start));
+
+                // Aynı bağlantı bulunursa kullanıcıya uyarı verilir
+                if (alreadyExists)
+                {
+                    MessageBox.Show("Bu bağlantı zaten mevcut!", "Uyarı");
+                    return;
+                }
+                // Eğer başlangıç ve bitiş düğümünün id si aynıysa yine uyarı verir
+                if (start == end)
+                {
+                    MessageBox.Show("Bir düğüm kendisine bağlanamaz!", "Hata");
+                    return;
+                }
+
+                // Bağlantıyı ekler
+                GraphStore.AddEdge(start, end);
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Lütfen sadece sayısal ID giriniz.", "Format Hatası");
+            }
+        }
+
+        // Seçilen bağlantıyı silen fonksiyon
+        private void btnDeleteEdge_Click(object sender, EventArgs e)
+        {
+            if (dgvEdges.SelectedRows.Count > 0)
+            {   
+
+                int fromId = Convert.ToInt32(dgvEdges.SelectedRows[0].Cells[1].Value);
+                int toId = Convert.ToInt32(dgvEdges.SelectedRows[0].Cells[2].Value);
+
+                Node startnode = GraphStore.Nodes.FirstOrDefault(x => x.Id == fromId);
+                Node endnode = GraphStore.Nodes.FirstOrDefault(y => y.Id == toId);
 
                 GraphStore.RemoveEdge(startnode, endnode);
 
-                return;
-
             }
-
-
-
-            if (cmbFrom.SelectedItem == null || cmbTo.SelectedItem == null) return;
-
-
-
-            GraphStore.RemoveEdge(startnode , endnode) ;
-
         }
-
-        private void ClearForm()
-
-        {
-
-            if (cmbFrom.Items.Count > 0) cmbFrom.SelectedIndex = 0;
-
-            if (cmbTo.Items.Count > 0) cmbTo.SelectedIndex = 0;
-
-            lblWeightValue.Text = "-";
-
-        }
-
     }
-
 }

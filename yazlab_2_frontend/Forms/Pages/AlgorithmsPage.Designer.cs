@@ -40,6 +40,8 @@
             tabResults = new TabControl();
             tabPreview = new TabPage();
             panelAlgoCanvas = new Panel();
+            button2 = new Button();
+            button1 = new Button();
             tabOutput = new TabPage();
             splitOut = new SplitContainer();
             lblMaliyetValue = new Label();
@@ -53,6 +55,7 @@
             grpAlgorithms.SuspendLayout();
             tabResults.SuspendLayout();
             tabPreview.SuspendLayout();
+            panelAlgoCanvas.SuspendLayout();
             tabOutput.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitOut).BeginInit();
             splitOut.Panel1.SuspendLayout();
@@ -129,7 +132,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 10F);
-            label3.Location = new Point(37, 152);
+            label3.Location = new Point(16, 150);
             label3.Name = "label3";
             label3.Size = new Size(117, 23);
             label3.TabIndex = 3;
@@ -139,7 +142,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 10F);
-            label2.Location = new Point(37, 113);
+            label2.Location = new Point(16, 111);
             label2.Name = "label2";
             label2.Size = new Size(153, 23);
             label2.TabIndex = 2;
@@ -149,7 +152,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 10F);
-            label1.Location = new Point(37, 75);
+            label1.Location = new Point(16, 73);
             label1.Name = "label1";
             label1.Size = new Size(104, 23);
             label1.TabIndex = 1;
@@ -193,12 +196,36 @@
             // 
             // panelAlgoCanvas
             // 
+            panelAlgoCanvas.Controls.Add(button2);
+            panelAlgoCanvas.Controls.Add(button1);
             panelAlgoCanvas.Dock = DockStyle.Fill;
             panelAlgoCanvas.Location = new Point(3, 4);
             panelAlgoCanvas.Margin = new Padding(3, 4, 3, 4);
             panelAlgoCanvas.Name = "panelAlgoCanvas";
             panelAlgoCanvas.Size = new Size(390, 731);
             panelAlgoCanvas.TabIndex = 0;
+            // 
+            // button2
+            // 
+            button2.BackgroundImage = Properties.Resources.pngwing_com__1_;
+            button2.BackgroundImageLayout = ImageLayout.Zoom;
+            button2.Location = new Point(52, 17);
+            button2.Name = "button2";
+            button2.Size = new Size(35, 29);
+            button2.TabIndex = 3;
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
+            // button1
+            // 
+            button1.BackgroundImage = Properties.Resources.pngwing_com;
+            button1.BackgroundImageLayout = ImageLayout.Zoom;
+            button1.Location = new Point(11, 17);
+            button1.Name = "button1";
+            button1.Size = new Size(35, 29);
+            button1.TabIndex = 2;
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // tabOutput
             // 
@@ -327,6 +354,7 @@
             grpAlgorithms.PerformLayout();
             tabResults.ResumeLayout(false);
             tabPreview.ResumeLayout(false);
+            panelAlgoCanvas.ResumeLayout(false);
             tabOutput.ResumeLayout(false);
             splitOut.Panel1.ResumeLayout(false);
             splitOut.Panel1.PerformLayout();
@@ -361,5 +389,7 @@
         private Label lblMaliyet;
         private DataGridView dgvResult;
         private RichTextBox rtbLog;
+        private Button button2;
+        private Button button1;
     }
 }

@@ -8,6 +8,8 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
+using System.Xml.Linq;
 using yazlab_2_frontend.Models;
 
 
@@ -16,12 +18,21 @@ namespace yazlab_2_frontend.Forms.Pages
     public partial class GraphViewPage : UserControl
 
     {
+
         // Seçilen node nin id si
         private Node selected_node = null;
-        // Sürüklenen node nin id si
-        private Node dragging_node = null;
         // Seçilen edge nin id si
         private Edge selected_edge = null;
+        // Node yer değiştirme modundamı yoksa Edge çekme modundamı onu belirten değişken
+        private bool nodeMode = false;
+        // Farenin konumunu tutan değişken
+        Point currentMousePoint;
+        // Yer değiştiren node yi tutar
+        private Node movingNode = null;
+        // Çizgi çekilen kaynak node yi tutar
+        private Node drawingSourceNode = null;
+
+
 
 
 
@@ -50,16 +61,18 @@ namespace yazlab_2_frontend.Forms.Pages
         private readonly DoubleBufferedPanel _canvas;
 
 
-        private const float NodeRadius = 18f;
         public GraphViewPage()
 
         {
 
+
             InitializeComponent();
 
-            // pnlCanvasHost (Designer’dan eklediğin) içine canvas koyuyoruz
+
 
             _canvas = new DoubleBufferedPanel
+
+
 
             {
 
@@ -67,11 +80,15 @@ namespace yazlab_2_frontend.Forms.Pages
 
             };
 
+            // komşuları gösteren gridview in sadece okunabilmesini sağlar
+            neighborsgridview.ReadOnly = true;
+
             panelCanvas.Controls.Add(_canvas);
 
-
-
             _canvas.Paint += Canvas_Paint;
+            _canvas.MouseDown += panelCanvas_MouseDown;
+            _canvas.MouseMove += panelCanvas_MouseMove;
+            _canvas.MouseUp += panelCanvas_MouseUp;
 
 
 
@@ -142,7 +159,7 @@ namespace yazlab_2_frontend.Forms.Pages
 
 
 
-            // edge çizimi
+            // Edge çizimi
             using var edgePen = new Pen(Color.Gray, 2);
             foreach (var edge in GraphStore.Edges)
             {
@@ -155,71 +172,46 @@ namespace yazlab_2_frontend.Forms.Pages
                     e.Graphics.DrawLine(edgePen, nodeA.location, nodeB.location);
                 }
             }
+            if (!nodeMode && drawingSourceNode != null)
+            {
+                using var previewPen = new Pen(Color.FromArgb(150, Color.Gray), 2); // Hafif şeffaf gri
+                previewPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash; // Kesikli çizgi daha şık durur
 
-            // --- NODE (DÜĞÜM) ÇİZİMİ ---
+                e.Graphics.DrawLine(previewPen, drawingSourceNode.location, currentMousePoint);
+            }
+
+            // Node çizimi
             foreach (var n in GraphStore.Nodes)
             {
-                Point p = n.location; // Doğrudan node'un içindeki koordinatı alıyoruz
-                bool selected = selected_node?.Id == n.Id;
+                Point p = n.location; // Doğrudan node'un içindeki koordinatlar alınır
+                bool selected = selected_node == n;
 
-                using var brush = new SolidBrush(selected ? Color.LightSkyBlue : Color.WhiteSmoke);
+                using var brush = new SolidBrush(selected ? Color.LightSkyBlue : n.NodeRengi);
                 using var borderPen = new Pen(selected ? Color.DodgerBlue : Color.DimGray, selected ? 3 : 2);
-
+                int NodeRadius = n.radius;
                 var rect = new RectangleF(p.X - NodeRadius, p.Y - NodeRadius, NodeRadius * 2, NodeRadius * 2);
                 e.Graphics.FillEllipse(brush, rect);
                 e.Graphics.DrawEllipse(borderPen, rect);
 
-                var text = $"{n.Id}\n{n.Name}";
-                var size = e.Graphics.MeasureString(text, Font);
-                e.Graphics.DrawString(text, Font, Brushes.Black, p.X - size.Width / 2, p.Y - size.Height / 2);
+                // Node lerin üzerindeki textlerin gösterimi şimdilik iptal edildi
+
+                // var text = $"{n.Id}\n{n.Name}";
+                // var size = e.Graphics.MeasureString(text, Font);
+                // e.Graphics.DrawString(text, Font, Brushes.Black, p.X - size.Width / 2, p.Y - size.Height / 2);
             }
 
         }
 
 
-
-
-        // Verilen node id sine göre text lerde node bilgilerini gösterir
-        private void ShowNodeInfo(int nodeId)
-
-        {
-
-            var node = GraphStore.Nodes.FirstOrDefault(x => x.Id == nodeId);
-
-            if (node == null) return;
-
-
-
-            lblSelIdValue.Text = node.Id.ToString();
-
-            lblSelAktValue.Text = node.Aktiflik.ToString("0.##");
-
-            lblSelEtkValue.Text = node.Etkilesim.ToString();
-
-
-
-            // Şimdilik derece/komşu Edges listenden
-
-            var neighbors = GetNeighbors(nodeId);
-
-            lblSelDegreeValue.Text = neighbors.Count.ToString();
-
-
-
-            lstNeighbors.Items.Clear();
-
-            foreach (var nb in neighbors)
-
-                lstNeighbors.Items.Add(nb);
-
-        }
         // Seçimi silmeyi sağlar
         private void ClearSelection()
 
         {
 
             selected_node = null;
+            selected_edge = null;
 
+            grpSelectedNode.Text = "Seçiniz...";
 
 
             lblSelIdValue.Text = "-";
@@ -232,15 +224,15 @@ namespace yazlab_2_frontend.Forms.Pages
 
 
 
-            lstNeighbors.Items.Clear();
+            neighborsgridview.Rows.Clear();
 
         }
 
-        private List<int> GetNeighbors(int nodeId)
+        private List<Node> GetNeighbors(Node node)
 
         {
 
-            var neighbors = new List<int>();
+            var neighbors = new List<Node>();
 
 
 
@@ -248,9 +240,9 @@ namespace yazlab_2_frontend.Forms.Pages
 
             {
 
-                if (e.startNode.Id == nodeId) neighbors.Add(e.endNode.Id);
+                if (e.startNode == node) neighbors.Add(e.endNode);
 
-                else if (e.endNode.Id == nodeId) neighbors.Add(e.startNode.Id);
+                else if (e.endNode == node) neighbors.Add(e.startNode);
 
             }
 
@@ -263,12 +255,8 @@ namespace yazlab_2_frontend.Forms.Pages
 
         // çizimleri yapmayı tetikleyecek buton eventi
         private void btnRandomLayout_Click(object sender, EventArgs e)
-
         {
-
-
             RandomLayout(); _canvas.Invalidate();
-
         }
         // seçimi temizlemeyi tetikleyecek buton eventi
         private void btnResetSelection_Click(object sender, EventArgs e)
@@ -282,62 +270,208 @@ namespace yazlab_2_frontend.Forms.Pages
 
         }
 
-
         private void panelCanvas_MouseDown(object sender, MouseEventArgs e)
         {
-            // Her tıklamada seçimler sıfırlanır
-            dragging_node = null;
-            selected_node = null;
-            selected_edge = null;
+            Node clickedNode = null;
+            Edge clickedEdge = null;
 
-            // Önce nodeler kontrol edilir
+            // Önce düğümler kontrol edilir
             foreach (var node in GraphStore.Nodes)
             {
                 if (node.IsHit(e.Location))
                 {
-                    dragging_node = node;
-                    selected_node = node;
-                    ShowNodeInfo(node.Id);
-
-                    _canvas.Invalidate();
-                    return; // Node bulunmadıysa aramayı bitir
+                    clickedNode = node;
+                    break;
                 }
             }
 
-            // Node bulunmadıysa Edgelere bakılır
+            if (clickedNode != null)
+            {
+                // demekki bir nodeye tıklandı
+                selected_node = clickedNode;
+                selected_edge = null; // node seçildiği için seçilen edge yi temizler kod karmaşasını önlemek için
+
+
+                showNodeInfo(clickedNode);
+
+
+                if (nodeMode)
+                {
+                    movingNode = clickedNode;
+                }
+                else
+                {
+                    drawingSourceNode = clickedNode;
+                    currentMousePoint = e.Location;
+                }
+
+                _canvas.Invalidate();
+                return; // node bulunduysa edge kontrolüne gerek yoktur
+            }
+
+            // eğer node ye tıklanmadıysa edge kontrolü yap
             foreach (var edge in GraphStore.Edges)
             {
                 if (edge.IsHit(e.Location))
                 {
-                    selected_edge = edge;
-                    // Show edge info fonksiyonu yaz
-                    _canvas.Invalidate();
-                    return;
+                    clickedEdge = edge;
+                    break;
                 }
             }
 
-            // Hiçbirşeye tıklanmadıysa 
-            ClearSelection();
+            if (clickedEdge != null)
+            {
+                selected_edge = clickedEdge;
+                // aynı şekil buradada edge seçildiği için seçilen node yi temizler kod karmaşasını önlemek için
+                selected_node = null;
+
+
+                showEdgeInfo(clickedEdge);
+            }
+            else
+            {
+                // boşluğa tıklandı demektir her şey temizlenir
+                ClearSelection();
+            }
+
             _canvas.Invalidate();
         }
 
         private void panelCanvas_MouseMove(object sender, MouseEventArgs e)
         {
-            // Eğer sürüklenen bir node varsa
-            if (dragging_node != null)
+            // Node Yer değiştirme modu ve tabi yer değiştirilcek node varmı ona bakar
+            if (nodeMode && movingNode != null)
             {
-                // Nesnenin konumu güncellenir
-                dragging_node.location = e.Location;
+                // Node un yeni konumunu farenin konumu yapar
+                movingNode.location = e.Location;
+                _canvas.Invalidate(); // Node nin hareket ettiğini göstermek için canvas sürekli yeniden çizilir
+            }
 
-                // Ekran yenilenir
+            // Edge çizme modu
+            else if (!nodeMode && drawingSourceNode != null)
+            {
+                currentMousePoint = e.Location;
                 _canvas.Invalidate();
             }
         }
 
         private void panelCanvas_MouseUp(object sender, MouseEventArgs e)
         {
-            // Sürükleme durumu biter
-            dragging_node = null;
+            if (nodeMode)
+            {
+                // node taşımayı bitir
+                movingNode = null;
+            }
+            else
+            {
+                // edge çizmeyi bitir
+                if (drawingSourceNode != null)
+                {
+                    foreach (var targetNode in GraphStore.Nodes)
+                    {
+                        // Bıraktığımız yerde node varmı ve başlangıçtaki node ile aynımı kontrol eder
+                        if (targetNode.IsHit(e.Location) && targetNode != drawingSourceNode)
+                        {
+                            // Normalde AddEdge fonksiyonu aynı nodeler arasında edge çekilince hata fırlatsada
+                            // Sistem çökmemesi için bir kontrol ile aynı nodeler arasına edge çekilmesi engellenir
+                            bool zatenVarMi = GraphStore.Edges.Any(e =>
+                                (e.startNode == drawingSourceNode && e.endNode == targetNode) ||
+                                (e.endNode == drawingSourceNode && e.startNode == targetNode));
+
+                            if (!zatenVarMi)
+                            {
+                                // Eğer bağlantı yoksa ana önbelleğe eklenir
+                                GraphStore.AddEdge(drawingSourceNode, targetNode);
+                            }
+                        }
+                    }
+                    // başarıyla bir edge oluşturuldu yada node taşındı
+                    drawingSourceNode = null;
+                    _canvas.Invalidate();
+                }
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            nodeMode = true;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            nodeMode = false;
+
+        }
+
+        // Node bilgileri gösteren method
+        private void showNodeInfo(Node node)
+        {
+            // Node bilgileri yazdırılır
+            grpSelectedNode.Text = "Seçilen Node";
+
+            // Node için gerekli bilgiler ve bilgileri belirten labeller güncellenir
+            lblSelAkt.Text = "Aktiflik";
+            lblSelEtk.Text = "Etkileşim";
+            lblSelDegree.Visible = true;
+            lblSelDegreeValue.Visible = true;
+
+            lblSelIdValue.Text = selected_node.Id.ToString();
+            lblSelAktValue.Text = selected_node.Aktiflik.ToString();
+            lblSelEtkValue.Text = selected_node.Etkilesim.ToString();
+            lblSelDegreeValue.Text = selected_node.BaglantiSayisi.ToString();
+
+            var neighbors = GetNeighbors(selected_node);
+
+            lblSelDegreeValue.Text = neighbors.Count.ToString();
+
+
+
+            neighborsgridview.Rows.Clear();
+
+            foreach (var neighbor in neighbors)
+            {
+                // DataGridView'e yeni bir satır ekle
+                neighborsgridview.Rows.Add(neighbor.Id, neighbor.Name, neighbor.Aktiflik.ToString("0.##"), neighbor.Etkilesim, neighbor.BaglantiSayisi);
+            }
+
+        }
+
+        // Edge bilgilerini gösteren method
+        private void showEdgeInfo(Edge edge)
+        {
+
+            // edge bilgileri yazdırılır
+            grpSelectedNode.Text = "Seçilen edge"; // Label isminize göre güncelleyin
+
+            // Edge için gerekli bilgiler ve bilgileri belirten labeller güncellenir
+            lblSelAkt.Text = "KaynakId";
+            lblSelEtk.Text = "HedefId";
+            lblSelDegree.Visible = false;
+            lblSelDegreeValue.Visible = false;
+
+            lblSelIdValue.Text = selected_edge.Id.ToString();
+            lblSelAktValue.Text = selected_edge.startNode.Id.ToString();
+            lblSelEtkValue.Text = selected_edge.endNode.Id.ToString();
+
+
+        }
+
+        private void deleteBtn_Click(object sender, EventArgs e)
+        {
+            if(selected_edge == null && selected_node == null)
+            {
+                MessageBox.Show("Lütfen Düğüm yada Kenar seçiniz" , "Uyarı");
+                return;
+            }
+            else if(selected_edge == null)
+            {
+                GraphStore.RemoveNode(selected_node);
+            }
+            else {
+
+                GraphStore.RemoveEdge(selected_edge.startNode , selected_edge.endNode);
+
+            }
         }
     }
 

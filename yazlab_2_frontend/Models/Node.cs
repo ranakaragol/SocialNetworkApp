@@ -14,8 +14,10 @@ namespace yazlab_2_frontend.Models
        public double Aktiflik { get; set; }
        public int Etkilesim { get; set; }
        public int BaglantiSayisi { get; set; }
+       public Color NodeRengi { get; set; } = Color.WhiteSmoke;
+
         // node çapı
-        public int radius { get; set; } = 20;
+        public int radius { get; set; } = 15;
 
         // node koordinatları
         public Point location { get; set; }
@@ -32,6 +34,7 @@ namespace yazlab_2_frontend.Models
         // node için degree hesaplamayı sağlayan fonksiyon
         public int GetDegree(List<Edge> allEdges)
         {
+           
             return allEdges.Count(e => e.startNode == this || e.endNode == this);
         }
     }

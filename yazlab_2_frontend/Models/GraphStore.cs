@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,6 +17,9 @@ namespace yazlab_2_frontend.Models
         public static List<Node> Nodes { get; } = new();
 
         public static List<Edge> Edges { get; } = new();
+
+        // Artan unique edge id si tutan değişken
+        private static int _lastNodeId = 0;
 
 
         public static double ComputeWeight(Node startnode, Node endnode)
@@ -64,9 +68,26 @@ namespace yazlab_2_frontend.Models
 
         {
 
-            Nodes.Add(node);
+            var komsular = Edges
+                .Where(e => e.startNode == node || e.endNode == node)
+                .Select(e => e.startNode == node ? e.endNode : e.startNode)
+                .Distinct() // Aynı komşuyla birden fazla bağ varsa tek bir kez alınır
+                .ToList();
+
+            // Düğüm eklenir
+                Nodes.Add(node);
+
+            // Sadece komşuların derecesi değiştirilir tüm node ler tek tek gezilmez
+            foreach (var komsu in komsular)
+            {
+                komsu.BaglantiSayisi = komsu.GetDegree(Edges);
+            }
 
             GraphChanged?.Invoke();
+
+
+            
+
 
         }
 
@@ -99,7 +120,16 @@ namespace yazlab_2_frontend.Models
 
         }
 
+        
 
+        public static int GenerateUniqueId()
+        {
+            // Eğer listede hiç düğüm yoksa sayacı sıfırlayabilirsin
+            if (Nodes.Count == 0) _lastNodeId = 0;
+
+            _lastNodeId++;
+            return _lastNodeId;
+        }
 
         public static void AddEdge(Node a, Node b)
 
@@ -112,8 +142,11 @@ namespace yazlab_2_frontend.Models
 
 
             var w = ComputeWeight(a, b);
+            // Random edge id belirleme
+            int randomid = GenerateUniqueId();
 
-            Edges.Add(new Edge { startNode = a, endNode = b, Weight = w });
+            Edges.Add(new Edge { Id = randomid ,startNode = a, endNode = b, Weight = w });
+
 
 
             // tüm nodeleri teker teker gezip derecesini değiştirmek yerine
@@ -126,10 +159,16 @@ namespace yazlab_2_frontend.Models
 
         }
 
+        // Başlangıç ve Bitiş nodelerinin id sine göre edge yi siler
         public static void RemoveEdge(Node a, Node b)
 
         {
-
+            if (a == null || b == null)
+            {
+                MessageBox.Show("Edgeye ait başlangıç yada bitiş Node'sinin Id'si hatalı.");
+                return;
+            }
+            
             Edges.RemoveAll(e =>
 
                 (e.startNode == a && e.endNode == b) ||
@@ -146,12 +185,6 @@ namespace yazlab_2_frontend.Models
             GraphChanged?.Invoke();
 
         }
-
-
-
-
-
-
 
     }
 }
