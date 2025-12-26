@@ -231,6 +231,7 @@
             btnBrowse.TabIndex = 0;
             btnBrowse.Text = "Gözat";
             btnBrowse.UseVisualStyleBackColor = true;
+            btnBrowse.Click += btnBrowse_Click;
             // 
             // btnLoad
             // 

@@ -312,6 +312,7 @@ namespace yazlab_2_frontend.Forms.Pages
             // eğer node ye tıklanmadıysa edge kontrolü yap
             foreach (var edge in GraphStore.Edges)
             {
+
                 if (edge.IsHit(e.Location))
                 {
                     clickedEdge = edge;

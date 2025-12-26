@@ -141,7 +141,6 @@ namespace yazlab_2_frontend.Forms.Pages
                 Node endnode = GraphStore.Nodes.FirstOrDefault(y => y.Id == toId);
 
                 GraphStore.RemoveEdge(startnode, endnode);
-
             }
         }
     }

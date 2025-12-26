@@ -494,7 +494,7 @@ namespace yazlab_2_frontend.Forms.Pages
 
             foreach (var n in GraphStore.Nodes)
             {
-                
+
                 bool selected = selected_node == n;
 
                 using var brush = new SolidBrush(selected ? Color.LightSkyBlue : n.NodeRengi);
@@ -530,6 +530,11 @@ namespace yazlab_2_frontend.Forms.Pages
         private void button2_Click(object sender, EventArgs e) { nodeMode = false; }
 
         private void lstLogs_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnClearResult_Click(object sender, EventArgs e)
         {
 
         }

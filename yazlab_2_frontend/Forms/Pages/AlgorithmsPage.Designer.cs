@@ -76,10 +76,8 @@
             grpAlgorithms.Dock = DockStyle.Left;
             grpAlgorithms.Font = new Font("Segoe UI", 10F);
             grpAlgorithms.Location = new Point(0, 0);
-            grpAlgorithms.Margin = new Padding(3, 4, 3, 4);
             grpAlgorithms.Name = "grpAlgorithms";
-            grpAlgorithms.Padding = new Padding(3, 4, 3, 4);
-            grpAlgorithms.Size = new Size(415, 775);
+            grpAlgorithms.Size = new Size(363, 581);
             grpAlgorithms.TabIndex = 0;
             grpAlgorithms.TabStop = false;
             grpAlgorithms.Text = "Algoritmalar";
@@ -87,21 +85,20 @@
             // btnClearResult
             // 
             btnClearResult.Font = new Font("Segoe UI", 10F);
-            btnClearResult.Location = new Point(111, 209);
-            btnClearResult.Margin = new Padding(3, 4, 3, 4);
+            btnClearResult.Location = new Point(97, 157);
             btnClearResult.Name = "btnClearResult";
-            btnClearResult.Size = new Size(136, 36);
+            btnClearResult.Size = new Size(119, 27);
             btnClearResult.TabIndex = 7;
             btnClearResult.Text = "Sonucu Temizle";
             btnClearResult.UseVisualStyleBackColor = true;
+            btnClearResult.Click += btnClearResult_Click;
             // 
             // btnRun
             // 
             btnRun.Font = new Font("Segoe UI", 10F);
-            btnRun.Location = new Point(254, 209);
-            btnRun.Margin = new Padding(3, 4, 3, 4);
+            btnRun.Location = new Point(222, 157);
             btnRun.Name = "btnRun";
-            btnRun.Size = new Size(136, 36);
+            btnRun.Size = new Size(119, 27);
             btnRun.TabIndex = 6;
             btnRun.Text = "Çalıştır";
             btnRun.UseVisualStyleBackColor = true;
@@ -111,29 +108,27 @@
             // 
             cmbTarget.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbTarget.FormattingEnabled = true;
-            cmbTarget.Location = new Point(184, 147);
-            cmbTarget.Margin = new Padding(3, 4, 3, 4);
+            cmbTarget.Location = new Point(161, 110);
             cmbTarget.Name = "cmbTarget";
-            cmbTarget.Size = new Size(205, 31);
+            cmbTarget.Size = new Size(180, 25);
             cmbTarget.TabIndex = 5;
             // 
             // cmbStart
             // 
             cmbStart.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbStart.FormattingEnabled = true;
-            cmbStart.Location = new Point(184, 108);
-            cmbStart.Margin = new Padding(3, 4, 3, 4);
+            cmbStart.Location = new Point(161, 81);
             cmbStart.Name = "cmbStart";
-            cmbStart.Size = new Size(205, 31);
+            cmbStart.Size = new Size(180, 25);
             cmbStart.TabIndex = 4;
             // 
             // label3
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 10F);
-            label3.Location = new Point(16, 150);
+            label3.Location = new Point(14, 112);
             label3.Name = "label3";
-            label3.Size = new Size(117, 23);
+            label3.Size = new Size(95, 19);
             label3.TabIndex = 3;
             label3.Text = "Hedef Düğüm";
             // 
@@ -141,9 +136,9 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 10F);
-            label2.Location = new Point(16, 111);
+            label2.Location = new Point(14, 83);
             label2.Name = "label2";
-            label2.Size = new Size(153, 23);
+            label2.Size = new Size(123, 19);
             label2.TabIndex = 2;
             label2.Text = "Başlangıç Düğümü";
             // 
@@ -151,9 +146,9 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 10F);
-            label1.Location = new Point(16, 73);
+            label1.Location = new Point(14, 55);
             label1.Name = "label1";
-            label1.Size = new Size(104, 23);
+            label1.Size = new Size(84, 19);
             label1.TabIndex = 1;
             label1.Text = "Algoritmalar";
             // 
@@ -162,10 +157,9 @@
             cmbAlgorithms.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbAlgorithms.FormattingEnabled = true;
             cmbAlgorithms.Items.AddRange(new object[] { "BFS", "DFS", "Dijkstra", "A*", "Bağlı bileşenler", "Merkezilik", "Welsh-Powell" });
-            cmbAlgorithms.Location = new Point(184, 69);
-            cmbAlgorithms.Margin = new Padding(3, 4, 3, 4);
+            cmbAlgorithms.Location = new Point(161, 52);
             cmbAlgorithms.Name = "cmbAlgorithms";
-            cmbAlgorithms.Size = new Size(205, 31);
+            cmbAlgorithms.Size = new Size(180, 25);
             cmbAlgorithms.TabIndex = 0;
             // 
             // tabResults
@@ -174,21 +168,19 @@
             tabResults.Controls.Add(tabOutput);
             tabResults.Dock = DockStyle.Fill;
             tabResults.Font = new Font("Segoe UI", 10F);
-            tabResults.Location = new Point(415, 0);
-            tabResults.Margin = new Padding(3, 4, 3, 4);
+            tabResults.Location = new Point(363, 0);
             tabResults.Name = "tabResults";
             tabResults.SelectedIndex = 0;
-            tabResults.Size = new Size(539, 775);
+            tabResults.Size = new Size(472, 581);
             tabResults.TabIndex = 1;
             // 
             // tabPreview
             // 
             tabPreview.Controls.Add(panelAlgoCanvas);
-            tabPreview.Location = new Point(4, 32);
-            tabPreview.Margin = new Padding(3, 4, 3, 4);
+            tabPreview.Location = new Point(4, 26);
             tabPreview.Name = "tabPreview";
-            tabPreview.Padding = new Padding(3, 4, 3, 4);
-            tabPreview.Size = new Size(531, 739);
+            tabPreview.Padding = new Padding(3, 3, 3, 3);
+            tabPreview.Size = new Size(464, 551);
             tabPreview.TabIndex = 0;
             tabPreview.Text = "Görsel";
             tabPreview.UseVisualStyleBackColor = true;
@@ -198,19 +190,19 @@
             panelAlgoCanvas.Controls.Add(button2);
             panelAlgoCanvas.Controls.Add(button1);
             panelAlgoCanvas.Dock = DockStyle.Fill;
-            panelAlgoCanvas.Location = new Point(3, 4);
-            panelAlgoCanvas.Margin = new Padding(3, 4, 3, 4);
+            panelAlgoCanvas.Location = new Point(3, 3);
             panelAlgoCanvas.Name = "panelAlgoCanvas";
-            panelAlgoCanvas.Size = new Size(525, 731);
+            panelAlgoCanvas.Size = new Size(458, 545);
             panelAlgoCanvas.TabIndex = 0;
             // 
             // button2
             // 
             button2.BackgroundImage = Properties.Resources.pngwing_com__1_;
             button2.BackgroundImageLayout = ImageLayout.Zoom;
-            button2.Location = new Point(52, 17);
+            button2.Location = new Point(46, 13);
+            button2.Margin = new Padding(3, 2, 3, 2);
             button2.Name = "button2";
-            button2.Size = new Size(35, 29);
+            button2.Size = new Size(31, 22);
             button2.TabIndex = 3;
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
@@ -219,9 +211,10 @@
             // 
             button1.BackgroundImage = Properties.Resources.pngwing_com;
             button1.BackgroundImageLayout = ImageLayout.Zoom;
-            button1.Location = new Point(11, 17);
+            button1.Location = new Point(10, 13);
+            button1.Margin = new Padding(3, 2, 3, 2);
             button1.Name = "button1";
-            button1.Size = new Size(35, 29);
+            button1.Size = new Size(31, 22);
             button1.TabIndex = 2;
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
@@ -229,11 +222,10 @@
             // tabOutput
             // 
             tabOutput.Controls.Add(splitOut);
-            tabOutput.Location = new Point(4, 32);
-            tabOutput.Margin = new Padding(3, 4, 3, 4);
+            tabOutput.Location = new Point(4, 26);
             tabOutput.Name = "tabOutput";
-            tabOutput.Padding = new Padding(3, 4, 3, 4);
-            tabOutput.Size = new Size(531, 739);
+            tabOutput.Padding = new Padding(3, 3, 3, 3);
+            tabOutput.Size = new Size(464, 551);
             tabOutput.TabIndex = 1;
             tabOutput.Text = "Tablo/Çıktı";
             tabOutput.UseVisualStyleBackColor = true;
@@ -241,8 +233,7 @@
             // splitOut
             // 
             splitOut.Dock = DockStyle.Fill;
-            splitOut.Location = new Point(3, 4);
-            splitOut.Margin = new Padding(3, 4, 3, 4);
+            splitOut.Location = new Point(3, 3);
             splitOut.Name = "splitOut";
             splitOut.Orientation = Orientation.Horizontal;
             // 
@@ -259,62 +250,61 @@
             // 
             splitOut.Panel2.Controls.Add(label4);
             splitOut.Panel2.Controls.Add(lstLogs);
-            splitOut.Size = new Size(525, 731);
-            splitOut.SplitterDistance = 268;
-            splitOut.SplitterWidth = 5;
+            splitOut.Size = new Size(458, 545);
+            splitOut.SplitterDistance = 199;
             splitOut.TabIndex = 0;
             // 
             // lblMaliyetValue
             // 
             lblMaliyetValue.AutoSize = true;
-            lblMaliyetValue.Location = new Point(138, 108);
+            lblMaliyetValue.Location = new Point(121, 81);
             lblMaliyetValue.Name = "lblMaliyetValue";
-            lblMaliyetValue.Size = new Size(17, 23);
+            lblMaliyetValue.Size = new Size(15, 19);
             lblMaliyetValue.TabIndex = 5;
             lblMaliyetValue.Text = "-";
             // 
             // lblMaliyet
             // 
             lblMaliyet.AutoSize = true;
-            lblMaliyet.Location = new Point(15, 108);
+            lblMaliyet.Location = new Point(13, 81);
             lblMaliyet.Name = "lblMaliyet";
-            lblMaliyet.Size = new Size(125, 23);
+            lblMaliyet.Size = new Size(102, 19);
             lblMaliyet.TabIndex = 4;
             lblMaliyet.Text = "Toplam Maliyet";
             // 
             // lblDurumValue
             // 
             lblDurumValue.AutoSize = true;
-            lblDurumValue.Location = new Point(138, 69);
+            lblDurumValue.Location = new Point(121, 52);
             lblDurumValue.Name = "lblDurumValue";
-            lblDurumValue.Size = new Size(17, 23);
+            lblDurumValue.Size = new Size(15, 19);
             lblDurumValue.TabIndex = 3;
             lblDurumValue.Text = "-";
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(15, 69);
+            label7.Location = new Point(13, 52);
             label7.Name = "label7";
-            label7.Size = new Size(63, 23);
+            label7.Size = new Size(52, 19);
             label7.TabIndex = 2;
             label7.Text = "Durum";
             // 
             // lblTimeValue
             // 
             lblTimeValue.AutoSize = true;
-            lblTimeValue.Location = new Point(138, 31);
+            lblTimeValue.Location = new Point(121, 23);
             lblTimeValue.Name = "lblTimeValue";
-            lblTimeValue.Size = new Size(17, 23);
+            lblTimeValue.Size = new Size(15, 19);
             lblTimeValue.TabIndex = 1;
             lblTimeValue.Text = "-";
             // 
             // labelTime
             // 
             labelTime.AutoSize = true;
-            labelTime.Location = new Point(15, 31);
+            labelTime.Location = new Point(13, 23);
             labelTime.Name = "labelTime";
-            labelTime.Size = new Size(119, 23);
+            labelTime.Size = new Size(96, 19);
             labelTime.TabIndex = 0;
             labelTime.Text = "Çalışma Süresi";
             // 
@@ -322,31 +312,31 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 14F);
-            label4.Location = new Point(3, 16);
+            label4.Location = new Point(3, 12);
             label4.Name = "label4";
-            label4.Size = new Size(53, 32);
+            label4.Size = new Size(43, 25);
             label4.TabIndex = 2;
             label4.Text = "Log";
             // 
             // lstLogs
             // 
             lstLogs.FormattingEnabled = true;
-            lstLogs.ItemHeight = 23;
-            lstLogs.Location = new Point(3, 51);
+            lstLogs.ItemHeight = 17;
+            lstLogs.Location = new Point(3, 38);
+            lstLogs.Margin = new Padding(3, 2, 3, 2);
             lstLogs.Name = "lstLogs";
-            lstLogs.Size = new Size(1213, 556);
+            lstLogs.Size = new Size(1062, 412);
             lstLogs.TabIndex = 1;
             lstLogs.SelectedIndexChanged += lstLogs_SelectedIndexChanged;
             // 
             // AlgorithmsPage
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(tabResults);
             Controls.Add(grpAlgorithms);
-            Margin = new Padding(3, 4, 3, 4);
             Name = "AlgorithmsPage";
-            Size = new Size(954, 775);
+            Size = new Size(835, 581);
             grpAlgorithms.ResumeLayout(false);
             grpAlgorithms.PerformLayout();
             tabResults.ResumeLayout(false);
