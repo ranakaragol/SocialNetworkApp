@@ -89,17 +89,20 @@ namespace yazlab_2_frontend.Algorithms
             visited_nodeids.Add(current.Id);
             order.Add(current);
             List<Node> neighbors = new List<Node>();
-           
+
             // burada komşu ziyareti syntax ı BFS algoritmasına göre farklı alternatif
 
-           neighbors = alledges
-        .Where(e => e.startNode == current || e.endNode == current)
-        .Select(e => e.startNode == current ?
-        allNodes.Find(n => n == e.endNode)
-        :
-        allNodes.Find(n => n == e.startNode))
-        .ToList();
+            neighbors = alledges
+                .Where(e => e.startNode == current || e.endNode == current)
+                .Select(e => e.startNode == current ? e.endNode : e.startNode)
+                .ToList();
 
+            //neighbors = alledges
+            //    .Where(e => e.startNode == current || e.endNode == current)
+            //    .Select(e => e.startNode == current ? 
+            //        allNodes.Find(n=>n==e.endNode):
+            //        allNodes.Find(n=>n==e.startNode))
+            //    .ToList();
 
             foreach (Node neighbor in neighbors) {
 
