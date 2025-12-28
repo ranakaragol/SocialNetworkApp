@@ -110,6 +110,7 @@
             btnBuildAdj.TabIndex = 6;
             btnBuildAdj.Text = "Oluştur";
             btnBuildAdj.UseVisualStyleBackColor = true;
+            btnBuildAdj.Click += btnBuildAdj_Click_1;
             // 
             // radioButtonkomsuMatris
             // 

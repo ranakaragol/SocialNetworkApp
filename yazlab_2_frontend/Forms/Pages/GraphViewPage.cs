@@ -318,6 +318,11 @@ namespace yazlab_2_frontend.Forms.Pages
             {
                 // Node un yeni konumunu farenin konumu yapar
                 movingNode.location = e.Location;
+                // Taşınan node’a bağlı edge’lerin weight’ini güncelle
+                foreach (var edge in GraphStore.Edges.Where(ed => ed.startNode == movingNode || ed.endNode == movingNode))
+                {
+                    edge.Weight = GraphStore.ComputeWeight(edge.startNode, edge.endNode);
+                }
                 _canvas.Invalidate(); // Node nin hareket ettiğini göstermek için canvas sürekli yeniden çizilir
             }
 

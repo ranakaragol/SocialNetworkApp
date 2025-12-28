@@ -287,7 +287,7 @@ namespace yazlab_2_frontend.Forms.Pages
 
             return JsonSerializer.Serialize(graph, opt);
         }
-        
+
         private string ExportToCsv()
         {
             bool includeNodes = checkBoxIncludeNodes.Checked;
@@ -393,6 +393,7 @@ namespace yazlab_2_frontend.Forms.Pages
             foreach (var node in GraphStore.Nodes)
                 node.BaglantiSayisi = node.GetDegree(GraphStore.Edges);
 
+            GraphStore.SyncIdCountersFromData();
             Log("JSON import edildi.");
         }
 
@@ -473,6 +474,7 @@ namespace yazlab_2_frontend.Forms.Pages
             foreach (var node in GraphStore.Nodes)
                 node.BaglantiSayisi = node.GetDegree(GraphStore.Edges);
 
+            GraphStore.SyncIdCountersFromData();
             Log("CSV import edildi.");
         }
 
@@ -523,6 +525,11 @@ namespace yazlab_2_frontend.Forms.Pages
                 return Color.Black;
 
             return ColorTranslator.FromHtml(hex);
+        }
+
+        private void btnBuildAdj_Click_1(object sender, EventArgs e)
+        {
+
         }
     }
 

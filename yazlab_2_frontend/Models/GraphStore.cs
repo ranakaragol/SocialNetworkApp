@@ -23,36 +23,34 @@ namespace yazlab_2_frontend.Models
 
         // Artan unique edge id si tutan değişken
         private static int _lastNodeId = 0;
+        private static int _lastEdgeId = 0;
 
 
         public static double ComputeWeight(Node startnode, Node endnode)
 
         {
-
-
-
-            // Dinamik bağl. sayısı: mevcut edge'lere göre
-
-            int degA = startnode.GetDegree(Edges);
-
-            int degB = endnode.GetDegree(Edges);
-
-
-
+            // Özellik farkları
             double dAkt = startnode.Aktiflik - endnode.Aktiflik;
+            double dEtk = startnode.Etkilesim -endnode.Etkilesim;
+            double dDeg = startnode.GetDegree(Edges) - endnode.GetDegree(Edges);
 
-            double dEtk = startnode.Etkilesim - endnode.Etkilesim;
+            double featureDistance =
+                (dAkt * dAkt) +
+                (dEtk * dEtk) +
+                (dDeg * dDeg);
 
-            double dDeg = degA - degB;
+            // --- GEOMETRİK MESAFE ---
+            double dx = startnode.location.X - endnode.location.X;
+            double dy = startnode.location.Y - endnode.location.Y;
+            double spatialDistance = Math.Sqrt(dx * dx + dy * dy);
 
+            // normalize etmek iyi olur
+            spatialDistance = spatialDistance / 100.0;
 
-
-            // İsterdeki gibi: 1 / (1 + Δ^2 + Δ^2 + Δ^2)
-
-            double denom = 1.0 + (dAkt * dAkt) + (dEtk * dEtk) + (dDeg * dDeg);
+            // Toplam maliyet
+            double denom = 1.0 + featureDistance + spatialDistance;
 
             return 1.0 / denom;
-
         }
 
         public static bool HasEdgeUndirected(Node a, Node b)
@@ -123,15 +121,20 @@ namespace yazlab_2_frontend.Models
 
         }
 
-        
 
-        public static int GenerateUniqueId()
+
+        public static int GenerateNodeId()
         {
-            // Eğer listede hiç düğüm yoksa sayacı sıfırlayabilirsin
             if (Nodes.Count == 0) _lastNodeId = 0;
-
             _lastNodeId++;
             return _lastNodeId;
+        }
+
+        public static int GenerateEdgeId()
+        {
+            if (Edges.Count == 0) _lastEdgeId = 0;
+            _lastEdgeId++;
+            return _lastEdgeId;
         }
 
         public static void AddEdge(Node a, Node b)
@@ -146,9 +149,8 @@ namespace yazlab_2_frontend.Models
 
             var w = ComputeWeight(a, b);
             // Random edge id belirleme
-            int randomid = GenerateUniqueId();
-
-            Edges.Add(new Edge { Id = randomid ,startNode = a, endNode = b, Weight = w });
+            int id = GenerateEdgeId();
+            Edges.Add(new Edge { Id = id, startNode = a, endNode = b, Weight = w });
 
 
 
@@ -189,5 +191,13 @@ namespace yazlab_2_frontend.Models
 
         }
 
+        public static void SyncIdCountersFromData()
+        {
+            // Node sayaç
+            _lastNodeId = Nodes.Count == 0 ? 0 : Nodes.Max(n => n.Id);
+
+            // Edge sayaç (Edge Id’ye göre)
+            _lastEdgeId = Edges.Count == 0 ? 0 : Edges.Max(e => e.Id);
+        }
     }
 }
