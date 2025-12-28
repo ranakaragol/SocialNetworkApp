@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using System.Xml.Linq;
 using yazlab_2_frontend.Models;
+using static System.Net.Mime.MediaTypeNames;
 
 
 namespace yazlab_2_frontend.Forms.Pages
@@ -34,14 +35,9 @@ namespace yazlab_2_frontend.Forms.Pages
 
 
 
-
-
-
-
         // Flicker olmaması için double buffered panel
 
         private sealed class DoubleBufferedPanel : Panel
-
         {
 
             public DoubleBufferedPanel()
@@ -62,18 +58,10 @@ namespace yazlab_2_frontend.Forms.Pages
 
 
         public GraphViewPage()
-
         {
-
-
             InitializeComponent();
 
-
-
             _canvas = new DoubleBufferedPanel
-
-
-
             {
 
                 Dock = DockStyle.Fill,
@@ -90,30 +78,16 @@ namespace yazlab_2_frontend.Forms.Pages
             _canvas.MouseMove += panelCanvas_MouseMove;
             _canvas.MouseUp += panelCanvas_MouseUp;
 
-
-
             GraphStore.GraphChanged += () => _canvas.Invalidate();
-
-
-
             // Kod karmaşasını önlemek amacıyla buton tıklama eventleri fonksiyonlara yazıldı 
 
             //btnRandomLayout.Click += (_, __) => { RandomLayout(); _canvas.Invalidate(); };
 
             //btnResetSelection.Click += (_, __) => { ClearSelection(); _canvas.Invalidate(); };
 
-
-
-
-
             RandomLayout();
 
         }
-
-
-
-
-
         private void RandomLayout()
 
         {
@@ -132,8 +106,6 @@ namespace yazlab_2_frontend.Forms.Pages
             }
 
         }
-
-
 
         private void Canvas_Paint(object? sender, PaintEventArgs e)
         {
@@ -156,8 +128,6 @@ namespace yazlab_2_frontend.Forms.Pages
 
 
             e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-
-
 
             // Edge çizimi
             using var edgePen = new Pen(Color.Gray, 2);
@@ -188,18 +158,27 @@ namespace yazlab_2_frontend.Forms.Pages
 
                 using var brush = new SolidBrush(selected ? Color.LightSkyBlue : n.NodeRengi);
                 using var borderPen = new Pen(selected ? Color.DodgerBlue : Color.DimGray, selected ? 3 : 2);
-                float NodeRadius = n.radius;
-                var rect = new RectangleF(p.X - NodeRadius, p.Y - NodeRadius, NodeRadius * 2, NodeRadius * 2);
+                float r = n.radius > 0 ? n.radius : 18;
+                var rect = new RectangleF(p.X - r, p.Y - r, r * 2, r * 2);
+
                 e.Graphics.FillEllipse(brush, rect);
                 e.Graphics.DrawEllipse(borderPen, rect);
 
-                // Node lerin üzerindeki textlerin gösterimi şimdilik iptal edildi
 
-                // var text = $"{n.Id}\n{n.Name}";
-                // var size = e.Graphics.MeasureString(text, Font);
-                // e.Graphics.DrawString(text, Font, Brushes.Black, p.X - size.Width / 2, p.Y - size.Height / 2);
+                // --- ID yazısı (node’un ortasına) ---
+                string text = n.Id.ToString();
+
+                using var font = new System.Drawing.Font("Segoe UI", selected ? 11f : 10f, System.Drawing.FontStyle.Bold);
+                using var textBrush = new SolidBrush(Color.Black);
+
+                var sf = new StringFormat
+                {
+                    Alignment = StringAlignment.Center,
+                    LineAlignment = StringAlignment.Center
+                };
+
+                e.Graphics.DrawString(text, font, textBrush, rect, sf);
             }
-
         }
 
 
@@ -223,7 +202,6 @@ namespace yazlab_2_frontend.Forms.Pages
             lblSelDegreeValue.Text = "-";
 
 
-
             neighborsgridview.Rows.Clear();
 
         }
@@ -235,9 +213,7 @@ namespace yazlab_2_frontend.Forms.Pages
             var neighbors = new List<Node>();
 
 
-
             foreach (var e in GraphStore.Edges)
-
             {
 
                 if (e.startNode == node) neighbors.Add(e.endNode);
@@ -245,8 +221,6 @@ namespace yazlab_2_frontend.Forms.Pages
                 else if (e.endNode == node) neighbors.Add(e.startNode);
 
             }
-
-
 
             return neighbors;
 
@@ -264,7 +238,6 @@ namespace yazlab_2_frontend.Forms.Pages
             ClearSelection();
             _canvas.Invalidate();
         }
-
         private void panelCanvas_Paint(object sender, PaintEventArgs e)
         {
 
@@ -416,23 +389,28 @@ namespace yazlab_2_frontend.Forms.Pages
             lblSelDegree.Visible = true;
             lblSelDegreeValue.Visible = true;
 
-            lblSelIdValue.Text = selected_node.Id.ToString();
-            lblSelAktValue.Text = selected_node.Aktiflik.ToString();
-            lblSelEtkValue.Text = selected_node.Etkilesim.ToString();
-            lblSelDegreeValue.Text = selected_node.BaglantiSayisi.ToString();
+            lblSelIdValue.Text = node.Id.ToString();
+            lblSelAktValue.Text = node.Aktiflik.ToString();
+            lblSelEtkValue.Text = node.Etkilesim.ToString();
 
-            var neighbors = GetNeighbors(selected_node);
+            // Dereceyi “gerçek edge sayısından” hesapla (BaglantiSayisi bazen eski kalabilir)
+            int degree = node.GetDegree(GraphStore.Edges);
+            lblSelDegreeValue.Text = degree.ToString();
 
-            lblSelDegreeValue.Text = neighbors.Count.ToString();
 
-
+            var neighbors = GetNeighbors(node);
 
             neighborsgridview.Rows.Clear();
 
             foreach (var neighbor in neighbors)
             {
                 // DataGridView'e yeni bir satır ekle
-                neighborsgridview.Rows.Add(neighbor.Id, neighbor.Name, neighbor.Aktiflik.ToString("0.##"), neighbor.Etkilesim, neighbor.BaglantiSayisi);
+                neighborsgridview.Rows.Add(
+                    neighbor.Id, 
+                    neighbor.Name, 
+                    neighbor.Aktiflik.ToString("0.##"), 
+                    neighbor.Etkilesim, 
+                    neighbor.BaglantiSayisi);
             }
 
         }

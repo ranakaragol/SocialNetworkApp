@@ -21,7 +21,8 @@ namespace yazlab_2_frontend.Forms.Pages
             InitGrid();
 
             // Bu sayfanın graphstore deki değişiklikleri dinlemesini sağlar
-            GraphStore.GraphChanged += () => {
+            GraphStore.GraphChanged += () =>
+            {
 
                 if (this.IsHandleCreated)
                 {
@@ -30,7 +31,8 @@ namespace yazlab_2_frontend.Forms.Pages
             };
 
 
-            this.VisibleChanged += (s, e) => {
+            this.VisibleChanged += (s, e) =>
+            {
                 if (this.Visible)
                 {
                     RefreshGrid();
@@ -50,7 +52,7 @@ namespace yazlab_2_frontend.Forms.Pages
             dataGridViewNodes.Rows.Clear();
             foreach (var n in GraphStore.Nodes)
             {
-                dataGridViewNodes.Rows.Add(n.Id, n.Name, n.Aktiflik, n.Etkilesim, n.BaglantiSayisi , n.radius , n.NodeRengi);
+                dataGridViewNodes.Rows.Add(n.Id, n.Name, n.Aktiflik, n.Etkilesim, n.BaglantiSayisi, n.radius, n.NodeRengi);
             }
         }
         private void btnAddNode_Click(object sender, EventArgs e)
@@ -89,6 +91,7 @@ namespace yazlab_2_frontend.Forms.Pages
             txtNodeName.Clear();
             numericUpDown1.Value = 0;
             numericUpDown2.Value = 0;
+            txtNodeId.Enabled = true;
         }
 
         private void btnDeleteNode_Click(object sender, EventArgs e)
@@ -102,8 +105,8 @@ namespace yazlab_2_frontend.Forms.Pages
             int id = Convert.ToInt32(dataGridViewNodes.SelectedRows[0].Cells[0].Value);
 
             Node deleted_node = GraphStore.Nodes.Find(n => n.Id == id);
-            
-            GraphStore.RemoveNode(deleted_node);   
+
+            GraphStore.RemoveNode(deleted_node);
             RefreshGrid();
             ClearForm();
         }
@@ -124,6 +127,50 @@ namespace yazlab_2_frontend.Forms.Pages
 
             numericUpDown1.Value = Convert.ToDecimal(row.Cells[2].Value);
             numericUpDown2.Value = Convert.ToDecimal(row.Cells[3].Value);
+            txtNodeId.Enabled = false; // ID sabit
+        }
+
+        private void buttonUpdate_Click(object sender, EventArgs e)
+        {
+            // Grid’den seçim kontrolü
+            if (dataGridViewNodes.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Güncellemek için listeden bir düğüm seç.");
+                return;
+            }
+
+            // Seçili satırdan ID al
+            int id = Convert.ToInt32(dataGridViewNodes.SelectedRows[0].Cells[0].Value);
+
+            // GraphStore'dan düğümü bul
+            Node node = GraphStore.Nodes.FirstOrDefault(n => n.Id == id);
+            if (node == null)
+            {
+                MessageBox.Show("Seçilen düğüm bulunamadı.");
+                return;
+            }
+
+            // Alanları güncelle
+            node.Name = txtNodeName.Text?.Trim() ?? "";
+            node.Aktiflik = (double)numericUpDown1.Value;
+            node.Etkilesim = (int)numericUpDown2.Value;
+
+            // --- Kritik: dinamik ağırlıklar node özelliklerine bağlı ---
+            // Bu node’a bağlı tüm edge'lerin ağırlığını yeniden hesapla
+            foreach (var edge in GraphStore.Edges.Where(e => e.startNode == node || e.endNode == node))
+            {
+                var a = edge.startNode;
+                var b = edge.endNode;
+                edge.Weight = GraphStore.ComputeWeight(a, b);
+            }
+
+            // Dereceleri tekrar güncelle (gerekli değil ama güvenli)
+            node.BaglantiSayisi = node.GetDegree(GraphStore.Edges);
+
+            GraphStore.NotifyGraphChanged(); // tüm sayfalara haber ver
+            RefreshGrid();
+
+            MessageBox.Show("Düğüm güncellendi.");
         }
     }
 }

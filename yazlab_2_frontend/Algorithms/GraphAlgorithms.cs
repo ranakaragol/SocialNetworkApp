@@ -120,7 +120,7 @@ namespace yazlab_2_frontend.Algorithms
 
 
 
-            return null;
+            return order;
         }
 
         // Dijkstra Algoritması
