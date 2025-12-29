@@ -29,26 +29,14 @@ namespace yazlab_2_frontend.Models
         public static double ComputeWeight(Node startnode, Node endnode)
 
         {
-            // Özellik farkları
             double dAkt = startnode.Aktiflik - endnode.Aktiflik;
-            double dEtk = startnode.Etkilesim -endnode.Etkilesim;
-            double dDeg = startnode.GetDegree(Edges) - endnode.GetDegree(Edges);
+            double dEtk = startnode.Etkilesim - endnode.Etkilesim;
+            double dBag = startnode.BaglantiSayisi - endnode.BaglantiSayisi;
 
-            double featureDistance =
-                (dAkt * dAkt) +
-                (dEtk * dEtk) +
-                (dDeg * dDeg);
-
-            // Geometrik mesafe
-            double dx = startnode.location.X - endnode.location.X;
-            double dy = startnode.location.Y - endnode.location.Y;
-            double spatialDistance = Math.Sqrt(dx * dx + dy * dy);
-
-            // normalizasyon işlemi
-            spatialDistance = spatialDistance / 100.0;
-
-            // Toplam maliyet
-            double denom = 1.0 + featureDistance + spatialDistance;
+            double denom = 1.0
+                + (dAkt * dAkt)
+                + (dEtk * dEtk)
+                + (dBag * dBag);
 
             return 1.0 / denom;
         }
@@ -85,10 +73,6 @@ namespace yazlab_2_frontend.Models
             }
 
             GraphChanged?.Invoke();
-
-
-            
-
 
         }
 

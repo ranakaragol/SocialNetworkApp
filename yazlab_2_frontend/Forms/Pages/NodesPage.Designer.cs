@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             grpNodeForm = new GroupBox();
+            buttonUpdate = new Button();
             button3 = new Button();
             btnDeleteNode = new Button();
             btnAddNode = new Button();
@@ -49,20 +50,18 @@
             Baglantisayisi = new DataGridViewTextBoxColumn();
             Cap = new DataGridViewTextBoxColumn();
             Renk = new DataGridViewTextBoxColumn();
-            buttonUpdate = new Button();
+            tableLayoutPanel1 = new TableLayoutPanel();
             grpNodeForm.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numericUpDown2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
             grpNodeList.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewNodes).BeginInit();
+            tableLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
             // grpNodeForm
             // 
-            grpNodeForm.Controls.Add(buttonUpdate);
-            grpNodeForm.Controls.Add(button3);
-            grpNodeForm.Controls.Add(btnDeleteNode);
-            grpNodeForm.Controls.Add(btnAddNode);
+            grpNodeForm.Controls.Add(tableLayoutPanel1);
             grpNodeForm.Controls.Add(numericUpDown2);
             grpNodeForm.Controls.Add(lblNumEtk);
             grpNodeForm.Controls.Add(numericUpDown1);
@@ -79,11 +78,23 @@
             grpNodeForm.TabStop = false;
             grpNodeForm.Text = "Düğüm İşlemleri";
             // 
+            // buttonUpdate
+            // 
+            buttonUpdate.Dock = DockStyle.Fill;
+            buttonUpdate.Location = new Point(275, 3);
+            buttonUpdate.Name = "buttonUpdate";
+            buttonUpdate.Size = new Size(86, 44);
+            buttonUpdate.TabIndex = 11;
+            buttonUpdate.Text = "Güncelle";
+            buttonUpdate.UseVisualStyleBackColor = true;
+            buttonUpdate.Click += buttonUpdate_Click;
+            // 
             // button3
             // 
-            button3.Location = new Point(70, 219);
+            button3.Dock = DockStyle.Fill;
+            button3.Location = new Point(3, 3);
             button3.Name = "button3";
-            button3.Size = new Size(80, 27);
+            button3.Size = new Size(85, 44);
             button3.TabIndex = 10;
             button3.Text = "Temizle";
             button3.UseVisualStyleBackColor = true;
@@ -91,9 +102,10 @@
             // 
             // btnDeleteNode
             // 
-            btnDeleteNode.Location = new Point(114, 190);
+            btnDeleteNode.Dock = DockStyle.Fill;
+            btnDeleteNode.Location = new Point(184, 3);
             btnDeleteNode.Name = "btnDeleteNode";
-            btnDeleteNode.Size = new Size(80, 23);
+            btnDeleteNode.Size = new Size(85, 44);
             btnDeleteNode.TabIndex = 9;
             btnDeleteNode.Text = "Sil";
             btnDeleteNode.UseVisualStyleBackColor = true;
@@ -101,9 +113,10 @@
             // 
             // btnAddNode
             // 
-            btnAddNode.Location = new Point(28, 189);
+            btnAddNode.Dock = DockStyle.Fill;
+            btnAddNode.Location = new Point(94, 3);
             btnAddNode.Name = "btnAddNode";
-            btnAddNode.Size = new Size(80, 24);
+            btnAddNode.Size = new Size(84, 44);
             btnAddNode.TabIndex = 8;
             btnAddNode.Text = "Ekle";
             btnAddNode.UseVisualStyleBackColor = true;
@@ -263,15 +276,23 @@
             Renk.ReadOnly = true;
             Renk.Width = 125;
             // 
-            // buttonUpdate
+            // tableLayoutPanel1
             // 
-            buttonUpdate.Location = new Point(200, 190);
-            buttonUpdate.Name = "buttonUpdate";
-            buttonUpdate.Size = new Size(75, 23);
-            buttonUpdate.TabIndex = 11;
-            buttonUpdate.Text = "Güncelle";
-            buttonUpdate.UseVisualStyleBackColor = true;
-            buttonUpdate.Click += buttonUpdate_Click;
+            tableLayoutPanel1.ColumnCount = 4;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25.0035F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 24.99681F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25.00051F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 24.9991837F));
+            tableLayoutPanel1.Controls.Add(btnAddNode, 1, 0);
+            tableLayoutPanel1.Controls.Add(button3, 0, 0);
+            tableLayoutPanel1.Controls.Add(buttonUpdate, 3, 0);
+            tableLayoutPanel1.Controls.Add(btnDeleteNode, 2, 0);
+            tableLayoutPanel1.Location = new Point(26, 169);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 1;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.Size = new Size(364, 50);
+            tableLayoutPanel1.TabIndex = 12;
             // 
             // NodesPage
             // 
@@ -288,6 +309,7 @@
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
             grpNodeList.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridViewNodes).EndInit();
+            tableLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -315,5 +337,6 @@
         private DataGridViewTextBoxColumn Cap;
         private DataGridViewTextBoxColumn Renk;
         private Button buttonUpdate;
+        private TableLayoutPanel tableLayoutPanel1;
     }
 }

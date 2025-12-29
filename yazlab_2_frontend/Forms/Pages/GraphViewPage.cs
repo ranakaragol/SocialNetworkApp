@@ -319,11 +319,6 @@ namespace yazlab_2_frontend.Forms.Pages
             {
                 // Node un yeni konumunu farenin konumu yapar
                 movingNode.location = e.Location;
-                // Taşınan node’a bağlı edge’lerin weight’ini güncelle
-                foreach (var edge in GraphStore.Edges.Where(ed => ed.startNode == movingNode || ed.endNode == movingNode))
-                {
-                    edge.Weight = GraphStore.ComputeWeight(edge.startNode, edge.endNode);
-                }
                 _canvas.Invalidate(); // Node nin hareket ettiğini göstermek için canvas sürekli yeniden çizilir
             }
 
@@ -462,27 +457,7 @@ namespace yazlab_2_frontend.Forms.Pages
                 GraphStore.RemoveEdge(selected_edge.startNode, selected_edge.endNode);
 
             }
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void grpSelectedNode_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void grpView_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click_1(object sender, EventArgs e)
-        {
-
-        }
+        } 
 
         private void btnColorChange_Click(object sender, EventArgs e)
         {

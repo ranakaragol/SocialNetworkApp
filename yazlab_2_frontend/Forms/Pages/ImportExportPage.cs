@@ -360,7 +360,7 @@ namespace yazlab_2_frontend.Forms.Pages
                         Name = n.name ?? "",
                         Aktiflik = n.aktiflik,
                         Etkilesim = n.etkilesim,
-                        BaglantiSayisi = 0, 
+                        BaglantiSayisi = 0,
                         radius = n.radius,
                         NodeRengi = HexToColor(n.nodeRengi)
                     });
@@ -526,10 +526,6 @@ namespace yazlab_2_frontend.Forms.Pages
             return ColorTranslator.FromHtml(hex);
         }
 
-        private void btnBuildAdj_Click_1(object sender, EventArgs e)
-        {
-
-        }
     }
 
 }

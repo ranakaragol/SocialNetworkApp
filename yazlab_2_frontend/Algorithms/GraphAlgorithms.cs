@@ -114,12 +114,6 @@ namespace yazlab_2_frontend.Algorithms
 
             }
 
-            
-
-
-
-
-
             return order;
         }
 
