@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -56,13 +57,15 @@ namespace yazlab_2_frontend.Forms.Pages
         }
         private int GetMaxDegree()
         {
+            // En yüksek dereceyi bulur
             if (GraphStore.Nodes.Count == 0) return 0;
             return GraphStore.Nodes.Max(n => n.GetDegree(GraphStore.Edges));
+     
         }
 
         private int CountConnectedComponents()
         {
-            // Graf boşsa 0 bileşen diyelim (istersen 0 değil 1 de diyebilirsin)
+            // Graf boşsa makineyi yormadan 0 bileşen diyebiliriz 
             if (GraphStore.Nodes.Count == 0) return 0;
 
             var visited = new System.Collections.Generic.HashSet<int>();
@@ -81,7 +84,7 @@ namespace yazlab_2_frontend.Forms.Pages
                 {
                     var cur = q.Dequeue();
 
-                    // cur komşuları
+                    
                     foreach (var edge in GraphStore.Edges)
                     {
                         Node? neighbor = null;

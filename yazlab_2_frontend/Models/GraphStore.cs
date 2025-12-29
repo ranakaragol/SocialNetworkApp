@@ -39,12 +39,12 @@ namespace yazlab_2_frontend.Models
                 (dEtk * dEtk) +
                 (dDeg * dDeg);
 
-            // --- GEOMETRİK MESAFE ---
+            // Geometrik mesafe
             double dx = startnode.location.X - endnode.location.X;
             double dy = startnode.location.Y - endnode.location.Y;
             double spatialDistance = Math.Sqrt(dx * dx + dy * dy);
 
-            // normalize etmek iyi olur
+            // normalizasyon işlemi
             spatialDistance = spatialDistance / 100.0;
 
             // Toplam maliyet

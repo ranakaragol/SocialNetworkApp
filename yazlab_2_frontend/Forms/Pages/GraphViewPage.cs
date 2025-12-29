@@ -35,7 +35,7 @@ namespace yazlab_2_frontend.Forms.Pages
 
 
 
-        // Flicker olmaması için double buffered panel
+        // Flicker olmaması için yani ekranın titrememesi için double buffered panel
 
         private sealed class DoubleBufferedPanel : Panel
         {
@@ -60,6 +60,7 @@ namespace yazlab_2_frontend.Forms.Pages
         public GraphViewPage()
         {
             InitializeComponent();
+            updatePanel.Visible = false;
 
             _canvas = new DoubleBufferedPanel
             {
@@ -165,10 +166,10 @@ namespace yazlab_2_frontend.Forms.Pages
                 e.Graphics.DrawEllipse(borderPen, rect);
 
 
-                // --- ID yazısı (node’un ortasına) ---
+                // Node un ortasına id yazısı
                 string text = n.Id.ToString();
 
-                using var font = new System.Drawing.Font("Segoe UI", selected ? 11f : 10f, System.Drawing.FontStyle.Bold);
+                using var font = new System.Drawing.Font("Segoe UI", selected ? 7f : 6f, System.Drawing.FontStyle.Bold);
                 using var textBrush = new SolidBrush(Color.Black);
 
                 var sf = new StringFormat
@@ -189,9 +190,9 @@ namespace yazlab_2_frontend.Forms.Pages
 
             selected_node = null;
             selected_edge = null;
-
+            updatePanel.Visible = false;
             grpSelectedNode.Text = "Seçiniz...";
-
+            lblSelNameValue.Text = "-";
 
             lblSelIdValue.Text = "-";
 
@@ -394,11 +395,14 @@ namespace yazlab_2_frontend.Forms.Pages
             lblSelDegree.Visible = true;
             lblSelDegreeValue.Visible = true;
 
+            updatePanel.Visible = true;
+            txtBoxNodeRadiusValue.Text = node.radius.ToString();
+            lblSelNameValue.Text = node.Name;
             lblSelIdValue.Text = node.Id.ToString();
             lblSelAktValue.Text = node.Aktiflik.ToString();
             lblSelEtkValue.Text = node.Etkilesim.ToString();
 
-            // Dereceyi “gerçek edge sayısından” hesapla (BaglantiSayisi bazen eski kalabilir)
+            // dereceyi hesaplayıp yazar
             int degree = node.GetDegree(GraphStore.Edges);
             lblSelDegreeValue.Text = degree.ToString();
 
@@ -411,10 +415,10 @@ namespace yazlab_2_frontend.Forms.Pages
             {
                 // DataGridView'e yeni bir satır ekle
                 neighborsgridview.Rows.Add(
-                    neighbor.Id, 
-                    neighbor.Name, 
-                    neighbor.Aktiflik.ToString("0.##"), 
-                    neighbor.Etkilesim, 
+                    neighbor.Id,
+                    neighbor.Name,
+                    neighbor.Aktiflik.ToString("0.##"),
+                    neighbor.Etkilesim,
                     neighbor.BaglantiSayisi);
             }
 
@@ -428,11 +432,12 @@ namespace yazlab_2_frontend.Forms.Pages
             grpSelectedNode.Text = "Seçilen edge"; // Label isminize göre güncelleyin
 
             // Edge için gerekli bilgiler ve bilgileri belirten labeller güncellenir
-            lblSelAkt.Text = "KaynakId";
-            lblSelEtk.Text = "HedefId";
+            lblSelAkt.Text = "KaynakID";
+            lblSelEtk.Text = "HedefID";
             lblSelDegree.Visible = false;
             lblSelDegreeValue.Visible = false;
-
+            updatePanel.Visible = false;
+            lblSelNameValue.Text = selected_edge.startNode.Name + " - " + selected_edge.endNode.Name;
             lblSelIdValue.Text = selected_edge.Id.ToString();
             lblSelAktValue.Text = selected_edge.startNode.Id.ToString();
             lblSelEtkValue.Text = selected_edge.endNode.Id.ToString();
@@ -442,19 +447,86 @@ namespace yazlab_2_frontend.Forms.Pages
 
         private void deleteBtn_Click(object sender, EventArgs e)
         {
-            if(selected_edge == null && selected_node == null)
+            if (selected_edge == null && selected_node == null)
             {
-                MessageBox.Show("Lütfen Düğüm yada Kenar seçiniz" , "Uyarı");
+                MessageBox.Show("Lütfen Düğüm yada Kenar seçiniz", "Uyarı");
                 return;
             }
-            else if(selected_edge == null)
+            else if (selected_edge == null)
             {
                 GraphStore.RemoveNode(selected_node);
             }
-            else {
+            else
+            {
 
-                GraphStore.RemoveEdge(selected_edge.startNode , selected_edge.endNode);
+                GraphStore.RemoveEdge(selected_edge.startNode, selected_edge.endNode);
 
+            }
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void grpSelectedNode_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void grpView_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnColorChange_Click(object sender, EventArgs e)
+        {
+            // Düğüm Seçilimi kontrol edilir
+            if (selected_node == null)
+            {
+                MessageBox.Show("Lütfen rengini değiştirmek için önce bir düğüm seçin!" , "Uyarı");
+                return;
+            }
+
+            // Node un şuanki rengi hali hazırda seçili gelir
+            colorDialog1.Color = selected_node.NodeRengi;
+
+            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            {
+
+                selected_node.NodeRengi = colorDialog1.Color;
+
+                _canvas.Invalidate();
+            }
+        }
+
+        private void btnNodeRadiusUpdate_Click(object sender, EventArgs e)
+        {
+            if (selected_node != null)
+            {
+              // Eğer bir node seçiliyse girilen çap değeri sayımı diye kontrol eder sayıysa node ye atar
+              // sayı değilse mesaj yollar
+                if (int.TryParse(txtBoxNodeRadiusValue.Text, out int yeniYaricap))
+                {
+                    
+                    if (yeniYaricap > 0)
+                    {
+                        selected_node.radius = yeniYaricap;
+
+                       
+                        _canvas.Invalidate();
+                    }
+                }
+                else
+                {
+                   
+                    MessageBox.Show("Lütfen geçerli bir sayı giriniz!" , "Uyarı");
+                }
             }
         }
     }

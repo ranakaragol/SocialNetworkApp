@@ -17,7 +17,7 @@ namespace yazlab_2_frontend.Models
        public Color NodeRengi { get; set; } = Color.WhiteSmoke;
 
         // node çapı
-        public float radius { get; set; } = 15;
+        public float radius { get; set; } = 12;
 
         // node koordinatları
         public Point location { get; set; }

@@ -22,15 +22,14 @@ namespace yazlab_2_frontend.Forms.Pages
         public ImportExportPage()
         {
             InitializeComponent();
-            // Varsayılan seçimler (istersen kaldır)
+            // Varsayılan seçimler
             rbJson.Checked = true;
             radioButtonkomsulist.Checked = true;
             checkBoxIncludeNodes.Checked = true;   // Düğümleri dahil et
             checkBoxIncludeEdges.Checked = true;   // Bağlantıları dahil et
             checkBoxIncludeWeights.Checked = true;   // Ağırlıkları dahil et
 
-            // Designer'da Browse/Load click bağlanmış.
-            // Save, Copy, Clear, BuildAdj için burada bağlayalım.
+            // Button eventleri ilgili fonksiyonlara bağlanır
             btnSave.Click += btnSave_Click;
             btnCopy.Click += btnCopy_Click;
             btnClearPreview.Click += btnClearPreview_Click;
@@ -39,7 +38,7 @@ namespace yazlab_2_frontend.Forms.Pages
             rbJson.CheckedChanged += (_, __) => UpdateInfo();
             rbCsv.CheckedChanged += (_, __) => UpdateInfo();
 
-            // Graph değişince UI güncelle
+            // Graph değişince UI güncellenir
             GraphStore.GraphChanged += OnGraphChanged;
 
             // Sayfa görünür olunca güncelle
@@ -361,7 +360,7 @@ namespace yazlab_2_frontend.Forms.Pages
                         Name = n.name ?? "",
                         Aktiflik = n.aktiflik,
                         Etkilesim = n.etkilesim,
-                        BaglantiSayisi = 0, // aşağıda hesaplanacak
+                        BaglantiSayisi = 0, 
                         radius = n.radius,
                         NodeRengi = HexToColor(n.nodeRengi)
                     });
@@ -389,7 +388,7 @@ namespace yazlab_2_frontend.Forms.Pages
                 }
             }
 
-            // Dereceyi gerçek edge listesine göre güncelle
+            // Dereceyi gerçek edge listesine göre günceller
             foreach (var node in GraphStore.Nodes)
                 node.BaglantiSayisi = node.GetDegree(GraphStore.Edges);
 
@@ -415,7 +414,7 @@ namespace yazlab_2_frontend.Forms.Pages
 
                 if (line.StartsWith("#"))
                 {
-                    mode = line; // #NODES / #EDGES
+                    mode = line; // #NODES / #EDGES şeklinde yazar
                     headerSkipped = false;
                     continue;
                 }

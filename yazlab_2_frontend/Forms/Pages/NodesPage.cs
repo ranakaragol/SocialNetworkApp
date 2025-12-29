@@ -155,8 +155,7 @@ namespace yazlab_2_frontend.Forms.Pages
             node.Aktiflik = (double)numericUpDown1.Value;
             node.Etkilesim = (int)numericUpDown2.Value;
 
-            // --- Kritik: dinamik ağırlıklar node özelliklerine bağlı ---
-            // Bu node’a bağlı tüm edge'lerin ağırlığını yeniden hesapla
+            // bu nodeye bağlı tüm edgelerin ağırlıkları yeniden hesaplanır
             foreach (var edge in GraphStore.Edges.Where(e => e.startNode == node || e.endNode == node))
             {
                 var a = edge.startNode;
@@ -164,7 +163,7 @@ namespace yazlab_2_frontend.Forms.Pages
                 edge.Weight = GraphStore.ComputeWeight(a, b);
             }
 
-            // Dereceleri tekrar güncelle (gerekli değil ama güvenli)
+            // Dereceleri tekrar güncelle kod güvenliği açısından 
             node.BaglantiSayisi = node.GetDegree(GraphStore.Edges);
 
             GraphStore.NotifyGraphChanged(); // tüm sayfalara haber ver

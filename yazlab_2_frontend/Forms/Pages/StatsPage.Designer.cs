@@ -28,6 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             tlpSummary = new TableLayoutPanel();
             panelCardNodes = new Panel();
             labelNodesValue = new Label();
@@ -48,18 +54,10 @@
             colName = new DataGridViewTextBoxColumn();
             colDegree = new DataGridViewTextBoxColumn();
             tabStats = new TabControl();
-            tabChart = new TabPage();
-            grpCharts = new GroupBox();
-            panelChartPlaceholder = new Panel();
-            label2 = new Label();
-            tabTimes = new TabPage();
-            dgvTimes = new DataGridView();
-            colAlgo = new DataGridViewTextBoxColumn();
-            colMsSmall = new DataGridViewTextBoxColumn();
-            colMsMedium = new DataGridViewTextBoxColumn();
-            colNotes = new DataGridViewTextBoxColumn();
-            grpStatsLog = new GroupBox();
-            rtbStatsLog = new RichTextBox();
+            tabNode = new TabPage();
+            chartNodeDegrees = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            tabDist = new TabPage();
+            chartDistribution = new System.Windows.Forms.DataVisualization.Charting.Chart();
             tlpSummary.SuspendLayout();
             panelCardNodes.SuspendLayout();
             panelCardEdges.SuspendLayout();
@@ -72,12 +70,10 @@
             grpTopDegree.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvTopDegree).BeginInit();
             tabStats.SuspendLayout();
-            tabChart.SuspendLayout();
-            grpCharts.SuspendLayout();
-            panelChartPlaceholder.SuspendLayout();
-            tabTimes.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvTimes).BeginInit();
-            grpStatsLog.SuspendLayout();
+            tabNode.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)chartNodeDegrees).BeginInit();
+            tabDist.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)chartDistribution).BeginInit();
             SuspendLayout();
             // 
             // tlpSummary
@@ -260,7 +256,7 @@
             grpTopDegree.Size = new Size(509, 764);
             grpTopDegree.TabIndex = 0;
             grpTopDegree.TabStop = false;
-            grpTopDegree.Text = "En Yüksek Dereceli 5 Düğüm";
+            grpTopDegree.Text = "En Yüksek Dereceli 10 Düğüm";
             // 
             // dgvTopDegree
             // 
@@ -303,8 +299,8 @@
             // 
             // tabStats
             // 
-            tabStats.Controls.Add(tabChart);
-            tabStats.Controls.Add(tabTimes);
+            tabStats.Controls.Add(tabNode);
+            tabStats.Controls.Add(tabDist);
             tabStats.Dock = DockStyle.Fill;
             tabStats.Font = new Font("Segoe UI", 10F);
             tabStats.Location = new Point(0, 0);
@@ -314,139 +310,66 @@
             tabStats.Size = new Size(512, 764);
             tabStats.TabIndex = 0;
             // 
-            // tabChart
+            // tabNode
             // 
-            tabChart.Controls.Add(grpCharts);
-            tabChart.Font = new Font("Segoe UI", 10F);
-            tabChart.Location = new Point(4, 32);
-            tabChart.Margin = new Padding(3, 4, 3, 4);
-            tabChart.Name = "tabChart";
-            tabChart.Padding = new Padding(3, 4, 3, 4);
-            tabChart.Size = new Size(504, 728);
-            tabChart.TabIndex = 0;
-            tabChart.Text = "Grafik";
-            tabChart.UseVisualStyleBackColor = true;
+            tabNode.Controls.Add(chartNodeDegrees);
+            tabNode.Location = new Point(4, 32);
+            tabNode.Name = "tabNode";
+            tabNode.Padding = new Padding(3);
+            tabNode.Size = new Size(504, 728);
+            tabNode.TabIndex = 0;
+            tabNode.Text = "Derece Grafiği";
+            tabNode.UseVisualStyleBackColor = true;
             // 
-            // grpCharts
+            // chartNodeDegrees
             // 
-            grpCharts.Controls.Add(panelChartPlaceholder);
-            grpCharts.Dock = DockStyle.Fill;
-            grpCharts.Location = new Point(3, 4);
-            grpCharts.Margin = new Padding(3, 4, 3, 4);
-            grpCharts.Name = "grpCharts";
-            grpCharts.Padding = new Padding(3, 4, 3, 4);
-            grpCharts.Size = new Size(498, 720);
-            grpCharts.TabIndex = 0;
-            grpCharts.TabStop = false;
-            grpCharts.Text = "Dağılım";
+            chartArea1.Name = "ChartArea1";
+            chartNodeDegrees.ChartAreas.Add(chartArea1);
+            chartNodeDegrees.Dock = DockStyle.Fill;
+            legend1.Name = "Legend1";
+            chartNodeDegrees.Legends.Add(legend1);
+            chartNodeDegrees.Location = new Point(3, 3);
+            chartNodeDegrees.Name = "chartNodeDegrees";
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            chartNodeDegrees.Series.Add(series1);
+            chartNodeDegrees.Size = new Size(498, 722);
+            chartNodeDegrees.TabIndex = 0;
+            chartNodeDegrees.Text = "chart1";
             // 
-            // panelChartPlaceholder
+            // tabDist
             // 
-            panelChartPlaceholder.BorderStyle = BorderStyle.FixedSingle;
-            panelChartPlaceholder.Controls.Add(label2);
-            panelChartPlaceholder.Dock = DockStyle.Fill;
-            panelChartPlaceholder.Location = new Point(3, 27);
-            panelChartPlaceholder.Margin = new Padding(3, 4, 3, 4);
-            panelChartPlaceholder.Name = "panelChartPlaceholder";
-            panelChartPlaceholder.Size = new Size(492, 689);
-            panelChartPlaceholder.TabIndex = 0;
+            tabDist.Controls.Add(chartDistribution);
+            tabDist.Location = new Point(4, 32);
+            tabDist.Name = "tabDist";
+            tabDist.Padding = new Padding(3);
+            tabDist.Size = new Size(504, 728);
+            tabDist.TabIndex = 1;
+            tabDist.Text = "Dağılım Grafiği";
+            tabDist.UseVisualStyleBackColor = true;
             // 
-            // label2
+            // chartDistribution
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(35, 7);
-            label2.Name = "label2";
-            label2.Size = new Size(207, 23);
-            label2.TabIndex = 0;
-            label2.Text = "grafik sonradan eklenecek";
-            // 
-            // tabTimes
-            // 
-            tabTimes.Controls.Add(dgvTimes);
-            tabTimes.Location = new Point(4, 32);
-            tabTimes.Margin = new Padding(3, 4, 3, 4);
-            tabTimes.Name = "tabTimes";
-            tabTimes.Padding = new Padding(3, 4, 3, 4);
-            tabTimes.Size = new Size(504, 728);
-            tabTimes.TabIndex = 1;
-            tabTimes.Text = "Çalışma Süreleri";
-            tabTimes.UseVisualStyleBackColor = true;
-            // 
-            // dgvTimes
-            // 
-            dgvTimes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvTimes.Columns.AddRange(new DataGridViewColumn[] { colAlgo, colMsSmall, colMsMedium, colNotes });
-            dgvTimes.Dock = DockStyle.Fill;
-            dgvTimes.Location = new Point(3, 4);
-            dgvTimes.Margin = new Padding(3, 4, 3, 4);
-            dgvTimes.Name = "dgvTimes";
-            dgvTimes.ReadOnly = true;
-            dgvTimes.RowHeadersWidth = 51;
-            dgvTimes.Size = new Size(498, 720);
-            dgvTimes.TabIndex = 0;
-            // 
-            // colAlgo
-            // 
-            colAlgo.HeaderText = "Algoritma";
-            colAlgo.MinimumWidth = 6;
-            colAlgo.Name = "colAlgo";
-            colAlgo.ReadOnly = true;
-            colAlgo.Width = 125;
-            // 
-            // colMsSmall
-            // 
-            colMsSmall.HeaderText = "10-20 Düğüm ms";
-            colMsSmall.MinimumWidth = 6;
-            colMsSmall.Name = "colMsSmall";
-            colMsSmall.ReadOnly = true;
-            colMsSmall.Width = 125;
-            // 
-            // colMsMedium
-            // 
-            colMsMedium.HeaderText = "50-100 Düğüm ms";
-            colMsMedium.MinimumWidth = 6;
-            colMsMedium.Name = "colMsMedium";
-            colMsMedium.ReadOnly = true;
-            colMsMedium.Width = 125;
-            // 
-            // colNotes
-            // 
-            colNotes.HeaderText = "Not";
-            colNotes.MinimumWidth = 6;
-            colNotes.Name = "colNotes";
-            colNotes.ReadOnly = true;
-            colNotes.Width = 125;
-            // 
-            // grpStatsLog
-            // 
-            grpStatsLog.Controls.Add(rtbStatsLog);
-            grpStatsLog.Dock = DockStyle.Bottom;
-            grpStatsLog.Font = new Font("Segoe UI", 10F);
-            grpStatsLog.Location = new Point(0, 724);
-            grpStatsLog.Margin = new Padding(3, 4, 3, 4);
-            grpStatsLog.Name = "grpStatsLog";
-            grpStatsLog.Padding = new Padding(3, 4, 3, 4);
-            grpStatsLog.Size = new Size(1026, 187);
-            grpStatsLog.TabIndex = 2;
-            grpStatsLog.TabStop = false;
-            grpStatsLog.Text = "Log";
-            // 
-            // rtbStatsLog
-            // 
-            rtbStatsLog.Dock = DockStyle.Fill;
-            rtbStatsLog.Location = new Point(3, 27);
-            rtbStatsLog.Margin = new Padding(3, 4, 3, 4);
-            rtbStatsLog.Name = "rtbStatsLog";
-            rtbStatsLog.ReadOnly = true;
-            rtbStatsLog.Size = new Size(1020, 156);
-            rtbStatsLog.TabIndex = 0;
-            rtbStatsLog.Text = "";
+            chartArea2.Name = "ChartArea1";
+            chartDistribution.ChartAreas.Add(chartArea2);
+            chartDistribution.Dock = DockStyle.Fill;
+            legend2.Name = "Legend1";
+            chartDistribution.Legends.Add(legend2);
+            chartDistribution.Location = new Point(3, 3);
+            chartDistribution.Name = "chartDistribution";
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            chartDistribution.Series.Add(series2);
+            chartDistribution.Size = new Size(498, 722);
+            chartDistribution.TabIndex = 0;
+            chartDistribution.Text = "chart2";
             // 
             // StatsPage
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(grpStatsLog);
             Controls.Add(splitStatsMain);
             Controls.Add(tlpSummary);
             Margin = new Padding(3, 4, 3, 4);
@@ -468,13 +391,10 @@
             grpTopDegree.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvTopDegree).EndInit();
             tabStats.ResumeLayout(false);
-            tabChart.ResumeLayout(false);
-            grpCharts.ResumeLayout(false);
-            panelChartPlaceholder.ResumeLayout(false);
-            panelChartPlaceholder.PerformLayout();
-            tabTimes.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dgvTimes).EndInit();
-            grpStatsLog.ResumeLayout(false);
+            tabNode.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)chartNodeDegrees).EndInit();
+            tabDist.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)chartDistribution).EndInit();
             ResumeLayout(false);
         }
 
@@ -500,17 +420,9 @@
         private DataGridViewTextBoxColumn colName;
         private DataGridViewTextBoxColumn colDegree;
         private TabControl tabStats;
-        private TabPage tabChart;
-        private TabPage tabTimes;
-        private GroupBox grpCharts;
-        private Panel panelChartPlaceholder;
-        private Label label2;
-        private DataGridView dgvTimes;
-        private DataGridViewTextBoxColumn colAlgo;
-        private DataGridViewTextBoxColumn colMsSmall;
-        private DataGridViewTextBoxColumn colMsMedium;
-        private DataGridViewTextBoxColumn colNotes;
-        private GroupBox grpStatsLog;
-        private RichTextBox rtbStatsLog;
+        private TabPage tabNode;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartNodeDegrees;
+        private TabPage tabDist;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartDistribution;
     }
 }

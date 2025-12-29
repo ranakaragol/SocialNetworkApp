@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Alper\\source\\repos\\SocialNetworkApp-b_rana\\yazlab_2_frontend\\yazlab_2_frontend.csproj": {}
+    "C:\\Users\\Alper\\Desktop\\SocialNetworkApp-main\\yazlab_2_frontend\\yazlab_2_frontend.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Alper\\source\\repos\\SocialNetworkApp-b_rana\\yazlab_2_frontend\\yazlab_2_frontend.csproj": {
+    "C:\\Users\\Alper\\Desktop\\SocialNetworkApp-main\\yazlab_2_frontend\\yazlab_2_frontend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Alper\\source\\repos\\SocialNetworkApp-b_rana\\yazlab_2_frontend\\yazlab_2_frontend.csproj",
+        "projectUniqueName": "C:\\Users\\Alper\\Desktop\\SocialNetworkApp-main\\yazlab_2_frontend\\yazlab_2_frontend.csproj",
         "projectName": "yazlab_2_frontend",
-        "projectPath": "C:\\Users\\Alper\\source\\repos\\SocialNetworkApp-b_rana\\yazlab_2_frontend\\yazlab_2_frontend.csproj",
+        "projectPath": "C:\\Users\\Alper\\Desktop\\SocialNetworkApp-main\\yazlab_2_frontend\\yazlab_2_frontend.csproj",
         "packagesPath": "C:\\Users\\Alper\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Alper\\source\\repos\\SocialNetworkApp-b_rana\\yazlab_2_frontend\\obj\\",
+        "outputPath": "C:\\Users\\Alper\\Desktop\\SocialNetworkApp-main\\yazlab_2_frontend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Alper\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -39,6 +39,12 @@
       "frameworks": {
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
+          "dependencies": {
+            "WinForms.DataVisualization": {
+              "target": "Package",
+              "version": "[1.10.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
