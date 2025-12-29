@@ -34,16 +34,16 @@
             radioButtonkomsuMatris = new RadioButton();
             radioButtonkomsulist = new RadioButton();
             grbExportOptions = new GroupBox();
-            checkBox4 = new CheckBox();
-            checkBox3 = new CheckBox();
-            checkBox2 = new CheckBox();
-            checkBox1 = new CheckBox();
+            checkBoxJsonIndented = new CheckBox();
+            checkBoxIncludeWeights = new CheckBox();
+            checkBoxIncludeEdges = new CheckBox();
+            checkBoxIncludeNodes = new CheckBox();
             grpFileOps = new GroupBox();
             tableLayoutPanel1 = new TableLayoutPanel();
             btnBrowse = new Button();
             btnLoad = new Button();
             btnSave = new Button();
-            textBox1 = new TextBox();
+            textBoxFilePath = new TextBox();
             label2 = new Label();
             rbCsv = new RadioButton();
             rbJson = new RadioButton();
@@ -110,6 +110,7 @@
             btnBuildAdj.TabIndex = 6;
             btnBuildAdj.Text = "Oluştur";
             btnBuildAdj.UseVisualStyleBackColor = true;
+            btnBuildAdj.Click += btnBuildAdj_Click_1;
             // 
             // radioButtonkomsuMatris
             // 
@@ -135,10 +136,10 @@
             // 
             // grbExportOptions
             // 
-            grbExportOptions.Controls.Add(checkBox4);
-            grbExportOptions.Controls.Add(checkBox3);
-            grbExportOptions.Controls.Add(checkBox2);
-            grbExportOptions.Controls.Add(checkBox1);
+            grbExportOptions.Controls.Add(checkBoxJsonIndented);
+            grbExportOptions.Controls.Add(checkBoxIncludeWeights);
+            grbExportOptions.Controls.Add(checkBoxIncludeEdges);
+            grbExportOptions.Controls.Add(checkBoxIncludeNodes);
             grbExportOptions.Dock = DockStyle.Top;
             grbExportOptions.Font = new Font("Segoe UI", 10F);
             grbExportOptions.Location = new Point(0, 220);
@@ -148,50 +149,50 @@
             grbExportOptions.TabStop = false;
             grbExportOptions.Text = "Dışa Aktarım";
             // 
-            // checkBox4
+            // checkBoxJsonIndented
             // 
-            checkBox4.AutoSize = true;
-            checkBox4.Location = new Point(19, 125);
-            checkBox4.Name = "checkBox4";
-            checkBox4.Size = new Size(106, 23);
-            checkBox4.TabIndex = 3;
-            checkBox4.Text = "JSON girintili";
-            checkBox4.UseVisualStyleBackColor = true;
+            checkBoxJsonIndented.AutoSize = true;
+            checkBoxJsonIndented.Location = new Point(19, 125);
+            checkBoxJsonIndented.Name = "checkBoxJsonIndented";
+            checkBoxJsonIndented.Size = new Size(106, 23);
+            checkBoxJsonIndented.TabIndex = 3;
+            checkBoxJsonIndented.Text = "JSON girintili";
+            checkBoxJsonIndented.UseVisualStyleBackColor = true;
             // 
-            // checkBox3
+            // checkBoxIncludeWeights
             // 
-            checkBox3.AutoSize = true;
-            checkBox3.Location = new Point(19, 96);
-            checkBox3.Name = "checkBox3";
-            checkBox3.Size = new Size(133, 23);
-            checkBox3.TabIndex = 2;
-            checkBox3.Text = "Ağırlıkları dahil et";
-            checkBox3.UseVisualStyleBackColor = true;
+            checkBoxIncludeWeights.AutoSize = true;
+            checkBoxIncludeWeights.Location = new Point(19, 96);
+            checkBoxIncludeWeights.Name = "checkBoxIncludeWeights";
+            checkBoxIncludeWeights.Size = new Size(133, 23);
+            checkBoxIncludeWeights.TabIndex = 2;
+            checkBoxIncludeWeights.Text = "Ağırlıkları dahil et";
+            checkBoxIncludeWeights.UseVisualStyleBackColor = true;
             // 
-            // checkBox2
+            // checkBoxIncludeEdges
             // 
-            checkBox2.AutoSize = true;
-            checkBox2.Location = new Point(19, 67);
-            checkBox2.Name = "checkBox2";
-            checkBox2.Size = new Size(144, 23);
-            checkBox2.TabIndex = 1;
-            checkBox2.Text = "Bağlantıları dahil et";
-            checkBox2.UseVisualStyleBackColor = true;
+            checkBoxIncludeEdges.AutoSize = true;
+            checkBoxIncludeEdges.Location = new Point(19, 67);
+            checkBoxIncludeEdges.Name = "checkBoxIncludeEdges";
+            checkBoxIncludeEdges.Size = new Size(144, 23);
+            checkBoxIncludeEdges.TabIndex = 1;
+            checkBoxIncludeEdges.Text = "Bağlantıları dahil et";
+            checkBoxIncludeEdges.UseVisualStyleBackColor = true;
             // 
-            // checkBox1
+            // checkBoxIncludeNodes
             // 
-            checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(19, 38);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(141, 23);
-            checkBox1.TabIndex = 0;
-            checkBox1.Text = "Düğümleri dahil et";
-            checkBox1.UseVisualStyleBackColor = true;
+            checkBoxIncludeNodes.AutoSize = true;
+            checkBoxIncludeNodes.Location = new Point(19, 38);
+            checkBoxIncludeNodes.Name = "checkBoxIncludeNodes";
+            checkBoxIncludeNodes.Size = new Size(141, 23);
+            checkBoxIncludeNodes.TabIndex = 0;
+            checkBoxIncludeNodes.Text = "Düğümleri dahil et";
+            checkBoxIncludeNodes.UseVisualStyleBackColor = true;
             // 
             // grpFileOps
             // 
             grpFileOps.Controls.Add(tableLayoutPanel1);
-            grpFileOps.Controls.Add(textBox1);
+            grpFileOps.Controls.Add(textBoxFilePath);
             grpFileOps.Controls.Add(label2);
             grpFileOps.Controls.Add(rbCsv);
             grpFileOps.Controls.Add(rbJson);
@@ -231,6 +232,7 @@
             btnBrowse.TabIndex = 0;
             btnBrowse.Text = "Gözat";
             btnBrowse.UseVisualStyleBackColor = true;
+            btnBrowse.Click += btnBrowse_Click;
             // 
             // btnLoad
             // 
@@ -241,6 +243,7 @@
             btnLoad.TabIndex = 1;
             btnLoad.Text = "Yükle";
             btnLoad.UseVisualStyleBackColor = true;
+            btnLoad.Click += btnLoad_Click;
             // 
             // btnSave
             // 
@@ -251,14 +254,15 @@
             btnSave.TabIndex = 2;
             btnSave.Text = "Kaydet";
             btnSave.UseVisualStyleBackColor = true;
+            btnSave.Click += btnSave_Click;
             // 
-            // textBox1
+            // textBoxFilePath
             // 
-            textBox1.Location = new Point(19, 118);
-            textBox1.Name = "textBox1";
-            textBox1.ReadOnly = true;
-            textBox1.Size = new Size(200, 25);
-            textBox1.TabIndex = 4;
+            textBoxFilePath.Location = new Point(19, 118);
+            textBoxFilePath.Name = "textBoxFilePath";
+            textBoxFilePath.ReadOnly = true;
+            textBoxFilePath.Size = new Size(200, 25);
+            textBoxFilePath.TabIndex = 4;
             // 
             // label2
             // 
@@ -419,17 +423,17 @@
         private RadioButton rbJson;
         private Label label1;
         private RadioButton rbCsv;
-        private TextBox textBox1;
+        private TextBox textBoxFilePath;
         private Label label2;
         private TableLayoutPanel tableLayoutPanel1;
         private GroupBox grbExportOptions;
         private Button btnBrowse;
         private Button btnLoad;
         private Button btnSave;
-        private CheckBox checkBox4;
-        private CheckBox checkBox3;
-        private CheckBox checkBox2;
-        private CheckBox checkBox1;
+        private CheckBox checkBoxJsonIndented;
+        private CheckBox checkBoxIncludeWeights;
+        private CheckBox checkBoxIncludeEdges;
+        private CheckBox checkBoxIncludeNodes;
         private GroupBox grpAdj;
         private RadioButton radioButtonkomsuMatris;
         private RadioButton radioButtonkomsulist;

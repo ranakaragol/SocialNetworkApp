@@ -20,7 +20,7 @@ namespace yazlab_2_frontend.Forms.Pages
         private Node movingNode = null;
         private Node drawingSourceNode = null;
 
-        // Sonsuz döngüyü engellemek için bayrak (Flag)
+        // Sonsuz döngüyü engellemek için değişken 
         private bool isProgrammaticChange = false;
 
         private sealed class DoubleBufferedPanel : Panel
@@ -54,7 +54,7 @@ namespace yazlab_2_frontend.Forms.Pages
                 Node current = path[i];
                 Node next = path[i + 1];
 
-                // İki düğüm arasındaki kenarı bul ve ağırlığını topla
+                // İki düğüm arasındaki kenarı bul ve ağırlığını toplar
                 var edge = GraphStore.Edges.FirstOrDefault(e =>
                     (e.startNode == current && e.endNode == next) ||
                     (e.startNode == next && e.endNode == current));
@@ -76,8 +76,7 @@ namespace yazlab_2_frontend.Forms.Pages
             _canvas.MouseMove += panelCanvas_MouseMove;
             _canvas.MouseUp += panelCanvas_MouseUp;
 
-            // --- 3. İSTEK: BAŞKA SAYFADA DÜĞÜM EKLENSE BİLE GÜNCELLE ---
-            // GraphStore değiştiğinde (Node ekle/sil) Combo'yu tazele
+            // GraphStore eventine kayıt olunur
             GraphStore.GraphChanged += () =>
             {
                 if (IsHandleCreated)
@@ -90,10 +89,10 @@ namespace yazlab_2_frontend.Forms.Pages
                 }
             };
 
-            // Sayfa görünür olduğunda (Sekme değişince) Combo'yu tazele
+            // Sayfa değişince yani sekme görünür olduğunda combobox u günceller
             this.VisibleChanged += (s, e) => { if (this.Visible) RefreshStartCombo(); };
 
-            // --- 2. İSTEK: COMBOBOX SEÇİMİ DEĞİŞİRSE GRAPH DA DEĞİŞSİN ---
+            // Combobox seçimi değişince tetiklenir
             cmbStart.SelectedIndexChanged += CmbStart_SelectedIndexChanged;
         }
 
@@ -303,8 +302,8 @@ namespace yazlab_2_frontend.Forms.Pages
                         Node n = item.Key;
                         int degree = item.Value;
 
-                        // Standart boyut 18 üzerinden 3 er 3 er arttırılır ama 50 de biter
-                        int newRadius = 18 + (degree * 3);
+                        // Node çapını dereceye göre 3 er 3 er arttırır
+                        int newRadius = (int)(n.radius + (degree * 3));
                         if (newRadius > 50) newRadius = 50;
 
                         n.radius = newRadius;
@@ -346,8 +345,8 @@ namespace yazlab_2_frontend.Forms.Pages
                         foreach (var node in group.Value)
                         {
                             node.NodeRengi = groupColor;
-                            // Görselleştirme için çap ı standart yapalım belki merkezilikden çapı artmıştır
-                            node.radius = 18;
+                            // Görselleştirme için çapı standart yapalım belki merkezilikden çapı artmıştır
+                            node.radius = 12;
 
                             _canvas.Invalidate();
                             _canvas.Update();
@@ -356,12 +355,12 @@ namespace yazlab_2_frontend.Forms.Pages
                     }
 
                     long elapsedMsWP = stopwatch.ElapsedMilliseconds;
-                    lblDurumValue.Text = "Durum: Hesaplandı!";
+                    lblDurumValue.Text = ": Hesaplandı!";
                     lblTimeValue.Text = $"Süre: {elapsedMsWP} ms";
                     lblMaliyetValue.Text = $"Maliyet: {cost}";
                     AddLog(selectedAlgo, $"Hesaplama tamamlandı. Süre: {elapsedMsWP} ms, Sonuç: {cost}");
 
-                    // Kromatik sayıyı göster
+                    // Kromatik sayıyı göster yani renk sayısını gösterir
                     MessageBox.Show($"Grafik toplam {colorGroups.Count} renk ile boyandı. (Kromatik Sayı: {colorGroups.Count})");
                     btnRun.Enabled = true;
                     return;
@@ -492,29 +491,44 @@ namespace yazlab_2_frontend.Forms.Pages
                 e.Graphics.DrawLine(previewPen, drawingSourceNode.location, currentMousePoint);
             }
 
+            // Nodelerin çizimi
             foreach (var n in GraphStore.Nodes)
             {
-                
+
                 bool selected = selected_node == n;
 
                 using var brush = new SolidBrush(selected ? Color.LightSkyBlue : n.NodeRengi);
                 using var borderPen = new Pen(selected ? Color.DodgerBlue : Color.DimGray, selected ? 3 : 2);
-                int radius = n.radius > 0 ? n.radius : 18;
+                float radius = n.radius > 0 ? n.radius : 18;
                 var rect = new RectangleF(n.location.X - radius, n.location.Y - radius, radius * 2, radius * 2);
                 e.Graphics.FillEllipse(brush, rect);
                 e.Graphics.DrawEllipse(borderPen, rect);
+
+                //ıd görünümü
+                string text = n.Id.ToString();
+
+                using var font = new System.Drawing.Font("Segoe UI", selected ? 7f : 6f, System.Drawing.FontStyle.Bold);
+                using var textBrush = new SolidBrush(Color.Black);
+
+                var sf = new StringFormat
+                {
+                    Alignment = StringAlignment.Center,
+                    LineAlignment = StringAlignment.Center
+                };
+
+                e.Graphics.DrawString(text, font, textBrush, rect, sf);
             }
         }
 
         private async Task runAlgorithmAsync(List<Node> resultNodes)
         {
-            // Önce renkleri temizle ki yeni yol net gözüksün
+            // Önce renkler temizlenir
             foreach (var n in GraphStore.Nodes) n.NodeRengi = Color.WhiteSmoke;
             _canvas.Invalidate();
 
             foreach (var n in resultNodes)
             {
-                // Color oldColor = n.NodeRengi; 
+               
                 n.NodeRengi = Color.Yellow;
                 _canvas.Invalidate(); _canvas.Update();
                 await Task.Delay(500);
@@ -530,6 +544,11 @@ namespace yazlab_2_frontend.Forms.Pages
         private void button2_Click(object sender, EventArgs e) { nodeMode = false; }
 
         private void lstLogs_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnClearResult_Click(object sender, EventArgs e)
         {
 
         }

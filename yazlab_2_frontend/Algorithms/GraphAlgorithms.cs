@@ -9,7 +9,7 @@ using yazlab_2_frontend.Models;
 
 namespace yazlab_2_frontend.Algorithms
 {
-    public class GraphAlgorithms
+    abstract public class GraphAlgorithms
     {
 
         public GraphAlgorithms() { }
@@ -89,16 +89,13 @@ namespace yazlab_2_frontend.Algorithms
             visited_nodeids.Add(current.Id);
             order.Add(current);
             List<Node> neighbors = new List<Node>();
-           
+
             // burada komşu ziyareti syntax ı BFS algoritmasına göre farklı alternatif
 
-           neighbors = alledges
-        .Where(e => e.startNode == current || e.endNode == current)
-        .Select(e => e.startNode == current ?
-        allNodes.Find(n => n == e.endNode)
-        :
-        allNodes.Find(n => n == e.startNode))
-        .ToList();
+            neighbors = alledges
+                .Where(e => e.startNode == current || e.endNode == current)
+                .Select(e => e.startNode == current ? e.endNode : e.startNode)
+                .ToList();
 
 
             foreach (Node neighbor in neighbors) {
@@ -117,7 +114,7 @@ namespace yazlab_2_frontend.Algorithms
 
 
 
-            return null;
+            return order;
         }
 
         // Dijkstra Algoritması
@@ -175,11 +172,11 @@ namespace yazlab_2_frontend.Algorithms
             }
 
             // Şimdide yol geriye doğru oluşturulur
-            // EndNode'dan başlayıp StartNode'a kadar 'previous' üzerinden geri gidiyoruz
+            // EndNode'dan başlayıp StartNode'a kadar geriye doğru gidiyoruz
             List<Node> path = new List<Node>();
             Node pathNode = endNode;
 
-            // Eğer hedefe hiç ulaşılamadıysa (mesafe hala sonsuzsa) null dön
+            // Eğer hedefe hiç ulaşılamadıysa yani mesafe sonsuzsa null dön
             if (distances[endNode] == double.MaxValue) return null;
 
             while (pathNode != null)
@@ -188,7 +185,7 @@ namespace yazlab_2_frontend.Algorithms
                 pathNode = previous[pathNode];
             }
 
-            path.Reverse(); // Tersten eklediğimiz için listeyi düzeltiyoruz
+            path.Reverse(); // Tersten eklediğimiz için liste düzeltilir
             return path;
         }
 
@@ -253,12 +250,12 @@ namespace yazlab_2_frontend.Algorithms
             // gelinen yolun kaydı
             Dictionary<Node, Node> cameFrom = new Dictionary<Node, Node>();
 
-            // gScore: başlangıçtan şu ana kadar olan gerçek maliyet
+            // gScore un anlamı başlangıçtan şu ana kadar olan gerçek maliyet
             Dictionary<Node, double> gScore = new Dictionary<Node, double>();
             foreach (var n in allNodes) gScore[n] = double.MaxValue;
             gScore[startNode] = 0;
 
-            // fScore: gScore + Heuristic yani Tahmini toplam maliyet
+            // fScore un anlamı gScore + Heuristic yani Tahmini toplam maliyet
             Dictionary<Node, double> fScore = new Dictionary<Node, double>();
             foreach (var n in allNodes) fScore[n] = double.MaxValue;
             fScore[startNode] = Heuristic(startNode, endNode);
@@ -269,7 +266,7 @@ namespace yazlab_2_frontend.Algorithms
                 Node current = openSet.OrderBy(n => fScore[n]).First();
 
                 if (current == endNode)
-                    return ReconstructPath(cameFrom, current); // Hedefe ulaştık!
+                    return ReconstructPath(cameFrom, current); // Hedefe ulaştık
 
                 openSet.Remove(current);
 

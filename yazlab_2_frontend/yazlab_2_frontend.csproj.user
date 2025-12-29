@@ -25,5 +25,8 @@
     <Compile Update="Forms\Pages\StatsPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="Models\RoundedPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
 </Project>

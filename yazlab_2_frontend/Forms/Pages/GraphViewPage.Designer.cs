@@ -32,8 +32,8 @@
             button2 = new Button();
             button1 = new Button();
             panelRight = new Panel();
-            deleteBtn = new Button();
             grpView = new GroupBox();
+            deleteBtn = new Button();
             btnResetSelection = new Button();
             btnRandomLayout = new Button();
             grpNeighbors = new GroupBox();
@@ -44,20 +44,30 @@
             Etkileşim = new DataGridViewTextBoxColumn();
             Derece = new DataGridViewTextBoxColumn();
             grpSelectedNode = new GroupBox();
+            updatePanel = new CustomControls.RoundedPanel();
+            btnNodeRadiusUpdate = new Button();
+            txtBoxNodeRadiusValue = new TextBox();
+            label1 = new Label();
+            btnColorChange = new Button();
+            informationPanel = new CustomControls.RoundedPanel();
+            lblSelId = new Label();
+            lblSelAktValue = new Label();
+            lblSelIdValue = new Label();
+            lblSelEtkValue = new Label();
             lblSelDegreeValue = new Label();
             lblSelDegree = new Label();
-            lblSelEtkValue = new Label();
             lblSelEtk = new Label();
-            lblSelAktValue = new Label();
             lblSelAkt = new Label();
-            lblSelIdValue = new Label();
-            lblSelId = new Label();
+            lblSelNameValue = new Label();
+            colorDialog1 = new ColorDialog();
             panelCanvas.SuspendLayout();
             panelRight.SuspendLayout();
             grpView.SuspendLayout();
             grpNeighbors.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)neighborsgridview).BeginInit();
             grpSelectedNode.SuspendLayout();
+            updatePanel.SuspendLayout();
+            informationPanel.SuspendLayout();
             SuspendLayout();
             // 
             // panelCanvas
@@ -111,6 +121,22 @@
             panelRight.Size = new Size(487, 1091);
             panelRight.TabIndex = 1;
             // 
+            // grpView
+            // 
+            grpView.Controls.Add(deleteBtn);
+            grpView.Controls.Add(btnResetSelection);
+            grpView.Controls.Add(btnRandomLayout);
+            grpView.Dock = DockStyle.Bottom;
+            grpView.Location = new Point(0, 911);
+            grpView.Margin = new Padding(3, 4, 3, 4);
+            grpView.Name = "grpView";
+            grpView.Padding = new Padding(3, 4, 3, 4);
+            grpView.Size = new Size(487, 180);
+            grpView.TabIndex = 2;
+            grpView.TabStop = false;
+            grpView.Text = "Görünüm";
+            grpView.Enter += grpView_Enter;
+            // 
             // deleteBtn
             // 
             deleteBtn.BackColor = SystemColors.Control;
@@ -122,21 +148,6 @@
             deleteBtn.Text = "Sil";
             deleteBtn.UseVisualStyleBackColor = false;
             deleteBtn.Click += deleteBtn_Click;
-            // 
-            // grpView
-            // 
-            grpView.Controls.Add(deleteBtn);
-            grpView.Controls.Add(btnResetSelection);
-            grpView.Controls.Add(btnRandomLayout);
-            grpView.Dock = DockStyle.Top;
-            grpView.Location = new Point(0, 520);
-            grpView.Margin = new Padding(3, 4, 3, 4);
-            grpView.Name = "grpView";
-            grpView.Padding = new Padding(3, 4, 3, 4);
-            grpView.Size = new Size(487, 160);
-            grpView.TabIndex = 2;
-            grpView.TabStop = false;
-            grpView.Text = "Görünüm";
             // 
             // btnResetSelection
             // 
@@ -166,11 +177,11 @@
             // 
             grpNeighbors.Controls.Add(neighborsgridview);
             grpNeighbors.Dock = DockStyle.Top;
-            grpNeighbors.Location = new Point(0, 227);
+            grpNeighbors.Location = new Point(0, 299);
             grpNeighbors.Margin = new Padding(3, 4, 3, 4);
             grpNeighbors.Name = "grpNeighbors";
             grpNeighbors.Padding = new Padding(3, 4, 3, 4);
-            grpNeighbors.Size = new Size(487, 293);
+            grpNeighbors.Size = new Size(487, 329);
             grpNeighbors.TabIndex = 1;
             grpNeighbors.TabStop = false;
             grpNeighbors.Text = "Komşular";
@@ -179,10 +190,11 @@
             // 
             neighborsgridview.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             neighborsgridview.Columns.AddRange(new DataGridViewColumn[] { Id, İsim, Aktiflik, Etkileşim, Derece });
-            neighborsgridview.Location = new Point(3, 45);
+            neighborsgridview.Dock = DockStyle.Fill;
+            neighborsgridview.Location = new Point(3, 24);
             neighborsgridview.Name = "neighborsgridview";
             neighborsgridview.RowHeadersWidth = 51;
-            neighborsgridview.Size = new Size(679, 241);
+            neighborsgridview.Size = new Size(481, 301);
             neighborsgridview.TabIndex = 0;
             // 
             // Id
@@ -222,97 +234,190 @@
             // 
             // grpSelectedNode
             // 
-            grpSelectedNode.Controls.Add(lblSelDegreeValue);
-            grpSelectedNode.Controls.Add(lblSelDegree);
-            grpSelectedNode.Controls.Add(lblSelEtkValue);
-            grpSelectedNode.Controls.Add(lblSelEtk);
-            grpSelectedNode.Controls.Add(lblSelAktValue);
-            grpSelectedNode.Controls.Add(lblSelAkt);
-            grpSelectedNode.Controls.Add(lblSelIdValue);
-            grpSelectedNode.Controls.Add(lblSelId);
+            grpSelectedNode.Controls.Add(updatePanel);
+            grpSelectedNode.Controls.Add(informationPanel);
+            grpSelectedNode.Controls.Add(lblSelNameValue);
             grpSelectedNode.Dock = DockStyle.Top;
             grpSelectedNode.Location = new Point(0, 0);
             grpSelectedNode.Margin = new Padding(3, 4, 3, 4);
             grpSelectedNode.Name = "grpSelectedNode";
             grpSelectedNode.Padding = new Padding(3, 4, 3, 4);
-            grpSelectedNode.Size = new Size(487, 227);
+            grpSelectedNode.Size = new Size(487, 299);
             grpSelectedNode.TabIndex = 0;
             grpSelectedNode.TabStop = false;
             grpSelectedNode.Text = "Seçili Düğüm";
+            grpSelectedNode.Enter += grpSelectedNode_Enter;
+            // 
+            // updatePanel
+            // 
+            updatePanel.BackColor = Color.White;
+            updatePanel.BorderColor = Color.Gray;
+            updatePanel.BorderRadius = 30;
+            updatePanel.BorderSize = 1F;
+            updatePanel.Controls.Add(btnNodeRadiusUpdate);
+            updatePanel.Controls.Add(txtBoxNodeRadiusValue);
+            updatePanel.Controls.Add(label1);
+            updatePanel.Controls.Add(btnColorChange);
+            updatePanel.Location = new Point(237, 76);
+            updatePanel.Name = "updatePanel";
+            updatePanel.Padding = new Padding(15);
+            updatePanel.Size = new Size(209, 223);
+            updatePanel.TabIndex = 10;
+            // 
+            // btnNodeRadiusUpdate
+            // 
+            btnNodeRadiusUpdate.BackColor = SystemColors.Control;
+            btnNodeRadiusUpdate.Location = new Point(31, 102);
+            btnNodeRadiusUpdate.Margin = new Padding(3, 4, 3, 4);
+            btnNodeRadiusUpdate.Name = "btnNodeRadiusUpdate";
+            btnNodeRadiusUpdate.Size = new Size(145, 33);
+            btnNodeRadiusUpdate.TabIndex = 12;
+            btnNodeRadiusUpdate.Text = "Çap Güncelle";
+            btnNodeRadiusUpdate.UseVisualStyleBackColor = false;
+            btnNodeRadiusUpdate.Click += btnNodeRadiusUpdate_Click;
+            // 
+            // txtBoxNodeRadiusValue
+            // 
+            txtBoxNodeRadiusValue.Location = new Point(40, 61);
+            txtBoxNodeRadiusValue.Name = "txtBoxNodeRadiusValue";
+            txtBoxNodeRadiusValue.Size = new Size(125, 27);
+            txtBoxNodeRadiusValue.TabIndex = 11;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 12F);
+            label1.Location = new Point(37, 15);
+            label1.Name = "label1";
+            label1.Size = new Size(46, 28);
+            label1.TabIndex = 8;
+            label1.Text = "Çap";
+            label1.Click += label1_Click_1;
+            // 
+            // btnColorChange
+            // 
+            btnColorChange.BackColor = SystemColors.Control;
+            btnColorChange.Location = new Point(31, 143);
+            btnColorChange.Margin = new Padding(3, 4, 3, 4);
+            btnColorChange.Name = "btnColorChange";
+            btnColorChange.Size = new Size(145, 72);
+            btnColorChange.TabIndex = 10;
+            btnColorChange.Text = "Rengi Değiştir";
+            btnColorChange.UseVisualStyleBackColor = false;
+            btnColorChange.Click += btnColorChange_Click;
+            // 
+            // informationPanel
+            // 
+            informationPanel.BackColor = Color.White;
+            informationPanel.BorderColor = Color.Gray;
+            informationPanel.BorderRadius = 30;
+            informationPanel.BorderSize = 1F;
+            informationPanel.Controls.Add(lblSelId);
+            informationPanel.Controls.Add(lblSelAktValue);
+            informationPanel.Controls.Add(lblSelIdValue);
+            informationPanel.Controls.Add(lblSelEtkValue);
+            informationPanel.Controls.Add(lblSelDegreeValue);
+            informationPanel.Controls.Add(lblSelDegree);
+            informationPanel.Controls.Add(lblSelEtk);
+            informationPanel.Controls.Add(lblSelAkt);
+            informationPanel.Location = new Point(0, 76);
+            informationPanel.Name = "informationPanel";
+            informationPanel.Padding = new Padding(15);
+            informationPanel.Size = new Size(209, 184);
+            informationPanel.TabIndex = 9;
+            // 
+            // lblSelId
+            // 
+            lblSelId.AutoSize = true;
+            lblSelId.Font = new Font("Segoe UI", 12F);
+            lblSelId.Location = new Point(24, 24);
+            lblSelId.Name = "lblSelId";
+            lblSelId.Size = new Size(31, 28);
+            lblSelId.TabIndex = 0;
+            lblSelId.Text = "ID";
+            // 
+            // lblSelAktValue
+            // 
+            lblSelAktValue.AutoSize = true;
+            lblSelAktValue.BackColor = Color.White;
+            lblSelAktValue.Font = new Font("Segoe UI", 12F);
+            lblSelAktValue.Location = new Point(126, 60);
+            lblSelAktValue.Name = "lblSelAktValue";
+            lblSelAktValue.Size = new Size(23, 28);
+            lblSelAktValue.TabIndex = 3;
+            lblSelAktValue.Text = "0";
+            // 
+            // lblSelIdValue
+            // 
+            lblSelIdValue.AutoSize = true;
+            lblSelIdValue.BackColor = Color.White;
+            lblSelIdValue.Font = new Font("Segoe UI", 12F);
+            lblSelIdValue.Location = new Point(126, 24);
+            lblSelIdValue.Name = "lblSelIdValue";
+            lblSelIdValue.Size = new Size(20, 28);
+            lblSelIdValue.TabIndex = 1;
+            lblSelIdValue.Text = "-";
+            // 
+            // lblSelEtkValue
+            // 
+            lblSelEtkValue.AutoSize = true;
+            lblSelEtkValue.Font = new Font("Segoe UI", 12F);
+            lblSelEtkValue.Location = new Point(125, 97);
+            lblSelEtkValue.Name = "lblSelEtkValue";
+            lblSelEtkValue.Size = new Size(23, 28);
+            lblSelEtkValue.TabIndex = 5;
+            lblSelEtkValue.Text = "0";
             // 
             // lblSelDegreeValue
             // 
             lblSelDegreeValue.AutoSize = true;
-            lblSelDegreeValue.Location = new Point(87, 180);
+            lblSelDegreeValue.Font = new Font("Segoe UI", 12F);
+            lblSelDegreeValue.Location = new Point(125, 136);
             lblSelDegreeValue.Name = "lblSelDegreeValue";
-            lblSelDegreeValue.Size = new Size(17, 20);
+            lblSelDegreeValue.Size = new Size(23, 28);
             lblSelDegreeValue.TabIndex = 7;
             lblSelDegreeValue.Text = "0";
             // 
             // lblSelDegree
             // 
             lblSelDegree.AutoSize = true;
-            lblSelDegree.Location = new Point(19, 180);
+            lblSelDegree.Font = new Font("Segoe UI", 12F);
+            lblSelDegree.Location = new Point(23, 136);
             lblSelDegree.Name = "lblSelDegree";
-            lblSelDegree.Size = new Size(56, 20);
+            lblSelDegree.Size = new Size(72, 28);
             lblSelDegree.TabIndex = 6;
             lblSelDegree.Text = "Derece";
-            // 
-            // lblSelEtkValue
-            // 
-            lblSelEtkValue.AutoSize = true;
-            lblSelEtkValue.Location = new Point(87, 139);
-            lblSelEtkValue.Name = "lblSelEtkValue";
-            lblSelEtkValue.Size = new Size(17, 20);
-            lblSelEtkValue.TabIndex = 5;
-            lblSelEtkValue.Text = "0";
             // 
             // lblSelEtk
             // 
             lblSelEtk.AutoSize = true;
-            lblSelEtk.Location = new Point(19, 139);
+            lblSelEtk.Font = new Font("Segoe UI", 12F);
+            lblSelEtk.Location = new Point(23, 97);
             lblSelEtk.Name = "lblSelEtk";
-            lblSelEtk.Size = new Size(68, 20);
+            lblSelEtk.Size = new Size(89, 28);
             lblSelEtk.TabIndex = 4;
             lblSelEtk.Text = "Etkileşim";
-            // 
-            // lblSelAktValue
-            // 
-            lblSelAktValue.AutoSize = true;
-            lblSelAktValue.BackColor = SystemColors.ControlLight;
-            lblSelAktValue.Location = new Point(87, 93);
-            lblSelAktValue.Name = "lblSelAktValue";
-            lblSelAktValue.Size = new Size(17, 20);
-            lblSelAktValue.TabIndex = 3;
-            lblSelAktValue.Text = "0";
             // 
             // lblSelAkt
             // 
             lblSelAkt.AutoSize = true;
-            lblSelAkt.Location = new Point(19, 93);
+            lblSelAkt.Font = new Font("Segoe UI", 12F);
+            lblSelAkt.Location = new Point(24, 60);
             lblSelAkt.Name = "lblSelAkt";
-            lblSelAkt.Size = new Size(55, 20);
+            lblSelAkt.Size = new Size(73, 28);
             lblSelAkt.TabIndex = 2;
             lblSelAkt.Text = "Aktiflik";
             // 
-            // lblSelIdValue
+            // lblSelNameValue
             // 
-            lblSelIdValue.AutoSize = true;
-            lblSelIdValue.BackColor = SystemColors.ControlLight;
-            lblSelIdValue.Location = new Point(87, 52);
-            lblSelIdValue.Name = "lblSelIdValue";
-            lblSelIdValue.Size = new Size(15, 20);
-            lblSelIdValue.TabIndex = 1;
-            lblSelIdValue.Text = "-";
-            // 
-            // lblSelId
-            // 
-            lblSelId.AutoSize = true;
-            lblSelId.Location = new Point(19, 52);
-            lblSelId.Name = "lblSelId";
-            lblSelId.Size = new Size(24, 20);
-            lblSelId.TabIndex = 0;
-            lblSelId.Text = "ID";
+            lblSelNameValue.AutoSize = true;
+            lblSelNameValue.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            lblSelNameValue.Location = new Point(6, 30);
+            lblSelNameValue.Name = "lblSelNameValue";
+            lblSelNameValue.Size = new Size(24, 32);
+            lblSelNameValue.TabIndex = 8;
+            lblSelNameValue.Text = "-";
+            lblSelNameValue.Click += label1_Click;
             // 
             // GraphViewPage
             // 
@@ -331,6 +436,10 @@
             ((System.ComponentModel.ISupportInitialize)neighborsgridview).EndInit();
             grpSelectedNode.ResumeLayout(false);
             grpSelectedNode.PerformLayout();
+            updatePanel.ResumeLayout(false);
+            updatePanel.PerformLayout();
+            informationPanel.ResumeLayout(false);
+            informationPanel.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -360,5 +469,13 @@
         private DataGridViewTextBoxColumn Etkileşim;
         private DataGridViewTextBoxColumn Derece;
         private Button deleteBtn;
+        private Label lblSelNameValue;
+        private CustomControls.RoundedPanel informationPanel;
+        private CustomControls.RoundedPanel updatePanel;
+        private Button btnColorChange;
+        private Label label1;
+        private Button btnNodeRadiusUpdate;
+        private TextBox txtBoxNodeRadiusValue;
+        private ColorDialog colorDialog1;
     }
 }

@@ -55,14 +55,17 @@ namespace yazlab_2_frontend.Forms
 
         {
             //Pages
-            Pages[PageType.Dashboard] = new DashboardPage();
+            var dashboard = new DashboardPage();
+            dashboard.NavigateRequested += Navigate;
+            Pages[PageType.Dashboard] = dashboard;
+
             Pages[PageType.GraphView] = new GraphViewPage();
             Pages[PageType.Nodes] = new NodesPage();
             Pages[PageType.Edges] = new EdgesPage();
             Pages[PageType.Algorithms] = new AlgorithmsPage();
-            Pages[PageType.ImportExport]=new ImportExportPage();
+            Pages[PageType.ImportExport] = new ImportExportPage();
             Pages[PageType.Stats] = new StatsPage();
-           
+
             foreach (var page in Pages.Values)
 
                 page.Dock = DockStyle.Fill;
@@ -98,7 +101,7 @@ namespace yazlab_2_frontend.Forms
         private void Log(string message)
         {
 
-            if (rtbLog == null) 
+            if (rtbLog == null)
                 return;
 
             string line = $"[{DateTime.Now:HH:mm:ss}] {message}";
@@ -132,6 +135,11 @@ namespace yazlab_2_frontend.Forms
         { }
         private void btnGraphView_Click(object sender, EventArgs e)
         { }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 

@@ -50,7 +50,7 @@
             button3 = new Button();
             button2 = new Button();
             button1 = new Button();
-            btnAddNode = new Button();
+            ButonAddNode = new Button();
             grpSummary = new GroupBox();
             tlpSummary = new TableLayoutPanel();
             pnlCardTopDegree = new Panel();
@@ -254,10 +254,10 @@
             // lblTitle
             // 
             lblTitle.AutoSize = true;
-            lblTitle.Font = new Font("Segoe UI", 14F);
+            lblTitle.Font = new Font("Segoe UI", 16F);
             lblTitle.Location = new Point(20, 18);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(104, 25);
+            lblTitle.Size = new Size(118, 30);
             lblTitle.TabIndex = 0;
             lblTitle.Text = "Dashboard";
             // 
@@ -317,7 +317,7 @@
             tlpQuick.Controls.Add(button3, 1, 1);
             tlpQuick.Controls.Add(button2, 0, 1);
             tlpQuick.Controls.Add(button1, 1, 0);
-            tlpQuick.Controls.Add(btnAddNode, 0, 0);
+            tlpQuick.Controls.Add(ButonAddNode, 0, 0);
             tlpQuick.Dock = DockStyle.Fill;
             tlpQuick.Location = new Point(10, 26);
             tlpQuick.Name = "tlpQuick";
@@ -366,18 +366,18 @@
             button1.Text = "Bağlantı Ekle";
             button1.UseVisualStyleBackColor = false;
             // 
-            // btnAddNode
+            // ButonAddNode
             // 
-            btnAddNode.BackColor = SystemColors.ActiveCaption;
-            btnAddNode.Dock = DockStyle.Fill;
-            btnAddNode.Font = new Font("Segoe UI", 12F);
-            btnAddNode.Location = new Point(10, 10);
-            btnAddNode.Margin = new Padding(10);
-            btnAddNode.Name = "btnAddNode";
-            btnAddNode.Size = new Size(425, 57);
-            btnAddNode.TabIndex = 0;
-            btnAddNode.Text = "Düğüm Ekle";
-            btnAddNode.UseVisualStyleBackColor = false;
+            ButonAddNode.BackColor = SystemColors.ActiveCaption;
+            ButonAddNode.Dock = DockStyle.Fill;
+            ButonAddNode.Font = new Font("Segoe UI", 12F);
+            ButonAddNode.Location = new Point(10, 10);
+            ButonAddNode.Margin = new Padding(10);
+            ButonAddNode.Name = "ButonAddNode";
+            ButonAddNode.Size = new Size(425, 57);
+            ButonAddNode.TabIndex = 0;
+            ButonAddNode.Text = "Düğüm Ekle";
+            ButonAddNode.UseVisualStyleBackColor = false;
             // 
             // grpSummary
             // 
@@ -606,7 +606,7 @@
         private Label lblNodes;
         private GroupBox grpQuickActions;
         private TableLayoutPanel tlpQuick;
-        private Button btnAddNode;
+        private Button ButonAddNode;
         private Button button3;
         private Button button2;
         private Button button1;

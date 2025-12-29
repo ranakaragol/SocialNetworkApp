@@ -13,6 +13,7 @@ namespace yazlab_2_frontend.Forms.Pages
 {
     public partial class EdgesPage : UserControl
     {
+        private bool _dirty = true;
         public EdgesPage()
         {
             InitializeComponent();
@@ -33,27 +34,56 @@ namespace yazlab_2_frontend.Forms.Pages
             // Her sekme değiştirildiğince grid güncellenir 
             this.VisibleChanged += (_, __) =>
             {
-                if (this.Visible) RefreshGrid();
+                if (this.Visible && _dirty)
+                {
+                    RefreshGrid();
+                    _dirty = false;
+                }
             };
+
+            RefreshGrid();
+            _dirty = false;
         }
 
         private void OnGraphChanged()
         {
+            _dirty = true;
+
             if (IsHandleCreated)
-            {
-                BeginInvoke(new Action(() => RefreshGrid()));
-            }
+                BeginInvoke(new Action(RefreshGrid));
+            
         }
 
         // Sayfa açılınca verileri yazdırma
         private void RefreshGrid()
         {
             dgvEdges.Rows.Clear();
+
+            int displayId = 1;
             foreach (var e in GraphStore.Edges)
             {
-                // Sütunlar: Edge ID , Başlangıç ID, Bitiş ID, Ağırlık tek tek yazılır
-                dgvEdges.Rows.Add(e.Id,e.startNode.Id, e.endNode.Id, e.Weight.ToString("0.####"));
+                if (e.startNode == null || e.endNode == null)
+                    continue;
+
+                dgvEdges.Rows.Add(
+                    displayId++,        
+                    e.startNode.Id,
+                    e.endNode.Id,
+                    e.Weight.ToString("0.####")
+                );
             }
+          
+            
+            // Eğer listede hiç bağlantı kalmadıysa bilgileri temizle
+            if (dgvEdges.Rows.Count == 0)
+                ClearEdgeInfo();
+        }
+        private void ClearEdgeInfo()
+        {
+            edgeIdValue.Text = "-";
+            startNodeLabelValue.Text = "";
+            endNodeLabelValue.Text = "";
+            lblWeightValue.Text = "";
         }
 
         // Rowa tıklayınca bilgileri textboxlara getiren fonksiyon
@@ -141,7 +171,11 @@ namespace yazlab_2_frontend.Forms.Pages
                 Node endnode = GraphStore.Nodes.FirstOrDefault(y => y.Id == toId);
 
                 GraphStore.RemoveEdge(startnode, endnode);
-
+                ClearEdgeInfo();
+            }
+            else
+            {
+                MessageBox.Show("Silmek için listeden bir bağlantı seç.");
             }
         }
     }

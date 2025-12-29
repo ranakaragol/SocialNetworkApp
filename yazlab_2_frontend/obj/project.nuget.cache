@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "87lymeXbP65X5RUy7QxbDjoK9Jg3L8B1zc0p9TJK7FPoEnzv4j7bI2IrWL52WIDxx12uZw7wohxgsJ0BydLUoQ==",
+  "dgSpecHash": "Uf2KhFi+AGp5O9WlfX9owLaLX9IebHBOopaVe30w3ov3+2adD/ZiiqrwF40ijtp80Pi7PWBawHXMBXDrrB3yYA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Alper\\source\\repos\\SocialNetworkApp-b_rana\\yazlab_2_frontend\\yazlab_2_frontend.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\Alper\\Desktop\\SocialNetworkApp-main\\yazlab_2_frontend\\yazlab_2_frontend.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Alper\\.nuget\\packages\\winforms.datavisualization\\1.10.0\\winforms.datavisualization.1.10.0.nupkg.sha512"
+  ],
   "logs": []
 }
