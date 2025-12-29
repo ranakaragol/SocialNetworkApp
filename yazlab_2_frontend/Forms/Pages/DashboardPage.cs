@@ -36,6 +36,7 @@ namespace yazlab_2_frontend.Forms.Pages
         {
             if (!IsHandleCreated) return;
 
+            // UI thread
             BeginInvoke(new Action(() =>
             {
                 RefreshSummary();
