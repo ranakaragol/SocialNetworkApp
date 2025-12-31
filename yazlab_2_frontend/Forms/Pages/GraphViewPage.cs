@@ -49,10 +49,7 @@ namespace yazlab_2_frontend.Forms.Pages
                 ResizeRedraw = true;
 
             }
-
         }
-
-
 
         private readonly DoubleBufferedPanel _canvas;
 
@@ -80,11 +77,6 @@ namespace yazlab_2_frontend.Forms.Pages
             _canvas.MouseUp += panelCanvas_MouseUp;
 
             GraphStore.GraphChanged += () => _canvas.Invalidate();
-            // Kod karmaşasını önlemek amacıyla buton tıklama eventleri fonksiyonlara yazıldı 
-
-            //btnRandomLayout.Click += (_, __) => { RandomLayout(); _canvas.Invalidate(); };
-
-            //btnResetSelection.Click += (_, __) => { ClearSelection(); _canvas.Invalidate(); };
 
             RandomLayout();
 
