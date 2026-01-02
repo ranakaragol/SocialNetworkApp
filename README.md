@@ -415,8 +415,75 @@ JM -->|Graph verisi| GS
 ```
 
 ## 5. Uygulama Açıklamaları
-### Ekran Görüntüleri
-### Test Senaryoları
+## Ekran Görüntüleri
+ ---
+### Ana Ekran
+![dashboardpage](https://github.com/user-attachments/assets/d35c3d65-334f-433d-8729-fb61a4204ac6)
+---
+### Düğüm Ekranı
+
+![nodespage](https://github.com/user-attachments/assets/7e3abb82-2a7b-4096-a4c2-d21835be6146)
+---
+### Grafik Ekranı
+
+![graphpage](https://github.com/user-attachments/assets/372b6988-c826-44c7-99fc-15e62df4ae7c)
+---
+### İçe/Dışa Aktar Ekranı
+
+![importexportpage](https://github.com/user-attachments/assets/ce4d36c7-6aab-46e0-a5ab-8788037f0a81)
+---
+### İstatistikler Ekranı
+
+![statspage](https://github.com/user-attachments/assets/7408c87f-ddda-4a74-9a33-12f94ce984ba)
+---
+
+## 🧪 Test Senaryoları
+
+Uygulamanın kararlılığını ve doğruluğunu sağlamak için aşağıdaki test senaryoları uyguladık.
+
+### 1. Graf Oluşturma ve Düzenleme Testleri
+
+| Test No | Senaryo Adı | Yapılan İşlem | Beklenen Sonuç |
+| :--- | :--- | :--- | :--- |
+| **T-01** | Düğüm  Ekleme | "Düğüm Modu"nda boş alana sol tıklanır. | Tıklanan koordinatta varsayılan yarıçapta yeni bir düğüm oluşmalı. |
+| **T-02** | Kenar  Çizme | "Kenar Modu"nda bir düğümden diğerine sürükle-bırak yapılır. | İki düğüm arasında gri bir çizgi (bağlantı) oluşmalı. |
+| **T-03** | Düğüm Taşıma | Var olan bir düğüm tutulup sürüklenir. | Düğüm yeni konuma gelmeli ve ona bağlı olan kenarlar kopmadan takip etmeli. |
+| **T-04** | Düğüm Özelleştirme  | Bir düğüm seçilir ve sağdaki menüden özellikleri değiştirilebilir | Renk paleti açılmalı, seçilen renk düğüme anlık olarak uygulanmalı. |
+| **T-05** | Yarıçap Değiştirme | Düğüm seçilip TextBox'a sayı girilir. | Seçili düğümün boyutu girilen değere göre büyümeli/küçülmeli. |
+
+### 2. Yol Bulma Algoritmaları
+
+| Test No | Senaryo Adı | Yapılan İşlem | Beklenen Sonuç |
+| :--- | :--- | :--- | :--- |
+| **T-06** | BFS Çalıştırma | Başlangıç düğümü seçilir, BFS algoritması çalıştırılır. | Düğümden başlayarak **dalga dalga (katman katman)** yayılmalı ve ziyaret sırasına göre sarı/yeşil animasyon oynamalı. |
+| **T-07** | DFS Çalıştırma | Başlangıç düğümü seçilir, DFS algoritması çalıştırılır. | Algoritma bir daldan **en uca kadar** gitmeli, sonra geri dönüp (backtrack) diğer dala girmeli. |
+| **T-08** | Dijkstra En Kısa Yol | Başlangıç ve Bitiş seçilir, Dijkstra çalıştırılır. | İki düğüm arasındaki **toplam ağırlığı en düşük** olan yol çizilmeli. Maliyet (Cost) doğru hesaplanmalı. |
+| **T-09** | A* (A-Star) Performansı | Başlangıç ve Bitiş seçilir, A* çalıştırılır. | Dijkstra ile aynı yolu bulmalı ancak hedef odaklı olduğu için (Heuristic) **daha az düğümü ziyaret ederek** sonuca ulaşmalı. |
+| **T-10** | Hedefsiz Yol Arama | Dijkstra/A* seçilir ama Hedef (Target) seçilmez. | Ekrana "Lütfen bir hedef düğüm seçiniz" uyarısı gelmeli, program çökmemeli. |
+
+### 3. Analiz Algoritmaları
+
+| Test No | Senaryo Adı | Yapılan İşlem | Beklenen Sonuç |
+| :--- | :--- | :--- | :--- |
+| **T-11** | Bağlı Bileşenler | Birbirinden kopuk 2-3 ayrı grup çizilir ve algoritma çalıştırılır. | Her bağımsız grup **farklı bir renge** boyanmalı. Log ekranında grup sayısı yazmalı. |
+| **T-12** | Derece Merkeziliği | Merkezilik algoritması çalıştırılır. | Çok bağlantısı olan düğümler **daha büyük** ve **açık renk**, az bağlantısı olanlar küçük çizilmeli. |
+| **T-13** | Welsh-Powell | Renklendirme algoritması çalıştırılır. | Birbiriyle komşu olan hiçbir düğüm **aynı renkte olmamalı**. Kromatik sayı yani toplam renk sayısı mesaj olarak gösterilmeli. |
+
+### 4. İstatistik ve Raporlama (Data & Logs)
+
+| Test No | Senaryo Adı | Yapılan İşlem | Beklenen Sonuç |
+| :--- | :--- | :--- | :--- |
+| **T-14** | Canlı İstatistik Güncelleme | Ana sayfada yeni düğüm eklenir, "İstatistikler" sekmesine geçilir. | Düğüm sayısı, Kenar sayısı ve Yoğunluk değerleri **otomatik olarak artmış** şekilde görünmeli. |
+| **T-15** | Loglama Sistemi | Bir algoritma çalıştırılır ve biter. | Log panelinde `[Tarih/Saat] [Algoritma Adı] İşlem Tamamlandı. Süre: X ms` formatında kayıt oluşmalı. |
+| **T-16** | Top-5 Tablosu | Rastgele bağlantılar eklenir ve tablo kontrol edilir. | DataGridView içinde derecesi en yüksek 5 düğüm doğru sıralama ile listelenmeli. |
+| **T-17** | Grafik Doğruluğu | Grafiğe yeni düğümler eklenir. | İstatistik sayfasındaki Sütun Grafiği anlık olarak güncellenmeli ve yeni düğümleri göstermeli. |
+
+### 5. Performans Testleri
+
+| Test No | Senaryo Adı | Yapılan İşlem | Beklenen Sonuç |
+| :--- | :--- | :--- | :--- |
+| **T-18** | Hesaplama Süresi Ölçümü | Büyük bir graf (+50 düğüm) üzerinde algoritma çalıştırılır. | Animasyon süresi hariç, saf **hesaplama süresi (ms)** doğru ölçülüp etikete yazdırılmalı. |
+| **T-19** | Animasyon Sırası | Yol bulunduktan sonra animasyon başlar. | Düğümler **sarı** yanıp sönmeli, işlem bitince gidilen yol **yeşil** kalmalı. |
 
 ## 6. Sonuç ve Tartışma
 ### Başarılar
