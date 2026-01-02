@@ -440,7 +440,7 @@ JM -->|Graph verisi| GS
 ## 🧪 Test Senaryoları
 
 Uygulamanın kararlılığını ve doğruluğunu sağlamak için aşağıdaki test senaryoları uyguladık.
-
+---
 ### 1. Graf Oluşturma ve Düzenleme Testleri
 
 | Test No | Senaryo Adı | Yapılan İşlem | Beklenen Sonuç |
@@ -450,7 +450,7 @@ Uygulamanın kararlılığını ve doğruluğunu sağlamak için aşağıdaki te
 | **T-03** | Düğüm Taşıma | Var olan bir düğüm tutulup sürüklenir. | Düğüm yeni konuma gelmeli ve ona bağlı olan kenarlar kopmadan takip etmeli. |
 | **T-04** | Düğüm Özelleştirme  | Bir düğüm seçilir ve sağdaki menüden özellikleri değiştirilebilir | Renk paleti açılmalı, seçilen renk düğüme anlık olarak uygulanmalı. |
 | **T-05** | Yarıçap Değiştirme | Düğüm seçilip TextBox'a sayı girilir. | Seçili düğümün boyutu girilen değere göre büyümeli/küçülmeli. |
-
+---
 ### 2. Yol Bulma Algoritmaları
 
 | Test No | Senaryo Adı | Yapılan İşlem | Beklenen Sonuç |
@@ -460,7 +460,7 @@ Uygulamanın kararlılığını ve doğruluğunu sağlamak için aşağıdaki te
 | **T-08** | Dijkstra En Kısa Yol | Başlangıç ve Bitiş seçilir, Dijkstra çalıştırılır. | İki düğüm arasındaki **toplam ağırlığı en düşük** olan yol çizilmeli. Maliyet (Cost) doğru hesaplanmalı. |
 | **T-09** | A* (A-Star) Performansı | Başlangıç ve Bitiş seçilir, A* çalıştırılır. | Dijkstra ile aynı yolu bulmalı ancak hedef odaklı olduğu için (Heuristic) **daha az düğümü ziyaret ederek** sonuca ulaşmalı. |
 | **T-10** | Hedefsiz Yol Arama | Dijkstra/A* seçilir ama Hedef (Target) seçilmez. | Ekrana "Lütfen bir hedef düğüm seçiniz" uyarısı gelmeli, program çökmemeli. |
-
+---
 ### 3. Analiz Algoritmaları
 
 | Test No | Senaryo Adı | Yapılan İşlem | Beklenen Sonuç |
@@ -468,7 +468,7 @@ Uygulamanın kararlılığını ve doğruluğunu sağlamak için aşağıdaki te
 | **T-11** | Bağlı Bileşenler | Birbirinden kopuk 2-3 ayrı grup çizilir ve algoritma çalıştırılır. | Her bağımsız grup **farklı bir renge** boyanmalı. Log ekranında grup sayısı yazmalı. |
 | **T-12** | Derece Merkeziliği | Merkezilik algoritması çalıştırılır. | Çok bağlantısı olan düğümler **daha büyük** ve **açık renk**, az bağlantısı olanlar küçük çizilmeli. |
 | **T-13** | Welsh-Powell | Renklendirme algoritması çalıştırılır. | Birbiriyle komşu olan hiçbir düğüm **aynı renkte olmamalı**. Kromatik sayı yani toplam renk sayısı mesaj olarak gösterilmeli. |
-
+---
 ### 4. İstatistik ve Raporlama (Data & Logs)
 
 | Test No | Senaryo Adı | Yapılan İşlem | Beklenen Sonuç |
@@ -477,7 +477,7 @@ Uygulamanın kararlılığını ve doğruluğunu sağlamak için aşağıdaki te
 | **T-15** | Loglama Sistemi | Bir algoritma çalıştırılır ve biter. | Log panelinde `[Tarih/Saat] [Algoritma Adı] İşlem Tamamlandı. Süre: X ms` formatında kayıt oluşmalı. |
 | **T-16** | Top-5 Tablosu | Rastgele bağlantılar eklenir ve tablo kontrol edilir. | DataGridView içinde derecesi en yüksek 5 düğüm doğru sıralama ile listelenmeli. |
 | **T-17** | Grafik Doğruluğu | Grafiğe yeni düğümler eklenir. | İstatistik sayfasındaki Sütun Grafiği anlık olarak güncellenmeli ve yeni düğümleri göstermeli. |
-
+---
 ### 5. Performans Testleri
 
 | Test No | Senaryo Adı | Yapılan İşlem | Beklenen Sonuç |
@@ -485,9 +485,34 @@ Uygulamanın kararlılığını ve doğruluğunu sağlamak için aşağıdaki te
 | **T-18** | Hesaplama Süresi Ölçümü | Büyük bir graf (+50 düğüm) üzerinde algoritma çalıştırılır. | Animasyon süresi hariç, saf **hesaplama süresi (ms)** doğru ölçülüp etikete yazdırılmalı. |
 | **T-19** | Animasyon Sırası | Yol bulunduktan sonra animasyon başlar. | Düğümler **sarı** yanıp sönmeli, işlem bitince gidilen yol **yeşil** kalmalı. |
 
+---
 ## 6. Sonuç ve Tartışma
-### Başarılar
-### Sınırlılıklar
-### Olası Geliştirmeler
+### 🏆 Başarılar
+
+Bu proje, karmaşık Çizge Teorisi algoritmalarını soyut matematiksel işlemlerden çıkarıp, etkileşimli ve anlaşılır bir görsel deneyime dönüştürmüştür.
+
+* **Kapsamlı Algoritma Kütüphanesi:** En kısa yol, renklendirme , gezinti ve analiz gibi 7 farklı algoritma tek bir çatı altında toplanmıştır.
+* **Gerçek Zamanlı Görselleştirme:** Kullanıcı graf üzerinde değişiklik yaparken istatistikler ve grafikler anında güncellenmektedir.
+* **Modüler Mimari:** Proje; Veri Katmanı, Arayüz Katmanı ve Mantık Katmanı gibi katmanlara ayrılmış, OOP prensiplerine uygun geliştirilmiştir.
+* **Kullanıcı Deneyimi:** Sürükle-bırak desteği ve özelleştirilebilir düğüm yapıları ile standart bir Windows Form uygulamasının ötesinde bir deneyim sunulmuştur.
+
+### ⚠️ Sınırlılıklar
+
+Projenin geliştirilme sürecinde kullanılan teknolojiler ve kapsam gereği bazı teknik sınırlar bulunmaktadır:
+
+* **Platform Bağımlılığı:** Uygulama .NET altyapısı üzerinde Windows Forms teknolojisi ile geliştirildiği için sadece Windows işletim sistemlerinde çalışmaktadır.
+* **Çizim Performansı:** Windows Forms'un yerleşik çizim kütüphanesi kullanıldığından, düğüm sayısı çok arttığında animasyonlarda yavaşlamalar yaşanabilir.
+* **İki Boyutlu Düzlem:** Grafikler sadece 2D düzlemde gösterilmektedir, 3D derinlik veya karmaşık fizik tabanlı yerleşim algoritmaları mevcut değildir.
+
+### 🚀 Olası Geliştirmeler
+
+Olası geliştirme seçenekleri şunlar:
+
+* **Çoklu Platform Desteği:** Uygulamanın mantık katmanının korunarak, arayüzün farklı teknolojilerle mobil ve Web ortamına taşınması.
+* **Kullanıcı Arayüzü İyileştirmeleri:**
+    * **Gece Modu:** Uzun süreli kullanımlar için koyu tema desteği.
+    * **Çoklu Dil Desteği:** Uygulamanın İngilizce ve İspanyolca gibi farklı dillerde kullanılabilmesi için gerekli altyapının kurulması.
+* **Yönlü ve Ağırlıklı Kenar Görselliği:** Kenarların üzerine ağırlık değerlerinin metin olarak yazılması ve yönlü graflar için ok işareti desteğinin eklenmesi.
+* **AI Destekli Analiz:** Kullanıcının çizdiği grafa göre öneriler sunan akıllı bir asistan entegrasyonu.
 
 
