@@ -57,8 +57,6 @@ BFS algoritması, graf gezintisi ve ağırlıksız en kısa yol problemlerinde y
 - `RunDFS(Node startNode, List<Edge> allEdges, List<Node> allNodes)` 
 - `DFS_algorithm(Node current, List<Edge> alledges, HashSet<int> visited_nodeids, List<Node> order, List<Node> allNodes)`
 
- --Her ikisinden birini seç
-
 #### Çalışma Mantığı
 DFS algoritması bu projede özyinelemeli (recursive) olarak gerçeklenmiştir. Stack veri yapısı yerine fonksiyon çağrı yığını kullanılmıştır.
 visited_nodeids yapısı ile düğümlerin tekrar ziyaret edilmesi engellenir. Her düğüm ziyaret edildiğinde:
@@ -255,6 +253,7 @@ Bu mimari sayesinde arayüz, veri ve algoritma katmanları birbirinden
 ayrılmış; bakım, test ve ileride yapılacak geliştirmeler
 kolaylaştırılmıştır.
 
+---
 
 ### 4.2 Sınıf Diyagramı
 ```mermaid
@@ -402,6 +401,8 @@ startNode ve endNode alanları yalnızca bağlantının uçlarını belirtir.
 - RoundedPanel sınıfı, panel bileşenlerine yuvarlatılmış köşeler kazandırmak amacıyla geliştirilmiştir.
 - OnPaint() metodu ile özel çizim yapılmakta, DoubleBuffered özelliği sayesinde arayüzde oluşabilecek titreme (flickering) azaltılmaktadır.
 
+---
+
 ### 4.4 Sistem Akış Diyagramı
 ```mermaid
 flowchart LR
@@ -414,33 +415,42 @@ UI -->|Import/Export| JM[JsonModels]
 JM -->|Graph verisi| GS
 ```
 
+---
+
 ## 5. Uygulama Açıklamaları
 ## Ekran Görüntüleri
  ---
 ### Ana Ekran
 ![dashboardpage](https://github.com/user-attachments/assets/d35c3d65-334f-433d-8729-fb61a4204ac6)
----
-### Düğüm Ekranı
 
-![nodespage](https://github.com/user-attachments/assets/7e3abb82-2a7b-4096-a4c2-d21835be6146)
 ---
+
+### Düğüm Ekranı
+![nodespage](https://github.com/user-attachments/assets/7e3abb82-2a7b-4096-a4c2-d21835be6146)
+
+---
+
 ### Grafik Ekranı
 
 ![graphpage](https://github.com/user-attachments/assets/372b6988-c826-44c7-99fc-15e62df4ae7c)
----
-### İçe/Dışa Aktar Ekranı
 
+---
+
+### İçe/Dışa Aktar Ekranı
 ![importexportpage](https://github.com/user-attachments/assets/ce4d36c7-6aab-46e0-a5ab-8788037f0a81)
+
 ---
 ### İstatistikler Ekranı
-
 ![statspage](https://github.com/user-attachments/assets/7408c87f-ddda-4a74-9a33-12f94ce984ba)
+
 ---
 
 ## 🧪 Test Senaryoları
 
 Uygulamanın kararlılığını ve doğruluğunu sağlamak için aşağıdaki test senaryoları uyguladık.
+
 ---
+
 ### 1. Graf Oluşturma ve Düzenleme Testleri
 
 | Test No | Senaryo Adı | Yapılan İşlem | Beklenen Sonuç |
@@ -450,7 +460,9 @@ Uygulamanın kararlılığını ve doğruluğunu sağlamak için aşağıdaki te
 | **T-03** | Düğüm Taşıma | Var olan bir düğüm tutulup sürüklenir. | Düğüm yeni konuma gelmeli ve ona bağlı olan kenarlar kopmadan takip etmeli. |
 | **T-04** | Düğüm Özelleştirme  | Bir düğüm seçilir ve sağdaki menüden özellikleri değiştirilebilir | Renk paleti açılmalı, seçilen renk düğüme anlık olarak uygulanmalı. |
 | **T-05** | Yarıçap Değiştirme | Düğüm seçilip TextBox'a sayı girilir. | Seçili düğümün boyutu girilen değere göre büyümeli/küçülmeli. |
+
 ---
+
 ### 2. Yol Bulma Algoritmaları
 
 | Test No | Senaryo Adı | Yapılan İşlem | Beklenen Sonuç |
@@ -460,7 +472,9 @@ Uygulamanın kararlılığını ve doğruluğunu sağlamak için aşağıdaki te
 | **T-08** | Dijkstra En Kısa Yol | Başlangıç ve Bitiş seçilir, Dijkstra çalıştırılır. | İki düğüm arasındaki **toplam ağırlığı en düşük** olan yol çizilmeli. Maliyet (Cost) doğru hesaplanmalı. |
 | **T-09** | A* (A-Star) Performansı | Başlangıç ve Bitiş seçilir, A* çalıştırılır. | Dijkstra ile aynı yolu bulmalı ancak hedef odaklı olduğu için (Heuristic) **daha az düğümü ziyaret ederek** sonuca ulaşmalı. |
 | **T-10** | Hedefsiz Yol Arama | Dijkstra/A* seçilir ama Hedef (Target) seçilmez. | Ekrana "Lütfen bir hedef düğüm seçiniz" uyarısı gelmeli, program çökmemeli. |
+
 ---
+
 ### 3. Analiz Algoritmaları
 
 | Test No | Senaryo Adı | Yapılan İşlem | Beklenen Sonuç |
@@ -468,7 +482,9 @@ Uygulamanın kararlılığını ve doğruluğunu sağlamak için aşağıdaki te
 | **T-11** | Bağlı Bileşenler | Birbirinden kopuk 2-3 ayrı grup çizilir ve algoritma çalıştırılır. | Her bağımsız grup **farklı bir renge** boyanmalı. Log ekranında grup sayısı yazmalı. |
 | **T-12** | Derece Merkeziliği | Merkezilik algoritması çalıştırılır. | Çok bağlantısı olan düğümler **daha büyük** ve **açık renk**, az bağlantısı olanlar küçük çizilmeli. |
 | **T-13** | Welsh-Powell | Renklendirme algoritması çalıştırılır. | Birbiriyle komşu olan hiçbir düğüm **aynı renkte olmamalı**. Kromatik sayı yani toplam renk sayısı mesaj olarak gösterilmeli. |
+
 ---
+
 ### 4. İstatistik ve Raporlama (Data & Logs)
 
 | Test No | Senaryo Adı | Yapılan İşlem | Beklenen Sonuç |
@@ -477,7 +493,9 @@ Uygulamanın kararlılığını ve doğruluğunu sağlamak için aşağıdaki te
 | **T-15** | Loglama Sistemi | Bir algoritma çalıştırılır ve biter. | Log panelinde `[Tarih/Saat] [Algoritma Adı] İşlem Tamamlandı. Süre: X ms` formatında kayıt oluşmalı. |
 | **T-16** | Top-5 Tablosu | Rastgele bağlantılar eklenir ve tablo kontrol edilir. | DataGridView içinde derecesi en yüksek 5 düğüm doğru sıralama ile listelenmeli. |
 | **T-17** | Grafik Doğruluğu | Grafiğe yeni düğümler eklenir. | İstatistik sayfasındaki Sütun Grafiği anlık olarak güncellenmeli ve yeni düğümleri göstermeli. |
+
 ---
+
 ### 5. Performans Testleri
 
 | Test No | Senaryo Adı | Yapılan İşlem | Beklenen Sonuç |
@@ -486,6 +504,7 @@ Uygulamanın kararlılığını ve doğruluğunu sağlamak için aşağıdaki te
 | **T-19** | Animasyon Sırası | Yol bulunduktan sonra animasyon başlar. | Düğümler **sarı** yanıp sönmeli, işlem bitince gidilen yol **yeşil** kalmalı. |
 
 ---
+
 ## 6. Sonuç ve Tartışma
 ### 🏆 Başarılar
 
